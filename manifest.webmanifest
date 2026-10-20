@@ -1,14 +1,14 @@
 {
   "id": "./",
-  "name": "La grande aventure du français CE2",
+  "name": "La grande aventure du français CE2 — Royaume fantastique premium",
   "short_name": "Aventure CE2",
   "description": "Un jeu éducatif pour réviser le français en CE2.",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#302956",
-  "theme_color": "#302956",
+  "background_color": "#191d43",
+  "theme_color": "#262b58",
   "icons": [
     {
       "src": "./icon-192.png",
