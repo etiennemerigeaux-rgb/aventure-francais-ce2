@@ -1535,4 +1535,71 @@ if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
 window.addEventListener('load',function(){
  navigator.serviceWorker.register('./sw.js').catch(function(err){console.warn('Mode hors connexion indisponible :',err)});
 });
-})();</script></body></html>
+})();</script><style id="v53-install-guide-style">
+#v53-install-launch{display:none;position:fixed;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:3500;padding:11px 15px;border:2px solid #fff3bf;border-radius:999px;background:#42337b;color:#fff;font-size:14px;font-weight:800;box-shadow:0 5px 18px #0006;cursor:pointer;max-width:calc(100vw - 24px)}
+#v53-install-overlay[hidden]{display:none!important}
+#v53-install-overlay{position:fixed;inset:0;z-index:210000;background:#0e1636b8;display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box}
+#v53-install-dialog{width:min(100%,420px);max-height:calc(100dvh - 24px);overflow:auto;box-sizing:border-box;background:#fffaf0;color:#283a55;border:3px solid #f3d38d;border-radius:24px;padding:19px;box-shadow:0 16px 60px #0007;text-align:center}
+#v53-install-dialog h2{font-size:23px;line-height:1.2;margin:8px 0;color:#283a55}
+#v53-install-dialog p{font-size:15px;line-height:1.5;margin:8px 0 14px;color:#516078}
+#v53-install-dialog .v53-install-steps{text-align:left;background:#edf2ff;border-radius:13px;padding:13px 15px;margin:12px 0;line-height:1.65;font-size:14px;color:#344560}
+#v53-install-dialog button{width:100%;min-height:47px;border:0;border-radius:13px;margin-top:9px;padding:10px 14px;font-size:15px;font-weight:800;cursor:pointer}
+#v53-install-action{background:#4779cc;color:#fff}
+#v53-install-dismiss{background:#eee9e3;color:#34435a}
+#v53-install-dialog .v53-install-icon{font-size:42px}
+@media(max-height:520px){#v53-install-dialog{padding:12px}#v53-install-dialog .v53-install-icon{font-size:26px}}
+</style>
+<script id="v53-install-guide-script">
+(function(){
+'use strict';
+if(location.protocol==='file:')return;
+var deferredPrompt=null,hasShown=false,installed=false;
+var storageKey='aventure_ce2_install_guide_dismissed_v53';
+var launch=document.createElement('button');launch.id='v53-install-launch';launch.type='button';launch.textContent='📲 Installer le jeu';document.body.appendChild(launch);
+var overlay=document.createElement('div');overlay.id='v53-install-overlay';overlay.hidden=true;
+overlay.innerHTML='<section id="v53-install-dialog" role="dialog" aria-modal="true" aria-labelledby="v53-install-title" tabindex="-1"><div class="v53-install-icon">📲✨</div><h2 id="v53-install-title">Retrouve ton aventure en un clic !</h2><p>Ajoute le jeu à ton écran d’accueil pour le lancer comme une application.</p><div id="v53-install-instructions" class="v53-install-steps"></div><button id="v53-install-action" type="button">Installer le jeu</button><button id="v53-install-dismiss" type="button">Plus tard</button></section>';
+document.body.appendChild(overlay);
+var info=document.getElementById('v53-install-instructions'),action=document.getElementById('v53-install-action');
+function standalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true}
+function isIOS(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1)}
+function isAndroid(){return /Android/i.test(navigator.userAgent)}
+function update(){
+ installed=standalone();
+ launch.style.display=installed?'none':'block';
+ if(installed){overlay.hidden=true;return}
+ if(deferredPrompt){info.textContent='Ton navigateur permet d’installer le jeu directement. Appuie sur le bouton ci-dessous.';action.hidden=false;action.textContent='📲 Installer maintenant';return}
+ action.hidden=true;
+ if(isIOS())info.innerHTML='1. Ouvre ce jeu dans <strong>Safari</strong> si nécessaire.<br>2. Appuie sur <strong>Partager</strong> (ou le menu de la page).<br>3. Choisis <strong>Sur l’écran d’accueil</strong>, puis <strong>Ajouter</strong>.';
+ else if(isAndroid())info.innerHTML='1. Ouvre le <strong>menu ⋮ ou ☰</strong> du navigateur.<br>2. Choisis <strong>Installer</strong> ou <strong>Ajouter à l’écran d’accueil</strong>.<br>3. Confirme l’ajout.';
+ else info.innerHTML='Dans <strong>Chrome ou Edge</strong>, cherche l’icône <strong>Installer</strong> dans la barre d’adresse ou dans le menu du navigateur. Si elle n’apparaît pas, tu peux continuer à jouer en ligne.';
+}
+function openGuide(){update();if(!installed){overlay.hidden=false;document.getElementById('v53-install-dialog').focus()}}
+function closeGuide(){overlay.hidden=true;try{localStorage.setItem(storageKey,'1')}catch(e){}}
+launch.addEventListener('click',openGuide);
+document.getElementById('v53-install-dismiss').addEventListener('click',closeGuide);
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeGuide()});
+action.addEventListener('click',async function(){
+ if(!deferredPrompt)return;
+ var prompt=deferredPrompt;deferredPrompt=null;
+ try{await prompt.prompt();await prompt.userChoice}catch(e){}
+ closeGuide();update();
+});
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;update()});
+window.addEventListener('appinstalled',function(){installed=true;deferredPrompt=null;overlay.hidden=true;update()});
+window.matchMedia('(display-mode: standalone)').addEventListener?.('change',update);
+function ready(){
+ update();if(hasShown||standalone())return;
+ var intro=document.getElementById('v34-intro');
+ if(intro&&!intro.hidden)return;
+ if(typeof mode!=='undefined'&&mode!=='home')return;
+ if(document.getElementById('v49-overlay')&&!document.getElementById('v49-overlay').hidden)return;
+ var dismissed=false;try{dismissed=localStorage.getItem(storageKey)==='1'}catch(e){}
+ if(!dismissed){hasShown=true;openGuide()}
+}
+// The intro and help screen are added dynamically. Wait until both are closed.
+var pending=false;
+var observer=new MutationObserver(function(){if(pending)return;pending=true;setTimeout(function(){pending=false;ready()},450)});
+observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','class']});
+setTimeout(ready,1600);
+})();
+</script></body></html>
