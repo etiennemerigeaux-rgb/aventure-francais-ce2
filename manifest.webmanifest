@@ -1,1 +1,21 @@
-{"name":"Le Royaume des Mots — Studio fantastique V67","short_name":"Royaume CE2","start_url":"./index.html","scope":"./","display":"standalone","background_color":"#101a39","theme_color":"#101a39","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}
+{
+  "name": "La grande aventure du français CE2",
+  "short_name": "Aventure CE2",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101a39",
+  "theme_color": "#101a39",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
