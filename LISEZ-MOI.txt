@@ -1,4 +1,1 @@
-V71.2 — Profils enfants, découverte des menus, explication vocale UNIQUEMENT après une erreur.
-Téléverser les fichiers à la racine du dépôt V71. Ne pas effacer les données du navigateur.
-Les données V71 précédentes restent conservées sous leur ancienne clé locale ; les nouveaux profils utilisent une clé séparée.
-La voix française dépend des voix disponibles sur Android.
+V71.3 — Parcours pédagogique complet. Décompresser puis envoyer les fichiers à la racine du dépôt aventure-francais-ce2. Aucun fichier à supprimer. Profils, évaluation /20, correction, navigation et voix uniquement après erreur. Ne pas effacer les données locales.
