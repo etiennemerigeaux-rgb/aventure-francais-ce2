@@ -1,9 +1,7 @@
-V71.4 — Aventure retrouvée
+V71.5 — CARTE VIVANTE
 
-Nouveautés : nouvelle chance après erreur, autre question similaire du même monde, explication vocale uniquement après erreur, animation de marche du héros entre défis, bouton installation PWA.
+Décompressez et envoyez TOUS les fichiers à la racine du dépôt GitHub Pages existant. Remplacez les fichiers homonymes. Ne supprimez pas les données du site Chrome.
 
-Installer : décompresser le ZIP, envoyer TOUS les fichiers à la racine du dépôt GitHub existant, puis attendre GitHub Pages. Ne pas effacer les données Chrome.
+Nouveautés : minicarte avec héros mobile entre les cinq mondes ; retour visible depuis les questions ; sauvegarde de la progression par monde ; premier parcours guidé pour profils non initiés ; bouton installer dès inscription ; encouragements français occasionnels (son activé) ; navigation Parents corrigée ; animations de fond limitées à 30 fps.
 
-La banque de questions reste celle de la V71.3. Les 20 questions d’évaluation ne sont pas encore tirées aléatoirement parmi 500 questions.
-
-Attention : les résultats assistés sont différenciés du premier essai, mais les anciennes statistiques ne sont pas modifiées.
+La proposition native d’installation dépend de Chrome ; sinon menu ⋮ > Installer l’application / Ajouter à l’écran d’accueil.
