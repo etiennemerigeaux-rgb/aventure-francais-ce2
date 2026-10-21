@@ -134,3 +134,52 @@ h2{color:#fff0c5;font-size:clamp(31px,7vw,48px)}.sub{font-size:clamp(15px,3.7vw,
 .topline{justify-content:center!important;gap:6px!important}
 @media(max-width:420px){.topline .return-map{flex:0 0 auto!important}.topline .world-name-quiz{flex-basis:100%;order:2}.topline>span:last-child{order:1}}
 @media(prefers-reduced-motion:reduce){.walking-hero,.traveler img,.traveler.walking img,.portal-door img{animation:none!important}}
+
+/* V73 — Lisibilité intégrale des questions et des choix sur mobile */
+.quest-panel,.exam-panel{width:100%;max-width:100%;min-width:0;overflow:visible!important}
+.quest-panel .question,.exam-panel .question{max-width:100%;min-width:0;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;word-break:normal;hyphens:auto}
+.quest-panel .answers,.exam-panel .answers{width:100%;min-width:0;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+.quest-panel .answer,.exam-panel .answer{min-width:0;max-width:100%;width:100%;height:auto;min-height:74px;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;word-break:normal;hyphens:auto;display:flex;align-items:center;justify-content:flex-start;gap:8px;line-height:1.4;text-align:left}
+.quest-panel .answer>span:last-child,.exam-panel .answer>span:last-child{display:block;flex:1 1 auto;min-width:0;max-width:100%;white-space:normal!important;overflow-wrap:anywhere;word-break:normal;line-height:1.4}
+.quest-panel .answer-letter,.exam-panel .answer-letter{flex:0 0 30px;width:30px;height:30px}
+@media(max-width:540px){.quest-panel .answers,.exam-panel .answers{grid-template-columns:minmax(0,1fr)}.quest-panel .answer,.exam-panel .answer{font-size:clamp(15px,4vw,18px);padding:12px 14px!important;min-height:60px}.quest-panel .question,.exam-panel .question{font-size:clamp(19px,5vw,25px)!important;line-height:1.4}.scene{padding-left:12px;padding-right:12px}.quest-panel,.exam-panel{padding-left:12px!important;padding-right:12px!important}}
+
+/* V74 — Étape 1 : accueil immersif, mobile et accessible */
+.scene:has(.welcome-panel){justify-content:flex-start;padding-top:12px;padding-bottom:105px}
+.welcome-panel{max-width:540px;margin:0 auto 12px;padding:clamp(18px,4vw,30px);overflow:hidden;text-align:center;background:linear-gradient(155deg,#182852f2,#223d60f2 70%,#183b53f2)}
+.welcome-panel h1{font-size:clamp(30px,8vw,48px);line-height:1.13;margin:8px auto 12px}
+.welcome-panel h2{font-size:clamp(26px,7vw,37px);line-height:1.18;text-align:center;margin:10px 0}
+.welcome-dots{display:flex;justify-content:center;gap:8px;margin:0 0 12px}.welcome-dots i{width:32px;height:6px;border-radius:8px;background:#ffffff40}.welcome-dots i.on{background:#ffe49a;box-shadow:0 0 10px #ffe49a90}
+.welcome-portal{position:relative;margin:4px auto 15px;width:min(45vw,170px);height:min(54vw,200px);border-radius:48% 48% 12% 12%;border:10px solid #ffda91;background:radial-gradient(ellipse at center,#b7fcff 0%,#7b8bff 35%,#5740a2 70%,#1d265e 100%);box-shadow:0 0 18px #b8edff,0 0 55px #9c7aff90,inset 0 0 35px #f5f5ff;animation:welcome-glow 2.3s ease-in-out infinite alternate}
+.welcome-portal-light{font-size:70px;position:absolute;top:30%;left:0;right:0;color:#fff6c8;text-shadow:0 0 25px #fff;animation:welcome-float 2s ease-in-out infinite alternate}
+.welcome-spark{position:absolute;color:#fff5be;font-size:25px;animation:welcome-float 2s infinite alternate}.spark-a{top:0;left:-32px}.spark-b{top:55%;right:-37px;animation-delay:.4s}.spark-c{bottom:0;left:-25px;animation-delay:.8s}
+@keyframes welcome-glow{to{filter:brightness(1.18);box-shadow:0 0 28px #b8edff,0 0 70px #c08bff,inset 0 0 45px #fff}}@keyframes welcome-float{to{transform:translateY(-12px) rotate(14deg)}}
+.welcome-lead{font-size:clamp(18px,5vw,24px);font-weight:900;color:#ffe8ac;margin:10px auto}.welcome-copy{font-size:clamp(15px,4vw,18px);line-height:1.55;color:#fff8e9;margin:12px auto 16px;max-width:440px}
+.welcome-primary,.welcome-install,.welcome-back{display:block;width:100%;max-width:410px;margin:13px auto;min-height:52px;white-space:normal;overflow-wrap:anywhere}.welcome-install{background:#253b67;color:#fff9e8}.welcome-install-help{padding:12px;border:1px solid #ffe4a8;border-radius:14px;background:#14234e;line-height:1.5;text-align:left;font-size:14px}.welcome-install-help[hidden]{display:none}.welcome-return{border-top:1px solid #ffffff55;margin-top:18px;padding-top:8px}.welcome-return p{font-weight:800}.welcome-return .profile-grid{margin:8px 0}.welcome-illustration{font-size:clamp(52px,14vw,80px);margin:18px auto;filter:drop-shadow(0 6px 14px #0007)}.welcome-illustration span{font-size:1.2em}.welcome-reassure{padding:14px;border-radius:14px;background:#194f54a8;line-height:1.5}.welcome-label{display:block;text-align:left;font-weight:900;margin:18px 0 6px}.welcome-panel #new-first{min-height:54px}.welcome-panel .notice{min-height:18px;color:#ffe3a6}.welcome-panel .eyebrow{font-size:clamp(10px,2.8vw,12px);letter-spacing:1.6px}
+@media(max-width:380px){.welcome-panel{padding:16px 14px}.welcome-portal{width:120px;height:145px;border-width:7px}.welcome-panel h1{font-size:30px}}
+@media(prefers-reduced-motion:reduce){.welcome-portal,.welcome-portal-light,.welcome-spark{animation:none!important}}
+
+/* V75 — Accueil château unique : menu progressif, nouveau et ancien joueur */
+body.is-welcome header .coins,body.is-welcome #nav{display:none!important}
+body.is-welcome .scene{width:100%;max-width:100%;margin:0;padding:12px 12px max(24px,env(safe-area-inset-bottom));justify-content:flex-start;overflow:visible}
+body.is-welcome header{padding:10px 14px 0;justify-content:center}
+body.is-welcome header .brand{font-size:10px;text-align:center}
+.castle-welcome{width:min(100%,510px);margin:0 auto;min-width:0;position:relative;text-align:center;padding-top:6px}
+.castle-stars{color:#ffeab2;letter-spacing:26px;font-size:22px;animation:welcome-float 2s infinite alternate}
+.castle-art{position:relative;width:min(74vw,285px);height:155px;margin:0 auto 0;filter:drop-shadow(0 8px 18px #090c2d);animation:castle-arrive .75s both}
+.castle-main{position:absolute;left:22%;width:56%;bottom:10px;height:95px;background:linear-gradient(110deg,#7b82c7,#b1a4e3 55%,#7479b8);border:4px solid #f5d38c;border-radius:12px 12px 4px 4px}
+.castle-main:before{content:'';position:absolute;left:-10%;right:-10%;top:-33px;border-left:82px solid transparent;border-right:82px solid transparent;border-bottom:34px solid #d975aa;filter:drop-shadow(0 -3px 0 #ffe2a4)}
+.castle-tower{position:absolute;bottom:12px;width:25%;height:114px;background:linear-gradient(90deg,#737cc3,#b7b0e4);border:4px solid #ffe0a4;border-radius:5px;z-index:1}
+.castle-tower:before{content:'';position:absolute;bottom:100%;left:-12%;width:124%;height:28px;background:#e07bab;clip-path:polygon(0 100%,50% 0,100% 100%)}
+.tower-left{left:5%}.tower-right{right:5%}.castle-window{position:absolute;top:14px;left:42%;color:#ffe6a2;font-size:23px}
+.castle-door{position:absolute;bottom:-4px;left:34%;width:32%;height:55px;border-radius:40px 40px 0 0;background:radial-gradient(#fff7b0,#a79eff 60%,#6149a7);box-shadow:0 0 30px #f4e7ff;display:grid;place-items:center;font-size:25px;color:white;animation:welcome-glow 2.5s infinite alternate}
+.castle-path{position:absolute;bottom:-4px;left:35%;width:30%;height:18px;background:#ffde9b99;border-radius:50%;filter:blur(7px)}
+.castle-menu{position:relative;z-index:2;margin:-4px auto 0;padding:clamp(16px,4vw,25px);background:linear-gradient(155deg,#182951f5,#273e69f5);border:2px solid #e8cf9c;border-radius:23px;box-shadow:0 10px 32px #0008;animation:castle-menu-enter .65s .35s both;overflow-wrap:anywhere}
+.castle-menu h1{font-size:clamp(25px,7vw,36px);line-height:1.12;margin:8px 0 12px}.castle-menu h2{font-size:clamp(24px,6vw,32px)}
+.castle-greeting{font-size:clamp(19px,5vw,24px);font-weight:900;color:#ffe3a2;margin:9px 0}.castle-description{font-size:clamp(14px,3.7vw,17px);line-height:1.45;margin:8px auto 15px;max-width:400px}
+.castle-label{display:block;text-align:left;font-weight:800;margin:10px 0 7px}.castle-menu #new-first{width:100%;min-width:0;min-height:50px;font-size:18px}.castle-menu .notice{min-height:18px;margin:4px 0;color:#ffe2aa}
+.castle-button{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;max-width:100%;min-height:49px;height:auto;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere;text-align:center;line-height:1.25;margin:9px 0;padding:11px 12px;font-size:clamp(14px,4vw,17px)}
+.castle-install{font-size:14px;min-height:43px}.castle-chooser{margin-top:12px;border-top:1px solid #ffe6ad55;padding-top:10px}.castle-chooser[hidden]{display:none!important}
+@keyframes castle-arrive{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}@keyframes castle-menu-enter{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+@media(max-width:370px){.castle-art{height:130px}.castle-main{height:75px}.castle-tower{height:90px}.castle-main:before{border-left-width:65px;border-right-width:65px}.castle-menu{padding:14px}.castle-menu h1{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.castle-art,.castle-menu,.castle-door,.castle-stars{animation:none!important}}
