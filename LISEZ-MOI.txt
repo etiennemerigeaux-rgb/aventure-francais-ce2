@@ -1,0 +1,1 @@
+V71 — Cinq royaumes illustrés. Décompresser le ZIP à la racine du dépôt GitHub Pages. Tester sur un dépôt séparé avant de remplacer la version publique. 5 mondes, 50 questions, 12 héros, sauvegarde locale.
