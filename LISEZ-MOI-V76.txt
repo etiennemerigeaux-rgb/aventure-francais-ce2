@@ -1,0 +1,5 @@
+V76 - Correction de démarrage de l’accueil.
+Correction de la navigation vers l’accueil (variable non déclarée).
+Écran de chargement lisible avant initialisation et message de secours en cas d’erreur.
+Cache de navigation mis à jour.
+Conserver les données Chrome existantes pour préserver les profils.
