@@ -1,0 +1,1 @@
+V82.5.15 — Flamme immobile au repos. Les 10 images d’animation ne défilent que pendant le trajet sur la carte des mondes et le passage par le portail. Arrêt de l’animation à l’arrivée. Les autres héros et les contenus pédagogiques sont inchangés. Testez Flamme au repos, puis un changement de monde.
