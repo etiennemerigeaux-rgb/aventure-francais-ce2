@@ -291,3 +291,17 @@ header:not(body.is-welcome header) .coins{
   line-height:1.2!important;
 }
 .guide-panel .eyebrow{text-align:center!important}
+
+/* V81.1 — bilan pédagogique visible sur téléphone */
+.exam-report{display:block!important;text-align:center;overflow:visible!important}.exam-report h3{margin:24px 0 12px}.exam-score{font-size:clamp(54px,13vw,82px);font-weight:1000;line-height:1.1;color:#ffe49b;text-shadow:0 3px 10px #0008}.exam-score small{font-size:.38em}.exam-encourage,.exam-next{padding:15px;border-radius:15px;background:#fff3ce;color:#26344b;font-weight:800;line-height:1.5}.exam-skill{margin:10px 0;padding:13px;border-radius:14px;background:#f4f7ff;color:#25354f;text-align:left}.exam-skill-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.exam-skill-head b{font-size:14px}.exam-meter{height:12px;background:#d9e2f3;border-radius:20px;margin:10px 0;overflow:hidden}.exam-meter span{display:block;height:100%;background:#419b7c;border-radius:20px}.exam-skill small{display:block}.exam-train{margin-top:9px;width:100%}.exam-report .correction-list{margin-top:12px}.exam-report .sub{line-height:1.5}@media(max-width:540px){.exam-report{padding:15px 12px!important}.exam-report h2{font-size:23px}.exam-report h3{font-size:20px}}
+
+/* V81.3 : célébrations des évaluations, non bloquantes */
+#exam-celebration-layer{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
+.exam-confetti{position:absolute;top:-20px;left:var(--x);width:10px;height:16px;border-radius:2px;opacity:0;animation:exam-confetti-fall var(--duration) var(--delay) ease-in forwards}
+@keyframes exam-confetti-fall{0%{transform:translateY(-25px) rotate(0);opacity:1}85%{opacity:1}100%{transform:translateY(105vh) rotate(var(--turn));opacity:0}}
+.exam-cheer-hero{position:absolute;left:50%;top:20%;font-size:clamp(55px,14vw,100px);transform:translate(-50%,-50%);filter:drop-shadow(0 5px 10px #0005);animation:exam-cheer-pop 1.3s ease-out both}
+@keyframes exam-cheer-pop{0%{transform:translate(-50%,-50%) scale(.25) rotate(-20deg);opacity:0}40%{transform:translate(-50%,-50%) scale(1.3) rotate(8deg);opacity:1}75%{transform:translate(-50%,-50%) scale(.98)}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.exam-firework{position:absolute;width:12px;height:12px;border-radius:50%;background:#ffe987;box-shadow:0 0 0 0 #ffb657;opacity:0;animation:exam-firework-burst 1.3s ease-out 2 both}
+@keyframes exam-firework-burst{0%{transform:scale(.1);opacity:1;box-shadow:0 0 0 0 #ffb657}70%{opacity:1;box-shadow:0 -65px 0 2px #ffe987,46px -46px 0 2px #ff74ad,65px 0 0 2px #9ef5ed,46px 46px 0 2px #ffe987,0 65px 0 2px #ff74ad,-46px 46px 0 2px #9ef5ed,-65px 0 0 2px #ffe987,-46px -46px 0 2px #ff74ad}100%{transform:scale(1.3);opacity:0;box-shadow:0 -90px 0 0 transparent,65px -65px 0 0 transparent,90px 0 0 0 transparent,65px 65px 0 0 transparent,0 90px 0 0 transparent,-65px 65px 0 0 transparent,-90px 0 0 0 transparent,-65px -65px 0 0 transparent}}
+.exam-replay{margin:8px auto 16px;max-width:360px}
+@media(prefers-reduced-motion:reduce){.exam-confetti,.exam-firework{display:none!important}.exam-cheer-hero{animation:none;opacity:1;top:13%;font-size:40px}}

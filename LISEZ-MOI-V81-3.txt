@@ -1,0 +1,1 @@
+V81.3 — Célébrations automatiques à la fin de l’évaluation : encouragement visuel pour toutes les notes, confettis dès 15/20, trophée dès 18/20, feux d’artifice à 20/20. Bouton pour revoir la célébration. Animations non bloquantes, respect du mouvement réduit. Bilan et voix V81.2 conservés.
