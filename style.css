@@ -200,3 +200,6 @@ body.is-welcome .welcome-v77 .welcome-install-help{font-size:13px;line-height:1.
 @keyframes welcome-card-v77{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @media(max-height:650px){body.is-welcome .scene{align-items:flex-start}body.is-welcome .welcome-v77{margin:0 auto}body.is-welcome .welcome-v77 .castle-description{margin-bottom:7px}}
 @media(prefers-reduced-motion:reduce){body.is-welcome .welcome-v77 .castle-menu,body.is-welcome .welcome-v77 .welcome-symbol{animation:none}}
+
+/* V78 : accueil toujours lisible même en cas de petite hauteur d'écran */
+body.is-welcome .scene{overflow-y:auto}body.is-welcome .welcome-v77{max-width:460px}body.is-welcome .castle-menu{animation-duration:.35s}

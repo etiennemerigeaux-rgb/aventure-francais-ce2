@@ -1,0 +1,1 @@
+V78 : correction du blocage de démarrage causé par un bouton son absent du HTML. Accueil direct, installation téléphone/ordinateur et aide profils. Tester sur Chrome Android avant validation.
