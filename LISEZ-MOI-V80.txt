@@ -1,1 +1,0 @@
-V80 : tutoriel en 7 étapes après création du profil et avant le choix du héros, une seule fois par nouveau profil. Explication de l’espace Parents et du suivi de progression. Bouton Comment jouer ? depuis accueil, carte des mondes et espace Parents, avec retour à l’écran précédent. V79.4 préservée. Publier les fichiers décompressés à la racine du dépôt GitHub.
