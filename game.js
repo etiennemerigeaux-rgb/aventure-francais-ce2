@@ -22,6 +22,7 @@ const guide=[
  ['💡','Apprends à ton rythme','Lis les questions et choisis une réponse. Si tu te trompes, une voix t’explique pourquoi pour t’aider à progresser.'],
  ['🏅','Gagne des récompenses','En réussissant les défis, tu gagnes des pièces et tu peux découvrir tes récompenses !'],
  ['📝','Teste tes connaissances','Quand tu te sens prêt, lance l’Évaluation sur 20. Elle comporte vingt questions, sans chronomètre imposé.'],
+ ['🖍️','Découvre le Mode Challenge !','Prêt à devenir un champion des mots ? Lis de petites histoires et utilise tes surligneurs magiques pour retrouver les mots demandés ! Relève des défis de plus en plus difficiles, gagne des récompenses et deviens un véritable Maître des mots !'],
  ['👨‍👩‍👧','Un espace pour les parents','Dans « Parents », tes parents peuvent suivre tes progrès dans chaque monde, tes pièces, tes dernières aventures et tes notes aux évaluations. Les résultats restent sur cet appareil.']
 ];let guideStep=0,guideReturn=null;
 function openGuide(){guideReturn=S.screen==='tutorial'?(guideReturn||'map'):S.screen;guideStep=0;go('tutorial')}
