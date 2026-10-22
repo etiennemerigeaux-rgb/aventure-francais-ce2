@@ -1,0 +1,1 @@
+V81.4 — Corrections regroupées par monde. Ouvrir un monde pour consulter seulement ses erreurs. Tous les autres éléments de V81.3 sont conservés.
