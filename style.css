@@ -203,3 +203,11 @@ body.is-welcome .welcome-v77 .welcome-install-help{font-size:13px;line-height:1.
 
 /* V78 : accueil toujours lisible même en cas de petite hauteur d'écran */
 body.is-welcome .scene{overflow-y:auto}body.is-welcome .welcome-v77{max-width:460px}body.is-welcome .castle-menu{animation-duration:.35s}
+
+/* V79 — titres dynamiques et navigation plus lisible sur mobile */
+header .brand{font-size:clamp(15px,3.9vw,22px);font-weight:950;letter-spacing:.3px;line-height:1.2;overflow-wrap:anywhere;min-width:0;flex:1}
+body.is-welcome header .brand{font-size:clamp(15px,3.9vw,22px);text-align:left}
+.topline .return-map{font-size:clamp(15px,3.9vw,18px)!important;min-height:48px!important;padding:11px 15px!important;flex:1 1 auto!important}
+.topline .quiz-counter{font-size:clamp(17px,4.5vw,22px);font-weight:950;color:#fff0b7;white-space:nowrap}
+.topline .world-name-quiz{display:none}
+@media(max-width:420px){.topline .return-map{flex:1 1 100%!important}.topline .quiz-counter{order:1!important;margin:auto}.topline{justify-content:center!important}}
