@@ -1,0 +1,1 @@
+V79.3 : titres et pictogrammes plus grands et centrés dans la zone disponible ; carte des mondes : 4 boutons en grille 2 x 2 pour réduire le défilement. Aucun changement au contenu pédagogique. Publier les fichiers décompressés à la racine du dépôt GitHub.
