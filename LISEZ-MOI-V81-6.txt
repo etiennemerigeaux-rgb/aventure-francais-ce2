@@ -1,3 +1,0 @@
-V81.6 — Accueil épuré, banque enrichie de 500 questions.
-Les trois raccourcis Évaluation sur 20, Comment jouer ? et Ma collection de médailles ont été retirés uniquement de l’écran Accueil. Les fonctions restent accessibles depuis Mondes, la navigation et Parents. Installer la mini-application est conservé.
-Avant mise en ligne, conserver une sauvegarde de V81.5.
