@@ -1,0 +1,1 @@
+V82.5.11 — Surligneur non présélectionné au début et à chaque nouvelle question. L’enfant doit choisir une couleur avant de surligner. La validation exige à la fois les mots exacts et la couleur associée à la compétence. Messages distincts : bon mot/mauvaise couleur ; bonne couleur/mauvais mot ; double erreur. Les dix questions, textes, niveaux et sauvegardes sont conservés.
