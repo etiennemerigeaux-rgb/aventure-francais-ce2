@@ -319,3 +319,10 @@ header:not(body.is-welcome header) .coins{
 .exam-world-content .correction{background:#fff;border:1px solid #dce4f3;margin:0}
 .exam-world-content .correction summary{line-height:1.45}
 .exam-world-well-done{padding:12px;background:#e9f8ef;border-radius:12px;color:#245f41;font-weight:800;margin:0}
+
+/* V81.5 — valorisation visible des mondes sans erreur */
+.exam-world-group.all-correct{background:#eefbf1;border-color:#74c895}
+.exam-world-group.all-correct>summary{color:#205d3a}
+.exam-world-group.all-correct .exam-world-count{background:#d4f5df;color:#205d3a;font-weight:900;white-space:normal;text-align:center;line-height:1.35;max-width:165px}
+.exam-world-group.all-correct>summary:after{color:#23894d}
+@media(max-width:390px){.exam-world-group.all-correct .exam-world-count{max-width:140px;font-size:11px}}
