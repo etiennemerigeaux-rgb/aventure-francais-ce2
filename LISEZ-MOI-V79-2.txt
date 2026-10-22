@@ -1,0 +1,1 @@
+V79.2 : titres et pictogrammes des mondes encore agrandis, compteur de pièces compacté pour libérer de la place. Pas de modification du gameplay, des questions ou du tutoriel. Remplacer les fichiers du dépôt GitHub par ceux de cette archive.

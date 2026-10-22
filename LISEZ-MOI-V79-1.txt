@@ -1,0 +1,1 @@
+V79.1 — Titres plus grands sur tous les écrans, pictogramme devant le titre des cinq mondes. Aucune modification des questions ni du tutoriel. Publier tous les fichiers à la racine du dépôt GitHub.

@@ -238,3 +238,42 @@ header .coins{align-self:start!important;margin-top:5px!important}
 .scene .map-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%;max-width:650px;margin:8px auto 12px}
 .scene .map-actions .secondary{width:100%;min-width:0;margin:0!important;min-height:62px;padding:9px 6px!important;white-space:normal;overflow-wrap:break-word;line-height:1.15;font-size:clamp(12px,3.4vw,16px);display:flex;align-items:center;justify-content:center;text-align:center}
 @media(max-width:350px){.scene .map-actions{gap:6px}.scene .map-actions .secondary{font-size:12px;padding:7px 4px!important}}
+
+/* V79.4 — centrage vertical précis de tous les titres et de leurs pictogrammes.
+   Une seule zone de hauteur cohérente : marges visuelles égales en haut et en bas. */
+header:not(body.is-welcome header){
+  min-height:106px!important;
+  padding-top:max(12px,env(safe-area-inset-top))!important;
+  padding-bottom:12px!important;
+  align-items:center!important;
+}
+header:not(body.is-welcome header) .brand{
+  align-self:stretch!important;
+  min-height:80px!important;
+  padding-block:3px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+header:not(body.is-welcome header) .brand .brand-icon,
+header:not(body.is-welcome header) .brand .brand-label{
+  align-self:center!important;
+}
+header:not(body.is-welcome header) .coins{
+  align-self:center!important;
+  margin-top:0!important;
+}
+@media(max-width:390px){
+  header:not(body.is-welcome header){min-height:102px!important}
+  header:not(body.is-welcome header) .brand{min-height:76px!important}
+}
+
+/* V80: tutoriel adapté au téléphone et accès depuis la carte. */
+.guide-panel{max-width:620px!important;margin:10px auto!important;padding:clamp(18px,4vw,30px)!important}
+.guide-panel .guide-icon{font-size:clamp(54px,15vw,86px);margin:0 auto 12px}
+.guide-panel h2{font-size:clamp(24px,6vw,34px);line-height:1.16;margin:10px 0}
+.guide-panel .sub{font-size:clamp(16px,4.3vw,19px);line-height:1.5}
+.guide-panel .cta{min-height:58px;width:100%;white-space:normal}
+.guide-panel .secondary{min-height:44px}
+.howto-map{display:block;margin:5px auto 8px!important;min-height:45px}

@@ -1,0 +1,7 @@
+V71.5 — CARTE VIVANTE
+
+Décompressez et envoyez TOUS les fichiers à la racine du dépôt GitHub Pages existant. Remplacez les fichiers homonymes. Ne supprimez pas les données du site Chrome.
+
+Nouveautés : minicarte avec héros mobile entre les cinq mondes ; retour visible depuis les questions ; sauvegarde de la progression par monde ; premier parcours guidé pour profils non initiés ; bouton installer dès inscription ; encouragements français occasionnels (son activé) ; navigation Parents corrigée ; animations de fond limitées à 30 fps.
+
+La proposition native d’installation dépend de Chrome ; sinon menu ⋮ > Installer l’application / Ajouter à l’écran d’accueil.

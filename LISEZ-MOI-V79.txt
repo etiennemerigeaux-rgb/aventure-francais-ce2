@@ -1,0 +1,1 @@
+V79 : titre dynamique sur tous les écrans, bouton Carte des mondes et compteur de questions agrandis. Base V78 conservée. Décompresser et téléverser tous les fichiers à la racine du dépôt GitHub. Ne pas effacer les données du site.
