@@ -1,1 +1,0 @@
-V81.2 : encouragement vocal automatique à la fin de chaque évaluation, sans bouton. Respecte le réglage son activé/désactivé. Les boutons de lecture des explications des erreurs restent disponibles. Base : V81.1.
