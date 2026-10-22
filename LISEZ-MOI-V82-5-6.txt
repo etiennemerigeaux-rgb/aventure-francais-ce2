@@ -1,0 +1,1 @@
+V82.5.6 — Variation réelle des questions entre les trois niveaux. Nouveaux passages évalués dans Expert et Maître des mots ; les cinq réponses attendues sont différentes à chaque niveau pour chaque histoire correspondante. Progression conservée. Contrôles automatiques de syntaxe, des 150 réponses et des 30 textes effectués. Tester dans Chrome après téléversement.
