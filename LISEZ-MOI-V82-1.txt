@@ -1,4 +1,0 @@
-V82.1 — Étape 1 du Mode Challenge
-Ajout d’une diapositive « Découvre le Mode Challenge ! » dans le tutoriel général, avant la diapositive Parents.
-Le tutoriel passe de 7 à 8 étapes. Aucun autre comportement du jeu n’a été modifié.
-La V81.6 de référence doit être conservée séparément.
