@@ -1,0 +1,1 @@
+V82.3 — Étape 3 : tutoriel Challenge interactif en 6 écrans. Démonstrations à manipuler : surligneur, sélection, changement de couleur, annulation, vérification, présentation des niveaux. Réouverture via Comment jouer. Mini-exercice obligatoire de l’étape 4 conservé sans validation anticipée. V82.2 et ses règles de déblocage conservées.
