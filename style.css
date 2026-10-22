@@ -334,3 +334,6 @@ header:not(body.is-welcome header) .coins{
 .traveler:not(.walking) img{animation:none!important;transform:none!important}
 .traveler.walking img{animation:none!important;transform:none!important}
 @media(prefers-reduced-motion:reduce){.traveler.walking img{animation:none!important}}
+
+/* V82.5.18 - bouche animée de Flamme : réaction courte, sans toucher aux ailes */
+.flamme-mouth-overlay{position:absolute;z-index:8;width:9%;height:8%;min-width:8px;min-height:6px;background:#391017;border:2px solid #8b2821;border-radius:45% 45% 65% 65%;pointer-events:none;transform-origin:center center;box-shadow:inset 0 -3px 0 #bc5b62;transition:transform 65ms linear;}
