@@ -1,1 +1,0 @@
-V80.1 : titres des sept étapes du tutoriel centrés horizontalement et retours à la ligne équilibrés. Les autres fonctionnalités et la V79.4 sont conservées. Décompresser et publier les fichiers à la racine du dépôt GitHub.
