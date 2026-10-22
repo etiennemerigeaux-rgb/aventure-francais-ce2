@@ -1,1 +1,0 @@
-V82.2 — Étape 2 : bouton Mode Challenge à droite de Comment jouer dans Mondes. Verrouillage jusqu’à 15/20, prise en compte des notes enregistrées, déblocage par profil et accès au Challenge après réussite. Étape 1 conservée. Ne pas supprimer les données du navigateur.
