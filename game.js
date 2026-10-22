@@ -73,23 +73,27 @@ function startFlammeIdle(){
 function stopFlammeFlight(){if(flammeTimer!==null){clearInterval(flammeTimer);flammeTimer=null}document.querySelectorAll('[data-flamme-flight]').forEach(img=>{img.src='./flamme-animation-05.webp';img.removeAttribute('data-flamme-flight')})}
 function startFlammeFlight(){stopFlammeIdle();stopFlammeFlight();if(S.hero!==0||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let frame=0;const animate=()=>{const imgs=document.querySelectorAll('.traveler.walking img,.world-portal-overlay .portal-door img');if(!imgs.length){stopFlammeFlight();return}imgs.forEach(img=>{img.dataset.flammeFlight='1';img.src=flammeFrames[frame]});frame=(frame+1)%flammeFrames.length};animate();flammeTimer=setInterval(animate,65)}
 
-// V82.5.20: 3 hero pilots. Independent frame animations, travel fast and idle slow.
-const pilotFrames={1:2,2:3,3:4};
-const pilotImgs=Object.fromEntries(Object.entries(pilotFrames).map(([hero,num])=>[hero,Array.from({length:12},(_,i)=>`./hero-${num}-anim-${String(i).padStart(2,'0')}.webp`)]));
+// V82.5.21: frame animation tracks all displayed instances of the selected hero.
+const pilotHeroIds={1:2,2:3,3:4};
+const pilotImgs=Object.fromEntries(Object.entries(pilotHeroIds).map(([hero,num])=>[hero,Array.from({length:16},(_,i)=>`./hero-${num}-anim-${String(i).padStart(2,'0')}.webp`)]));
 Object.values(pilotImgs).flat().forEach(src=>{const im=new Image();im.src=src});
-let pilotFrame=0,pilotLast=0;
+let pilotFrame=0,pilotLast=0,pilotLastHero=-1;
 function animateOtherHeroes(now){
  if(![1,2,3].includes(S.hero)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  const traveling=!!document.querySelector('.traveler.walking,.world-portal-overlay');
- const rate=traveling?75:230;
+ const rate=traveling?60:190;
  if(now-pilotLast<rate)return;
  pilotLast=now;
- const frames=pilotImgs[S.hero];if(!frames)return;
- const selected=document.querySelectorAll('img.question-hero,#traveler img,.world-portal-overlay img');
- selected.forEach(img=>{if(img.getAttribute('src')?.includes(`hero-${S.hero+1}`))img.dataset.pilotHero='1';if(img.dataset.pilotHero==='1')img.src=frames[pilotFrame%12]});
+ if(pilotLastHero!==S.hero){pilotFrame=0;pilotLastHero=S.hero}
+ const num=pilotHeroIds[S.hero],frames=pilotImgs[S.hero];
+ document.querySelectorAll('img').forEach(img=>{
+   const src=img.getAttribute('src')||'';
+   const isHero=src.includes(`hero-${num}.webp`)||src.includes(`hero-${num}-anim-`);
+   if(isHero)img.src=frames[pilotFrame%frames.length];
+ });
  pilotFrame++;
 }
-setInterval(()=>animateOtherHeroes(performance.now()),60);
+setInterval(()=>animateOtherHeroes(performance.now()),45);
 const $=sel=>document.querySelector(sel);const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let time=0,stars=Array.from({length:55},(_,i)=>({x:(i*73.37)%100/100,y:(i*47.19)%100/100,r:1+(i%4)/2}));let particles=[];let worldTick=0;let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;let lastPaint=0;function paint(t){if(t-lastPaint<32){requestAnimationFrame(paint);return}lastPaint=t;if(document.hidden){requestAnimationFrame(paint);return}let w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}time=t*.001;const p=palettes[(S.screen==='quiz'||S.screen==='finish')?S.world:0],grad=ctx.createLinearGradient(0,0,0,h);grad.addColorStop(0,p[0]);grad.addColorStop(.65,p[1]);grad.addColorStop(1,p[2]);ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);for(let i=0;i<stars.length;i++){let s=stars[i],x=s.x*w,y=s.y*h*.66;ctx.globalAlpha=.35+.5*Math.sin(time*(reduced?0:1)+i)**2;ctx.fillStyle='#fff4ce';ctx.beginPath();ctx.arc(x,y,s.r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;const moonX=w*.78,moonY=h*.2;let g=ctx.createRadialGradient(moonX,moonY,2,moonX,moonY,80);g.addColorStop(0,'#ffe9acaa');g.addColorStop(.6,'#ffe9ac24');g.addColorStop(1,'#ffe9ac00');ctx.fillStyle=g;ctx.beginPath();ctx.arc(moonX,moonY,80,0,7);ctx.fill();ctx.fillStyle='#ffeac3c4';ctx.beginPath();ctx.arc(moonX,moonY,32,0,7);ctx.fill();for(let layer=0;layer<3;layer++){ctx.beginPath();let y=h*(.67+layer*.11);ctx.moveTo(0,h);ctx.lineTo(0,y);for(let x=0;x<=w+15;x+=15)ctx.lineTo(x,y+Math.sin(x*.012+layer*2+(reduced?0:time*.12))*(22+layer*8));ctx.lineTo(w,h);ctx.closePath();ctx.fillStyle=['#1b355f8c','#102b47c9','#081b30'][layer];ctx.fill()}if(S.screen==='home'||S.screen==='map'){let cx=w*.5,base=h*.70;ctx.fillStyle='#101c42';ctx.fillRect(cx-72,base-90,144,110);for(let dx of [-65,-10,45]){ctx.fillRect(cx+dx,base-155,25,95);ctx.beginPath();ctx.moveTo(cx+dx-9,base-155);ctx.lineTo(cx+dx+12,base-180);ctx.lineTo(cx+dx+34,base-155);ctx.fill()}ctx.fillStyle='#ffd78e';for(let dx of [-43,10,50])ctx.fillRect(cx+dx,base-65,10,18);ctx.fillStyle='#392654';ctx.beginPath();ctx.arc(cx,base-12,20,Math.PI,0);ctx.fillRect(cx-20,base-12,40,28)}if(S.screen==='quiz'){for(let i=0;i<11;i++){let x=i*w/10+Math.sin(time*.4+i)*5,y=h*.65+Math.cos(i*2)*25;ctx.fillStyle='#0a292a';ctx.fillRect(x-5,y,10,h-y);ctx.beginPath();ctx.moveTo(x-40,y+15);ctx.lineTo(x,y-110-(i%3)*22);ctx.lineTo(x+40,y+15);ctx.fillStyle='#164f43b8';ctx.fill()}}// V71: each learning world has a distinct animated landmark.
 if(S.screen==='quiz'||S.screen==='finish'){
  ctx.save();const zone=S.world,baseY=h*.67;
