@@ -1,5 +1,0 @@
-V77 — Accueil simplifié, sans château.
-Téléverser les fichiers de ce dossier à la racine du dépôt GitHub.
-Test 1 : Chrome navigation privée, ouverture directe du menu de bienvenue.
-Test 2 : Chrome normal, retrouver le profil existant et sa progression.
-Ne pas effacer les données du site.
