@@ -1,0 +1,1 @@
+V82.5.7 — 10 questions par texte (2 points chacune), tirées au hasard dans une réserve de questions basée sur différents passages du texte. Couleurs dans un ordre aléatoire. Les cinq catégories pédagogiques sont conservées. Les profils et les niveaux débloqués restent enregistrés sous la même clé. Tester les questions et les réponses avant validation définitive.
