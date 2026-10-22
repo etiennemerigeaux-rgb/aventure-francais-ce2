@@ -277,3 +277,17 @@ header:not(body.is-welcome header) .coins{
 .guide-panel .cta{min-height:58px;width:100%;white-space:normal}
 .guide-panel .secondary{min-height:44px}
 .howto-map{display:block;margin:5px auto 8px!important;min-height:45px}
+
+/* V80.1 — centrage des titres des sept étapes du tutoriel. */
+.guide-panel h2{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:12px auto!important;
+  padding:0 4px!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+  text-wrap:balance!important;
+  line-height:1.2!important;
+}
+.guide-panel .eyebrow{text-align:center!important}
