@@ -1,0 +1,1 @@
+V82.4 — Etape 4 : tutoriel cinq surligneurs (jaune, orange, bleu, violet, vert) et exercice obligatoire de negation avec le VERT. Le profil ne debloque les niveaux qu apres reussite. Tester sur Chrome Android et PWA. Cette version n a pas ete testee sur un appareil reel.
