@@ -1,1 +1,0 @@
-V79.4 : centrage vertical homogène de tous les titres d'écrans et pictogrammes (marges haut/bas), compteur de pièces recentré verticalement. V79.3 conservée : boutons de carte 2×2. Aucune modification de logique de jeu. Décompresser et publier à la racine GitHub.
