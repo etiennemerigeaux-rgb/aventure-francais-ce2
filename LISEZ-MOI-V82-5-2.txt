@@ -1,0 +1,1 @@
+V82.5.2 : corrige l’écran final de la mission pratique qui bloquait l’accès aux niveaux. Bouton « Découvrir les trois niveaux » fonctionnel. Le profil ayant déjà terminé la mission peut accéder directement aux niveaux en rouvrant le Challenge. Mise à jour des versions des scripts et du cache PWA. Étapes 1 à 4 conservées ; textes définitifs non intégrés.
