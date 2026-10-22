@@ -1,5 +1,0 @@
-V81.5 — Réussites visibles dans « Comprendre mes erreurs »
-
-Les cinq mondes restent affichés. Pour un monde sans erreur, affichage vert « ✓ Bravo ! 5/5 — Aucune erreur ! » (score calculé selon les questions réellement évaluées). Pour un monde avec erreurs, les corrections restent repliables. Toutes les fonctions de la V81.4 sont conservées.
-
-Publier le contenu de ce ZIP à la racine du dépôt GitHub Pages.
