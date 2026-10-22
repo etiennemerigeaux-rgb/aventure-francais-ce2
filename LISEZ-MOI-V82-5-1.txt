@@ -1,0 +1,1 @@
+V82.5.1 — Correction de l'accès aux niveaux après le tutoriel et la mission de négation. Après la réussite de l'étape 4, le bouton « Découvrir les trois niveaux » ouvre l'écran de l'étape 5. Le tutoriel et l'exercice validés restent inchangés. 15/20 sur un seul texte pour débloquer le niveau suivant ; tirage aléatoire sans répétition. Les textes de l'étape 6 restent provisoires.
