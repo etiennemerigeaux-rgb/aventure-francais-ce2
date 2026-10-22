@@ -211,3 +211,9 @@ body.is-welcome header .brand{font-size:clamp(15px,3.9vw,22px);text-align:left}
 .topline .quiz-counter{font-size:clamp(17px,4.5vw,22px);font-weight:950;color:#fff0b7;white-space:nowrap}
 .topline .world-name-quiz{display:none}
 @media(max-width:420px){.topline .return-map{flex:1 1 100%!important}.topline .quiz-counter{order:1!important;margin:auto}.topline{justify-content:center!important}}
+
+/* V79.1 — titres lisibles sur mobile, pictogramme propre à chaque monde. */
+header .brand{display:flex;align-items:center;gap:9px;font-size:clamp(19px,5.1vw,29px);font-weight:950;letter-spacing:0;line-height:1.16;min-width:0;flex:1;text-wrap:balance;}
+header .brand .brand-icon{font-size:clamp(25px,7vw,36px);line-height:1;flex:none;}
+header .brand .brand-label{min-width:0;overflow-wrap:break-word;}
+@media(max-width:380px){header .brand{font-size:clamp(18px,5.1vw,23px);letter-spacing:0;gap:6px}header .brand .brand-icon{font-size:26px}header .coins{padding:7px 9px}}
