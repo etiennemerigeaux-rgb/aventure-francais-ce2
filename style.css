@@ -183,3 +183,20 @@ body.is-welcome header .brand{font-size:10px;text-align:center}
 @keyframes castle-arrive{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}@keyframes castle-menu-enter{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
 @media(max-width:370px){.castle-art{height:130px}.castle-main{height:75px}.castle-tower{height:90px}.castle-main:before{border-left-width:65px;border-right-width:65px}.castle-menu{padding:14px}.castle-menu h1{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.castle-art,.castle-menu,.castle-door,.castle-stars{animation:none!important}}
+
+/* V77 — Accueil direct, épuré et centré, sans château. */
+body.is-welcome #app{min-height:100dvh;display:flex;flex-direction:column}
+body.is-welcome header{flex:0 0 auto}
+body.is-welcome .scene{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;padding:12px 14px calc(16px + env(safe-area-inset-bottom));overflow-y:auto}
+body.is-welcome .welcome-v77{width:min(100%,460px);margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:8px 0}
+body.is-welcome .welcome-v77 .castle-menu{margin:0;width:100%;animation:welcome-card-v77 .55s ease-out both;padding:clamp(16px,4vw,26px);box-sizing:border-box}
+body.is-welcome .welcome-v77 .welcome-symbol{font-size:clamp(22px,6vw,31px);color:#ffe39b;letter-spacing:14px;text-align:center;animation:welcome-float 2.5s ease-in-out infinite alternate}
+body.is-welcome .welcome-v77 .castle-menu h1{font-size:clamp(25px,6.5vw,34px);line-height:1.14;margin:8px 0 12px}
+body.is-welcome .welcome-v77 .castle-greeting{font-size:clamp(19px,5vw,23px)}
+body.is-welcome .welcome-v77 .castle-description{font-size:clamp(14px,3.6vw,16px)}
+body.is-welcome .welcome-v77 .castle-button{min-height:48px;white-space:normal;overflow-wrap:break-word}
+body.is-welcome .welcome-v77 #new-first{box-sizing:border-box;width:100%;font-size:16px}
+body.is-welcome .welcome-v77 .welcome-install-help{font-size:13px;line-height:1.4}
+@keyframes welcome-card-v77{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:650px){body.is-welcome .scene{align-items:flex-start}body.is-welcome .welcome-v77{margin:0 auto}body.is-welcome .welcome-v77 .castle-description{margin-bottom:7px}}
+@media(prefers-reduced-motion:reduce){body.is-welcome .welcome-v77 .castle-menu,body.is-welcome .welcome-v77 .welcome-symbol{animation:none}}
