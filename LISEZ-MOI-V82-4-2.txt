@@ -1,1 +1,0 @@
-V82.4.2 : chaque notion du dialogue est testée séparément : guillemets, deux-points, tiret, réplique, verbe de dialogue. Bouton Vérifier obligatoire à chaque étape.
