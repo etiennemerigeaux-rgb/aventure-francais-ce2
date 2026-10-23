@@ -1,7 +1,0 @@
-V82.5.42 — Correction du mode Challenge (3 niveaux)
-
-Lorsqu’un signe de ponctuation introduit ou délimite un dialogue, les surligneurs jaune (ponctuation) et orange (dialogue) sont tous deux acceptés.
-Les deux-points sont reconnus comme introducteurs de dialogue lorsqu’ils sont suivis de guillemets ou d’un tiret et précédés d’un verbe de parole.
-Guillemets et tirets de dialogue : deux couleurs acceptées.
-Autres signes et missions : règles inchangées.
-Aucune modification des 30 textes, des 300 missions, du barème ou des récompenses.
