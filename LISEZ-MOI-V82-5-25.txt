@@ -1,1 +1,0 @@
-V82.5.25 — Remplacement de la fenêtre native du navigateur par une fenêtre intégrée au jeu pour le Challenge verrouillé. Aucun changement aux héros, exercices ou seuil de 15/20.

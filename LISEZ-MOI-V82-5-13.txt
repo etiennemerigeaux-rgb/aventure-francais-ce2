@@ -1,4 +1,0 @@
-V82.5.13 — Nouveaux visuels des 12 héros.
-Les images individuelles WEBP sont découpées dans la planche graphique validée. Les noms, l’ordre des héros, les profils et les données pédagogiques V82.5.12 restent inchangés.
-Pour installer : téléverser le contenu du ZIP à la racine du dépôt GitHub, remplacer les fichiers existants, attendre la publication puis fermer et rouvrir le jeu. Les anciens SVG restent inclus comme sauvegarde.
-Contrôles : images 12/12, scripts JavaScript, archive ZIP. Tester le choix des héros et la carte des mondes sur téléphone.

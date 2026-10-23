@@ -1,1 +1,0 @@
-V82.5.20 pilote : Drako renommé Foxy ; animation de queue/oreille pour Foxy, ailes pour Luna, bras/antenne pour Bip. Cadence rapide en trajet, lente dans le monde. Images d’origine conservées. Flamme V82.5.19 et logique pédagogique inchangés. À valider sur mobile.

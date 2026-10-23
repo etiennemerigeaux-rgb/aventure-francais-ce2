@@ -1,2 +1,0 @@
-V82.5.9 — Correction du blocage au lancement des essais sur Explorateur, Expert et Maître des mots.
-Cause identifiée : la couleur initiale était -1, alors que l'affichage du surligneur lisait MARKERS[-1].name et déclenchait une erreur JavaScript. Initialisation désormais sur le jaune et garde-fou dans l'affichage. Réinitialisation corrigée également entre chaque question. L'ordre des questions demeure aléatoire et la couleur attendue dépend toujours de la question. Progression et contenus conservés.

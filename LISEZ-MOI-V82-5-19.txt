@@ -1,1 +1,0 @@
-Correction ciblée : le sélecteur de bouche cherchait une image À L’INTÉRIEUR de .question-hero, alors que .question-hero EST l’image. Le sélecteur est corrigé ; la bouche est repositionnée et dimensionnée relativement au dragon. Les ailes à deux vitesses restent inchangées. Test fonctionnel à effectuer sur Android.

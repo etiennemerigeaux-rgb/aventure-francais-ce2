@@ -1,3 +1,0 @@
-V82.5.8 — Correctif de chargement du mode Explorateur.
-Les références aux scripts Challenge dans index.html utilisent maintenant v=8258 (elles étaient restées en v=8254 malgré la V82.5.7). Le service worker est mis à jour et privilégie le réseau pour les scripts et feuilles de style, avec repli sur cache hors connexion. Message explicite si un texte n'est pas disponible. Le contenu des questions V82.5.7 est conservé.
-Après publication, fermer puis rouvrir le site et tester Explorateur.
