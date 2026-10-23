@@ -1,5 +1,0 @@
-V82.5.30 - Détourage automatique des 12 héros originaux.
-Images hero-1.webp à hero-12.webp : couche alpha ajoutée sans redessiner les personnages.
-ATTENTION : le détourage automatique n'est pas une validation graphique définitive ; inspecter les contours (ailes, cheveux, accessoires).
-Les 30 récompenses de la V82.5.29 sont conservées telles quelles, avec canal alpha transparent.
-Toutes les autres données et fonctions du jeu sont reprises de V82.5.29.
