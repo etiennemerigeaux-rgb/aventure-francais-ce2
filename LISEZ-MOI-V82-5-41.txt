@@ -1,7 +1,0 @@
-V82.5.41 - Evaluation generale a quatre reponses
-
-500 questions de la banque d'evaluation enrichies avec une quatrieme proposition.
-Chaque question propose A, B, C et D, avec une seule bonne reponse.
-Les explications, la duree de 25 questions, la notation sur 20 et le seuil Challenge 15/20 restent inchanges.
-Une evaluation commencee avant la mise a jour garde ses trois choix jusqu'a son terme ; une nouvelle tentative propose quatre choix.
-La V82.5.40 validee pour les fleches est conservee.
