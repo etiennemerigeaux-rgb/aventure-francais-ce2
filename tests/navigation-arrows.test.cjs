@@ -36,8 +36,8 @@ function runSession(){
   src(challenge,'function close(){','function open(){'),
   'return {load,save,key,start,play,resumeChallenge,rememberChallenge,close};'
  ].join('\n');
- const funcs=new Function('localStorage','D','state','db','render','root','$','wrap','speech','MARKERS','esc','levels','document','location','window','speechSynthesis',code)(
-  storage,stories,state,db,render,root,$,()=>{},()=>{},MARKERS,x=>String(x),['Explorateur','Expert','Maître'],
+ const funcs=new Function('localStorage','D','state','db','render','root','$','wrap','speech','colors','MARKERS','esc','levels','document','location','window','speechSynthesis',code)(
+  storage,stories,state,db,render,root,$,()=>{},()=>{},['#ffe27a','#ffc184','#a4d9ff','#d6b2ff','#b9ef9d'],MARKERS,x=>String(x),['Explorateur','Expert','Maître'],
   {getElementById:()=>main},{hash:'#challenge'},window,{cancel:()=>{}}
  );
  return {state,db,buttons,root,funcs};
