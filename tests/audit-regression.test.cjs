@@ -7,6 +7,10 @@ const load=(file,key)=>{const window={};vm.runInNewContext(read(file),{window});
 const data=load('data.js','CE2_DATA'),challenges=load('challenge-data.js','CE2_CHALLENGES');
 const game=read('game.js'),challenge=read('challenge.js'),serviceWorker=read('sw.js');
 assert.equal(data.worlds.length,5);
+assert.equal(data.worlds[1].name,'La Cité des dialogues');
+assert.equal(data.worlds[1].icon,'💬');
+assert.equal(data.worlds[1].questions.length,100);
+assert.equal(data.examBank.filter(q=>q.world===1).length,100);
 data.worlds.forEach(w=>assert.equal(w.questions.length,100));
 for(const q of data.worlds.flatMap(w=>w.questions).concat(data.examBank)){
  assert.equal(q.options.length,4);
