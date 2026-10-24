@@ -21,4 +21,6 @@ jobs:
           node --check sw.js
           node --check scroll-guides.js
       - name: Run regression tests
-        run: node tests/audit-regression.test.cjs
+        run: |
+          node tests/audit-regression.test.cjs
+          node tests/gameplay.test.cjs
