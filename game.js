@@ -62,6 +62,45 @@ function orderByTopic(world,indices,previousTopic){
 function newQuestionRun(world){
  S.questionDecks=S.questionDecks||{};
  S.lastQuestionTopics=S.lastQuestionTopics||{};
+ if(world===2||world===3){
+   // Une partie = deux définitions, deux identifications, deux applications,
+   // deux corrections, une comparaison et un raisonnement.
+   // Chaque famille contient dix exercices inédits, répartis sur dix sessions :
+   // pas de nouvelle question avant d'avoir parcouru les cent.
+   const bank=W[world].questions,types=['definition','identification','application','correction','comparaison','raisonnement'];
+   let deck=Array.isArray(S.questionDecks[world])?S.questionDecks[world].filter(i=>Number.isInteger(i)&&i>=0&&i<bank.length):[];
+   deck=[...new Set(deck)];
+   const chosen=[];
+   for(let family=0;family<10;family++){
+     let available=deck.filter(i=>bank[i].learningFamily===family);
+     if(!available.length){
+       const fresh=bank.map((q,i)=>({q,i})).filter(x=>x.q.learningFamily===family).map(x=>x.i);
+       if(fresh.length!==10)throw Error('Contrôle pédagogique : famille incomplète dans le monde '+world);
+       deck=deck.filter(i=>bank[i].learningFamily!==family).concat(fresh);
+       available=fresh;
+     }
+     available.sort((a,b)=>bank[a].learningRound-bank[b].learningRound);
+     const selected=available[0];
+     chosen.push(selected);
+     deck.splice(deck.indexOf(selected),1);
+   }
+   const result=[],remaining=chosen.slice();
+   let last=S.lastQuestionTopics[world]||null;
+   // Les familles peuvent se suivre en ordre différent mais une même
+   // démarche intellectuelle ne doit pas apparaître deux fois de suite.
+   while(remaining.length){
+     const options=remaining.filter(i=>bank[i].learningType!==last);
+     const candidates=options.length?options:remaining;
+     const idx=candidates[Math.floor(Math.random()*candidates.length)];
+     result.push(idx);
+     remaining.splice(remaining.indexOf(idx),1);
+     last=bank[idx].learningType;
+   }
+   S.runQuestions=result;
+   S.questionDecks[world]=deck;
+   S.lastQuestionTopics[world]=last;
+   return;
+ }
  if(world===1){
    // Deux questions par compétence, sans deux compétences identiques à la suite.
    const topics=['verbes','tirets','deux-points','guillemets','dialogue'];
