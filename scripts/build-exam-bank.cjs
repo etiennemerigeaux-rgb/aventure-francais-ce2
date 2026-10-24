@@ -44,7 +44,7 @@ function buildExamBank(){
    ['Quelle forme complète la phrase à l’imparfait : « Jadis, '+c.name+' __ '+c.object+'. » ?', [c.past,c.pre,c.future,c.inf],c.past,'À l’imparfait, « '+c.past+' » raconte une action située dans le passé.'],
    ['Complète au futur : « Dans deux jours, '+c.name+' __ '+c.object+'. »', [c.future,c.pre,c.past,c.inf],c.future,'La forme « '+c.future+' » est au futur : elle évoque une action à venir.'],
    ['Pour dire ce que '+c.name+' fait en ce moment, quelle forme faut-il choisir ?', [c.pre,c.past,c.future,c.inf],c.pre,'« '+c.pre+' » est la forme du verbe au présent avec '+c.name+'.'],
-   ['Parmi ces expressions, laquelle indique clairement que l’action est passée ?', ['Le mois précédent','Le mois suivant','Dans une heure','En ce moment'],'Le mois précédent','« Le mois précédent » indique un moment antérieur : le passé.'],
+   ['Pour raconter ce que '+c.name+' faisait autrefois, quelle expression indique clairement le passé ?', ['Le mois précédent','Le mois suivant','Dans une heure','En ce moment'],'Le mois précédent','« Le mois précédent » indique un moment antérieur : le passé.'],
    ['Sans indice comme « demain », quelle forme verbale est au futur : '+c.name+' __ '+c.object+' ?', [c.future,c.past,c.pre,c.inf],c.future,'La terminaison -era de « '+c.future+' » indique le futur avec ce sujet.'],
    ['Sans l’aide d’un mot de temps, quelle forme est à l’imparfait : '+c.name+' __ '+c.object+' ?', [c.past,c.pre,c.future,c.inf],c.past,'À la troisième personne du singulier, « '+c.past+' » est à l’imparfait.']
   ];
@@ -67,7 +67,7 @@ function buildExamBank(){
   const affirmative=c.name+' '+c.pre+' '+c.object+'.', negative=c.name+' ne '+c.pre+' pas '+c.object+'.';
   const neg=[
    ['Dans « '+negative+' », quels sont les deux mots de la négation ?', ['ne et pas','le et '+c.name,'ne et '+c.pre,c.pre+' et pas'],'ne et pas','La négation « ne…pas » entoure ici le verbe conjugué.'],
-   ['Quelle phrase est à la forme négative ?', [negative,affirmative,c.name+' '+c.future+' '+c.object+'.',c.name+' '+c.past+' '+c.object+'.'],negative,'« Ne » et « pas » permettent d’exprimer la forme négative.'],
+   ['Quelle phrase à propos de '+c.name+' est à la forme négative ?', [negative,affirmative,c.name+' '+c.future+' '+c.object+'.',c.name+' '+c.past+' '+c.object+'.'],negative,'« Ne » et « pas » permettent d’exprimer la forme négative.'],
    ['Quelle phrase affirmative correspond à « '+negative+' » ?', [affirmative,negative,c.name+' ne '+c.pre+' jamais '+c.object+'.',c.name+' ne '+c.pre+' plus '+c.object+'.'],affirmative,'On retire les deux éléments « ne » et « pas » sans changer le temps du verbe.'],
    ['Transforme la phrase « '+affirmative+' » à la forme négative.',[negative,c.name+' '+c.pre+' pas '+c.object+'.',c.name+' ne '+c.pre+' '+c.object+'.',c.name+' '+c.future+' '+c.object+'.'],negative,'Dans une phrase écrite, la négation complète est « ne…pas ».'],
    ['Dans « '+c.name+' n’écoute pas la radio », pourquoi utilise-t-on « n’ » ?', ['Devant une voyelle','Devant un nom','Devant un pluriel','Devant un point'],'Devant une voyelle','« Ne » s’élide devant la voyelle initiale du verbe « écoute ».'],
@@ -75,7 +75,7 @@ function buildExamBank(){
    ['« '+c.name+' ne '+c.pre+' plus '+c.object+'. » Que signifie cette négation ?', ['L’action a cessé','L’action commence','L’action est obligatoire','L’action se déroule demain'],'L’action a cessé','« Ne…plus » indique qu’une action a cessé.'],
    ['« '+c.name+' ne trouve rien dans le tiroir. » Quels mots constituent la négation ?', ['ne et rien','ne et trouve','trouve et rien','dans et le'],'ne et rien','La négation « ne…rien » indique qu’aucune chose n’est trouvée.'],
    ['Pour dire que '+c.name+' ne fait plus cette action, quelle phrase choisir ?', [c.name+' ne '+c.pre+' plus '+c.object+'.',negative,affirmative,c.name+' '+c.pre+' toujours '+c.object+'.'],c.name+' ne '+c.pre+' plus '+c.object+'.','« Ne…plus » signale que l’action ne se produit plus, alors qu’elle se produisait auparavant.'],
-   ['Quelle phrase respecte l’accord et la négation avec « Les enfants » ?', ['Les enfants ne '+c.plural+' pas '+c.object+'.','Les enfants ne '+c.pre+' pas '+c.object+'.','Les enfants '+c.plural+' pas '+c.object+'.','Les enfants ne '+c.plural+' '+c.object+'.'],'Les enfants ne '+c.plural+' pas '+c.object+'.','« Les enfants » est un sujet pluriel : « '+c.plural+' ». La négation contient « ne » et « pas ».']
+   ['Quelle phrase respecte l’accord et la négation du verbe « '+c.inf+' » avec « Les enfants » ?', ['Les enfants ne '+c.plural+' pas '+c.object+'.','Les enfants ne '+c.pre+' pas '+c.object+'.','Les enfants '+c.plural+' pas '+c.object+'.','Les enfants ne '+c.plural+' '+c.object+'.'],'Les enfants ne '+c.plural+' pas '+c.object+'.','« Les enfants » est un sujet pluriel : « '+c.plural+' ». La négation contient « ne » et « pas ».']
   ];
   neg.forEach(([q,o,a,e],j)=>add(4,q,o,a,e,difficult(j)));
  }
