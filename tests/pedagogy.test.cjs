@@ -3,8 +3,8 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
-const D=(()=>{const window={};vm.runInNewContext(fs.readFileSync('data.js','utf8'),{window});return window.CE2_DATA})();
-const C=(()=>{const window={};vm.runInNewContext(fs.readFileSync('challenge-data.js','utf8'),{window});return window.CE2_CHALLENGES})();
+const D=(()=>{const window={};vm.runInNewContext(fs.readFileSync('data.js','utf8'),{window});return JSON.parse(JSON.stringify(window.CE2_DATA))})();
+const C=(()=>{const window={};vm.runInNewContext(fs.readFileSync('challenge-data.js','utf8'),{window});return JSON.parse(JSON.stringify(window.CE2_CHALLENGES))})();
 const {buildExamBank}=require('../scripts/build-exam-bank.cjs');
 const game=fs.readFileSync('game.js','utf8'),ch=fs.readFileSync('challenge.js','utf8');
 const bank=buildExamBank();
