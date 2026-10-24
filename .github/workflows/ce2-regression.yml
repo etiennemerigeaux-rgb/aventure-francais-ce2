@@ -24,3 +24,4 @@ jobs:
         run: |
           node tests/audit-regression.test.cjs
           node tests/gameplay.test.cjs
+          node tests/profiles.test.cjs
