@@ -25,6 +25,7 @@ jobs:
           node tests/audit-regression.test.cjs
           node tests/gameplay.test.cjs
           node tests/profiles.test.cjs
+          node tests/rewards.test.cjs
   mobile-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 12
