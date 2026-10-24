@@ -62,6 +62,48 @@ function orderByTopic(world,indices,previousTopic){
 function newQuestionRun(world){
  S.questionDecks=S.questionDecks||{};
  S.lastQuestionTopics=S.lastQuestionTopics||{};
+ if(world===2||world===3){
+   // Une partie = deux définitions, deux identifications, deux applications,
+   // deux corrections, une comparaison et un raisonnement.
+   // Chaque famille contient dix exercices inédits, répartis sur dix sessions :
+   // pas de nouvelle question avant d'avoir parcouru les cent.
+   const bank=W[world].questions,types=['definition','identification','application','correction','comparaison','raisonnement'];
+   let deck=Array.isArray(S.questionDecks[world])?S.questionDecks[world].filter(i=>Number.isInteger(i)&&i>=0&&i<bank.length):[];
+   deck=[...new Set(deck)];
+   const chosen=[];
+   for(let family=0;family<10;family++){
+     let available=deck.filter(i=>bank[i].learningFamily===family);
+     if(!available.length){
+       const fresh=bank.map((q,i)=>({q,i})).filter(x=>x.q.learningFamily===family).map(x=>x.i);
+       if(fresh.length!==10)throw Error('Contrôle pédagogique : famille incomplète dans le monde '+world);
+       deck=deck.filter(i=>bank[i].learningFamily!==family).concat(fresh);
+       available=fresh;
+     }
+     available.sort((a,b)=>bank[a].learningRound-bank[b].learningRound);
+     const selected=available[0];
+     chosen.push(selected);
+     deck.splice(deck.indexOf(selected),1);
+   }
+   const result=[],remaining=chosen.slice();
+   // Une sélection complète évite même la répétition des démarches aux deux
+   // dernières questions ; le tirage varie d'une aventure à l'autre.
+   function arrange(previous){
+     if(!remaining.length)return true;
+     const eligible=remaining.filter(i=>bank[i].learningType!==previous);
+     for(let n=eligible.length-1;n>0;n--){const k=Math.floor(Math.random()*(n+1));[eligible[n],eligible[k]]=[eligible[k],eligible[n]]}
+     for(const idx of eligible){
+       result.push(idx);remaining.splice(remaining.indexOf(idx),1);
+       if(arrange(bank[idx].learningType))return true;
+       result.pop();remaining.push(idx);
+     }
+     return false;
+   }
+   if(!arrange(S.lastQuestionTopics[world]||null))throw Error('Contrôleur pédagogique : alternance impossible dans le monde '+world);
+   S.runQuestions=result;
+   S.questionDecks[world]=deck;
+   S.lastQuestionTopics[world]=bank[result[result.length-1]].learningType;
+   return;
+ }
  if(world===1){
    // Deux questions par compétence, sans deux compétences identiques à la suite.
    const topics=['verbes','tirets','deux-points','guillemets','dialogue'];
@@ -78,7 +120,7 @@ function newQuestionRun(world){
        deck=deck.filter(x=>W[world].questions[x].topic!==topic).concat(all);
        available=all;
      }
-     available.sort((a,b)=>difficultyRank[W[world].questions[a].difficulty]-difficultyRank[W[world].questions[b].difficulty]);
+     available.sort((a,b)=>difficultyRank[W[world].questions[a].difficulty]-difficultyRank[W[world].questions[b].difficulty]||a-b);
      chosen.push(...available.slice(0,2));
      for(const id of available.slice(0,2)){const pos=deck.indexOf(id);if(pos>=0)deck.splice(pos,1)}
    }

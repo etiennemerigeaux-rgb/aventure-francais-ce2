@@ -29,6 +29,7 @@ jobs:
           node tests/rewards.test.cjs
           node tests/navigation-arrows.test.cjs
           node tests/pedagogy.test.cjs
+          node tests/question-diversity.test.cjs
   mobile-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -46,3 +47,4 @@ jobs:
           python3 -m http.server 4173 >/tmp/ce2-server.log 2>&1 &
           node tests/browser-smoke.cjs
           node tests/browser-arrows.cjs
+          node tests/browser-learning-variety.cjs
