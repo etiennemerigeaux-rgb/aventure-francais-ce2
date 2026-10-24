@@ -120,7 +120,7 @@ function newQuestionRun(world){
        deck=deck.filter(x=>W[world].questions[x].topic!==topic).concat(all);
        available=all;
      }
-     available.sort((a,b)=>difficultyRank[W[world].questions[a].difficulty]-difficultyRank[W[world].questions[b].difficulty]);
+     available.sort((a,b)=>difficultyRank[W[world].questions[a].difficulty]-difficultyRank[W[world].questions[b].difficulty]||a-b);
      chosen.push(...available.slice(0,2));
      for(const id of available.slice(0,2)){const pos=deck.indexOf(id);if(pos>=0)deck.splice(pos,1)}
    }
