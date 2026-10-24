@@ -80,14 +80,24 @@ function newQuestionRun(world){
      chosen.push(...available.slice(0,2));
      for(const id of available.slice(0,2)){const pos=deck.indexOf(id);if(pos>=0)deck.splice(pos,1)}
    }
+   const groups=Object.fromEntries(topics.map(topic=>[topic,chosen.filter(id=>W[world].questions[id].topic===topic)]));
    const run=[];
-   while(chosen.length){
-     const previous=run.length?W[world].questions[run[run.length-1]].topic:S.lastQuestionTopics[world];
-     const valid=chosen.filter(id=>W[world].questions[id].topic!==previous);
-     const pool=valid.length?valid:chosen;
-     const id=pool[Math.floor(Math.random()*pool.length)];
-     run.push(id);chosen.splice(chosen.indexOf(id),1);
+   // Cherche une séquence valide plutôt qu'un choix glouton susceptible de
+   // bloquer sur deux questions de la même compétence en fin de partie.
+   function arrange(previous){
+     if(run.length===RUN_SIZE)return true;
+     const eligible=topics.filter(topic=>groups[topic].length&&topic!==previous);
+     eligible.sort((a,b)=>groups[b].length-groups[a].length||(Math.random()-.5));
+     for(const topic of eligible){
+       const id=groups[topic].pop();
+       run.push(id);
+       if(arrange(topic))return true;
+       run.pop();
+       groups[topic].push(id);
+     }
+     return false;
    }
+   if(!arrange(S.lastQuestionTopics[world]||null))throw Error('Répartition pédagogique impossible : monde '+world);
    S.runQuestions=run;S.questionDecks[world]=deck;
    S.lastQuestionTopics[world]=W[world].questions[run[run.length-1]].topic;
    return;
