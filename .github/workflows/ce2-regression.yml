@@ -43,3 +43,4 @@ jobs:
         run: |
           python3 -m http.server 4173 >/tmp/ce2-server.log 2>&1 &
           node tests/browser-smoke.cjs
+          node tests/browser-arrows.cjs
