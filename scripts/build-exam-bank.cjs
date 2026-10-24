@@ -64,18 +64,20 @@ function buildExamBank(){
   ];
   v.forEach(([q,o,a,e],j)=>add(3,q,o,a,e,difficult(j)));
   // Monde 5 : construire et comprendre plusieurs formes de négation.
-  const affirmative=c.name+' '+c.pre+' '+c.object+'.', negative=c.name+' ne '+c.pre+' pas '+c.object+'.';
+  const nePart=/^[aeiouyéèêàâîôùûh]/i.test(c.pre)?'n’':'ne ';
+  const negLabel=nePart==='n’'?'n’ et pas':'ne et pas';
+  const affirmative=c.name+' '+c.pre+' '+c.object+'.', negative=c.name+' '+nePart+c.pre+' pas '+c.object+'.';
   const neg=[
-   ['Dans « '+negative+' », quels sont les deux mots de la négation ?', ['ne et pas','le et '+c.name,'ne et '+c.pre,c.pre+' et pas'],'ne et pas','La négation « ne…pas » entoure ici le verbe conjugué.'],
+   ['Dans « '+negative+' », quels sont les deux mots de la négation ?', [negLabel,'le et '+c.name,'ne et '+c.pre,c.pre+' et pas'],negLabel,'La négation « ne…pas » entoure ici le verbe conjugué.'],
    ['Quelle phrase à propos de '+c.name+' est à la forme négative ?', [negative,affirmative,c.name+' '+c.future+' '+c.object+'.',c.name+' '+c.past+' '+c.object+'.'],negative,'« Ne » et « pas » permettent d’exprimer la forme négative.'],
-   ['Quelle phrase affirmative correspond à « '+negative+' » ?', [affirmative,negative,c.name+' ne '+c.pre+' jamais '+c.object+'.',c.name+' ne '+c.pre+' plus '+c.object+'.'],affirmative,'On retire les deux éléments « ne » et « pas » sans changer le temps du verbe.'],
+   ['Quelle phrase affirmative correspond à « '+negative+' » ?', [affirmative,negative,c.name+' '+nePart+c.pre+' jamais '+c.object+'.',c.name+' '+nePart+c.pre+' plus '+c.object+'.'],affirmative,'On retire les deux éléments « ne » et « pas » sans changer le temps du verbe.'],
    ['Transforme la phrase « '+affirmative+' » à la forme négative.',[negative,c.name+' '+c.pre+' pas '+c.object+'.',c.name+' ne '+c.pre+' '+c.object+'.',c.name+' '+c.future+' '+c.object+'.'],negative,'Dans une phrase écrite, la négation complète est « ne…pas ».'],
    ['Dans « '+c.name+' n’écoute pas la radio », pourquoi utilise-t-on « n’ » ?', ['Devant une voyelle','Devant un nom','Devant un pluriel','Devant un point'],'Devant une voyelle','« Ne » s’élide devant la voyelle initiale du verbe « écoute ».'],
-   ['« '+c.name+' ne '+c.pre+' jamais '+c.object+'. » Quel mot signifie « à aucun moment » ?', ['jamais','ne',c.pre,'pas'],'jamais','« Ne…jamais » signifie que l’action ne se produit à aucun moment.'],
-   ['« '+c.name+' ne '+c.pre+' plus '+c.object+'. » Que signifie cette négation ?', ['L’action a cessé','L’action commence','L’action est obligatoire','L’action se déroule demain'],'L’action a cessé','« Ne…plus » indique qu’une action a cessé.'],
+   ['« '+c.name+' '+nePart+c.pre+' jamais '+c.object+'. » Quel mot signifie « à aucun moment » ?', ['jamais','ne',c.pre,'pas'],'jamais','« Ne…jamais » signifie que l’action ne se produit à aucun moment.'],
+   ['« '+c.name+' '+nePart+c.pre+' plus '+c.object+'. » Que signifie cette négation ?', ['L’action a cessé','L’action commence','L’action est obligatoire','L’action se déroule demain'],'L’action a cessé','« Ne…plus » indique qu’une action a cessé.'],
    ['« '+c.name+' ne trouve rien dans le tiroir. » Quels mots constituent la négation ?', ['ne et rien','ne et trouve','trouve et rien','dans et le'],'ne et rien','La négation « ne…rien » indique qu’aucune chose n’est trouvée.'],
-   ['Pour dire que '+c.name+' ne fait plus cette action, quelle phrase choisir ?', [c.name+' ne '+c.pre+' plus '+c.object+'.',negative,affirmative,c.name+' '+c.pre+' toujours '+c.object+'.'],c.name+' ne '+c.pre+' plus '+c.object+'.','« Ne…plus » signale que l’action ne se produit plus, alors qu’elle se produisait auparavant.'],
-   ['Quelle phrase respecte l’accord et la négation du verbe « '+c.inf+' » avec « Les enfants » ?', ['Les enfants ne '+c.plural+' pas '+c.object+'.','Les enfants ne '+c.pre+' pas '+c.object+'.','Les enfants '+c.plural+' pas '+c.object+'.','Les enfants ne '+c.plural+' '+c.object+'.'],'Les enfants ne '+c.plural+' pas '+c.object+'.','« Les enfants » est un sujet pluriel : « '+c.plural+' ». La négation contient « ne » et « pas ».']
+   ['Pour dire que '+c.name+' ne fait plus cette action, quelle phrase choisir ?', [c.name+' '+nePart+c.pre+' plus '+c.object+'.',negative,affirmative,c.name+' '+c.pre+' toujours '+c.object+'.'],c.name+' '+nePart+c.pre+' plus '+c.object+'.','« Ne…plus » signale que l’action ne se produit plus, alors qu’elle se produisait auparavant.'],
+   ['Quelle phrase respecte l’accord et la négation du verbe « '+c.inf+' » avec « Les enfants » ?', ['Les enfants '+nePart+c.plural+' pas '+c.object+'.','Les enfants ne '+c.pre+' pas '+c.object+'.','Les enfants '+c.plural+' pas '+c.object+'.','Les enfants '+nePart+c.plural+' '+c.object+'.'],'Les enfants '+nePart+c.plural+' pas '+c.object+'.','« Les enfants » est un sujet pluriel : « '+c.plural+' ». La négation contient « ne » et « pas ».']
   ];
   neg.forEach(([q,o,a,e],j)=>add(4,q,o,a,e,difficult(j)));
  }
