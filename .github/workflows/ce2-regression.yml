@@ -28,6 +28,7 @@ jobs:
           node tests/profiles.test.cjs
           node tests/rewards.test.cjs
           node tests/navigation-arrows.test.cjs
+          node tests/pedagogy.test.cjs
   mobile-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 12
