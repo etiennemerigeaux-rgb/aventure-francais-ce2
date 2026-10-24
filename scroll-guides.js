@@ -16,6 +16,20 @@
 
   const scrollable=el=>el && el.scrollHeight>el.clientHeight+12 && ['auto','scroll','overlay'].includes(getComputedStyle(el).overflowY);
   function choose(){
+    // Challenge est une fenêtre défilante distincte du jeu principal.
+    // Tant qu'elle est visible, ne jamais faire défiler la page derrière.
+    const challenge=document.getElementById('challenge-root');
+    if(challenge&&!challenge.hidden){
+      const focus=document.activeElement;
+      if(focus&&challenge.contains(focus)){
+        let node=focus;
+        while(node&&node!==challenge){
+          if(scrollable(node))return node;
+          node=node.parentElement;
+        }
+      }
+      return challenge;
+    }
     const active=document.activeElement;
     if(active){let e=active;while(e&&e!==document.body){if(scrollable(e)&&!e.closest('#scroll-guides'))return e;e=e.parentElement;}}
     const scene=document.getElementById('scene');
@@ -39,5 +53,7 @@
   document.addEventListener('keydown',reveal);
   const scene=document.getElementById('scene');
   if(scene)new MutationObserver(schedule).observe(scene,{childList:true,subtree:true});
+  const challenge=document.getElementById('challenge-root');
+  if(challenge)new MutationObserver(schedule).observe(challenge,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
   setInterval(schedule,1200);schedule();reveal();
 })();
