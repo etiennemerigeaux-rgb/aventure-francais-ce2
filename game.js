@@ -68,6 +68,7 @@ function newQuestionRun(world){
    let deck=Array.isArray(S.questionDecks[world])?S.questionDecks[world]:[];
    deck=deck.filter(x=>Number.isInteger(x)&&x>=0&&x<W[world].questions.length);
    const chosen=[];
+   const difficultyRank={easy:0,medium:1,hard:2};
    for(const topic of topics){
      let available=deck.filter(x=>W[world].questions[x].topic===topic);
      if(available.length<2){
@@ -77,6 +78,7 @@ function newQuestionRun(world){
        deck=deck.filter(x=>W[world].questions[x].topic!==topic).concat(all);
        available=all;
      }
+     available.sort((a,b)=>difficultyRank[W[world].questions[a].difficulty]-difficultyRank[W[world].questions[b].difficulty]);
      chosen.push(...available.slice(0,2));
      for(const id of available.slice(0,2)){const pos=deck.indexOf(id);if(pos>=0)deck.splice(pos,1)}
    }
@@ -108,8 +110,11 @@ function newQuestionRun(world){
    deck=Array.from({length:W[world].questions.length},(_,i)=>i);
    for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}
  }
- deck=orderByTopic(world,deck,lastTopic);
- S.runQuestions=deck.splice(0,RUN_SIZE);
+ // L'enfant commence par les notions de base, puis accède progressivement
+ // aux questions intermédiaires et difficiles. Les identifiants du cycle restent uniques.
+ const ranks={easy:0,medium:1,hard:2};
+ deck.sort((a,b)=>ranks[W[world].questions[a].difficulty]-ranks[W[world].questions[b].difficulty]);
+ S.runQuestions=orderByTopic(world,deck.splice(0,RUN_SIZE),lastTopic);
  S.questionDecks[world]=deck;
  S.lastQuestionTopics[world]=questionTopic(world,S.runQuestions[S.runQuestions.length-1]);
 }
