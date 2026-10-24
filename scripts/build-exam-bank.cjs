@@ -25,7 +25,7 @@ function buildExamBank(){
   const forms=[
    ['Au tableau, on lit : « Où '+c.name+' trouve-t-elle '+c.object+'__ » Quel signe termine cette question ?', ['?','!','.',':'],'?','Une question écrite se termine par un point d’interrogation.'],
    ['« Quelle magnifique découverte__ » s’exclame '+c.name+'. Complète son exclamation.', ['!','?',',','.'],'!','Le point d’exclamation traduit ici la surprise et l’émotion.'],
-   [c.name+' a fini '+c.object+'__. Quel signe termine normalement cette affirmation ?', ['.','?',',':','…'],'.','Une phrase qui donne une information se termine normalement par un point.'],
+    [c.name+' a fini '+c.object+'__. Quel signe termine normalement cette affirmation ?', ['.','?',':','…'],'.','Une phrase qui donne une information se termine normalement par un point.'],
    [c.name+' emporte une lampe__ une corde et une carte. Quel signe sépare les éléments de cette énumération ?', [',','.',':','?'],',','La virgule sépare les éléments successifs d’une énumération.'],
    ['Sur la table, '+c.name+' pose trois choses__ un livre, une trousse et une règle. Quel signe annonce la liste ?', [':',',','?','!'],':','Les deux-points introduisent la liste des objets annoncés.'],
    [c.name+' ouvre lentement la boîte et découvre__ Quel signe laisse le récit en suspens ?', ['…','.','?','!'],'…','Les points de suspension créent une attente en laissant la phrase inachevée.'],
