@@ -85,20 +85,23 @@ function newQuestionRun(world){
      deck.splice(deck.indexOf(selected),1);
    }
    const result=[],remaining=chosen.slice();
-   let last=S.lastQuestionTopics[world]||null;
-   // Les familles peuvent se suivre en ordre différent mais une même
-   // démarche intellectuelle ne doit pas apparaître deux fois de suite.
-   while(remaining.length){
-     const options=remaining.filter(i=>bank[i].learningType!==last);
-     const candidates=options.length?options:remaining;
-     const idx=candidates[Math.floor(Math.random()*candidates.length)];
-     result.push(idx);
-     remaining.splice(remaining.indexOf(idx),1);
-     last=bank[idx].learningType;
+   // Une sélection complète évite même la répétition des démarches aux deux
+   // dernières questions ; le tirage varie d'une aventure à l'autre.
+   function arrange(previous){
+     if(!remaining.length)return true;
+     const eligible=remaining.filter(i=>bank[i].learningType!==previous);
+     for(let n=eligible.length-1;n>0;n--){const k=Math.floor(Math.random()*(n+1));[eligible[n],eligible[k]]=[eligible[k],eligible[n]]}
+     for(const idx of eligible){
+       result.push(idx);remaining.splice(remaining.indexOf(idx),1);
+       if(arrange(bank[idx].learningType))return true;
+       result.pop();remaining.push(idx);
+     }
+     return false;
    }
+   if(!arrange(S.lastQuestionTopics[world]||null))throw Error('Contrôleur pédagogique : alternance impossible dans le monde '+world);
    S.runQuestions=result;
    S.questionDecks[world]=deck;
-   S.lastQuestionTopics[world]=last;
+   S.lastQuestionTopics[world]=bank[result[result.length-1]].learningType;
    return;
  }
  if(world===1){
