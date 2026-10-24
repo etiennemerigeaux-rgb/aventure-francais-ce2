@@ -60,4 +60,19 @@ for(const world of [2,3]){
  // Les index et ID d'origine sont conservés pour les sauvegardes existantes.
  for(let i=0;i<100;i++)assert.equal(qs[i].id,'v11-w'+(world+1)+'-'+String(i+1).padStart(3,'0'));
 }
-console.log('Variété pédagogique : 1 200 aventures simulées, 100 questions uniques par cycle, 6 démarches et progression graduée.');
+// La Cité des dialogues introduit deux définitions à chaque aventure,
+ // sans sacrifier ses deux questions par compétence.
+{
+ const S={questionDecks:{},lastQuestionTopics:{},runQuestions:[]};
+ const ctx={S,W,RUN_SIZE:10};vm.createContext(ctx);vm.runInContext(select,ctx);
+ const seen=new Set();
+ for(let run=0;run<10;run++){
+  vm.runInContext('newQuestionRun(1)',ctx);
+  const qs=Array.from(S.runQuestions).map(i=>W[1].questions[i]);
+  assert.equal(qs.filter(q=>q.learningType==='definition').length,2,'Le dialogue doit proposer 2 définitions par partie');
+  for(const topic of ['verbes','tirets','deux-points','guillemets','dialogue'])assert.equal(qs.filter(q=>q.topic===topic).length,2);
+  for(const q of qs){assert(!seen.has(q.id));seen.add(q.id)}
+ }
+ assert.equal(seen.size,100);
+}
+console.log('Variété pédagogique : 1 200 aventures simulées, 100 questions uniques par cycle, 6 démarches et dialogue enrichi.');
