@@ -136,9 +136,9 @@ for(const [name,type,threshold] of cases){
   .find(x=>x[2]==='Défi Explorateur')?.[1];
  window.ce2RefreshRewards();assert.equal(label(),'locked');
  store.ce2_challenge_v8254_alice=JSON.stringify({history:{[keyByLevel[0]]:{best:16}}});
- const close=new Function('root','document','speechSynthesis','location','window',
+ const close=new Function('root','document','speechSynthesis','location','window','state','rememberChallenge',
   source(challengeJs,'function close(){','function open(){')+'return close()');
- close({hidden:false},{getElementById:()=>({hidden:true})},{cancel:()=>{}},{hash:'#challenge'},window);
+ close({hidden:false},{getElementById:()=>({hidden:true})},{cancel:()=>{}},{hash:'#challenge'},window,{screen:'result'},()=>{});
  assert.equal(label(),'unlocked','Le coffre reste périmé au retour de Challenge');
 }
 console.log('Récompenses : 30/30 seuils validés, 200 parties, 160 sans-faute, reprise, migration et rafraîchissement Challenge.');
