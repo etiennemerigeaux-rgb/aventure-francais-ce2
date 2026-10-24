@@ -26,6 +26,7 @@ jobs:
           node tests/gameplay.test.cjs
           node tests/profiles.test.cjs
           node tests/rewards.test.cjs
+          node tests/navigation-arrows.test.cjs
   mobile-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -42,3 +43,4 @@ jobs:
         run: |
           python3 -m http.server 4173 >/tmp/ce2-server.log 2>&1 &
           node tests/browser-smoke.cjs
+          node tests/browser-arrows.cjs
