@@ -128,7 +128,7 @@ function buildExamBank(){
    [proper,n+' '+v+' : » '+u+' «',n+' '+v+' : « '+u+' «',n+' '+v+' : '+u+' »'],
    i<8?'«':i<16?'»':proper,'Les guillemets ouvrants « et fermants » encadrent exactement les paroles rapportées.',diff,'guillemets');
   // Lecture du dialogue : qui parle, quelle réplique, changement de locuteur.
-  const talk=n+' dit : « '+u+' » '+o+' répond : « '+r+' »';
+  const talk=n+' dit : « '+u+' » Puis '+o+' répond : « '+r+' »';
   const diaQ=i<8?'Dans le dialogue suivant, qui parle en premier ? '+talk:
     i<16?'Dans cet échange, quelle réplique est prononcée par '+o+' ? '+talk:
     'Dans cet échange, qui répond à '+n+' ? '+talk;
