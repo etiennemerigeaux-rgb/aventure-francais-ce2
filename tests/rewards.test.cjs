@@ -96,7 +96,7 @@ function rewardView(S,challengeData={}){
  const evaluate=new Function('S','root','$','ensureState','localStorage','activeId','window','go',
   source(game,'window.ce2RefreshRewards=','const EXAM_COUNT=')+'return {refresh:window.ce2RefreshRewards,rewards}');
  evaluate(S,root,()=>({}),ensure,localStorage,'alice',window,()=>{}).rewards();
- const cards=[...root.innerHTML.matchAll(/<div class="reward-card (unlocked|locked) reward-[^"]+">[\\s\\S]*?<b>([^<]+)<\\/b>/g)];
+ const cards=[...root.innerHTML.matchAll(/<div class="reward-card (unlocked|locked) reward-[^"]+">[\s\S]*?<b>([^<]+)<\/b>/g)];
  return {cards,root,localStorage,window,ensure};
 }
 function at(name,type,n){
@@ -132,7 +132,7 @@ for(const [name,type,threshold] of cases){
  const window={CE2_CHALLENGES:challenges},ensure=harness(S).ensure;
  new Function('S','root','$','ensureState','localStorage','activeId','window','go',
   source(game,'window.ce2RefreshRewards=','const EXAM_COUNT='))(S,root,()=>({}),ensure,localStorage,'alice',window,()=>{});
- const label=()=>[...root.innerHTML.matchAll(/<div class="reward-card (unlocked|locked) reward-[^"]+">[\\s\\S]*?<b>([^<]+)<\\/b>/g)]
+ const label=()=>[...root.innerHTML.matchAll(/<div class="reward-card (unlocked|locked) reward-[^"]+">[\s\S]*?<b>([^<]+)<\/b>/g)]
   .find(x=>x[2]==='Défi Explorateur')?.[1];
  window.ce2RefreshRewards();assert.equal(label(),'locked');
  store.ce2_challenge_v8254_alice=JSON.stringify({history:{[keyByLevel[0]]:{best:16}}});
