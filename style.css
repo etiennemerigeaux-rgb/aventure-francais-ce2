@@ -410,3 +410,7 @@ header:not(body.is-welcome header) .coins{
 /* V82.5.40 : les deux pointes sont pleines, sans bordure, et sans rotation CSS. */
 #scroll-guides .arrow-head{fill:#F6CE68!important;stroke:none!important}
 #scroll-guide-down .enchanted-arrow{transform:none!important}
+
+/* Les flèches restent identiques et s'effacent toujours après 4,5 s.
+   Le Challenge ayant son propre premier plan, le guidage doit rester au-dessus. */
+body:has(#challenge-root:not([hidden])) #scroll-guides{z-index:10000}
