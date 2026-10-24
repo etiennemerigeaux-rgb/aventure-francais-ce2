@@ -1,7 +1,7 @@
 name: CE2 Regression Checks
 on:
   push:
-    branches: [main, 'fix/**']
+    branches: [main]
   pull_request:
     branches: [main]
 jobs:
