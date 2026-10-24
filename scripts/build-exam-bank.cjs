@@ -23,9 +23,9 @@ function buildExamBank(){
  for(const c of ctx){
   // Monde 1 : utiliser la ponctuation en situation, sans recycler les phrases des entraînements.
   const forms=[
-   ['Au tableau, on lit : « Où '+c.name+' trouve-t-elle '+c.object+'__ » Quel signe termine cette question ?', ['?','!','.',':'],'?','Une question écrite se termine par un point d’interrogation.'],
+   ['Au tableau, '+c.name+' écrit : « Peux-tu retrouver '+c.object+'__ » Quel signe termine cette question ?', ['?','!','.',':'],'?','Une question écrite se termine par un point d’interrogation.'],
    ['« Quelle magnifique découverte__ » s’exclame '+c.name+'. Complète son exclamation.', ['!','?',',','.'],'!','Le point d’exclamation traduit ici la surprise et l’émotion.'],
-    [c.name+' a fini '+c.object+'__. Quel signe termine normalement cette affirmation ?', ['.','?',':','…'],'.','Une phrase qui donne une information se termine normalement par un point.'],
+    [c.name+' admire '+c.object+'__. Quel signe termine normalement cette affirmation ?', ['.','?',':','…'],'.','Une phrase qui donne une information se termine normalement par un point.'],
    [c.name+' emporte une lampe__ une corde et une carte. Quel signe sépare les éléments de cette énumération ?', [',','.',':','?'],',','La virgule sépare les éléments successifs d’une énumération.'],
    ['Sur la table, '+c.name+' pose trois choses__ un livre, une trousse et une règle. Quel signe annonce la liste ?', [':',',','?','!'],':','Les deux-points introduisent la liste des objets annoncés.'],
    [c.name+' ouvre lentement la boîte et découvre__ Quel signe laisse le récit en suspens ?', ['…','.','?','!'],'…','Les points de suspension créent une attente en laissant la phrase inachevée.'],
@@ -101,26 +101,26 @@ function buildExamBank(){
   const diff=i<8?'easy':i<16?'medium':'hard';
   const contextual=n+' '+v+' : « '+u+' »';
   // Verbes de parole.
-  let verbQ=i<16?'Dans « '+contextual+' », quel est le verbe de parole ?':
+  let verbQ=i<16?'Dans la phrase suivante, '+contextual+' Quel est le verbe de parole ?':
     'Dans cette réplique : '+contextual+' Quel mot indique l’action de parler ?';
   add(1,verbQ,[v,'marche','cherche','regarde'],v,'« '+v+' » introduit les paroles de '+n+' et précise sa manière de s’exprimer.',diff,'verbes');
   // Tirets de dialogue.
   const dashText='— '+u+' — '+r;
   const dashQ=i<8?'Quel signe place-t-on devant une nouvelle réplique de '+n+' ?':
-    i<16?'Dans ce dialogue : « '+dashText+' », combien de tirets annoncent des répliques ?':
-    'Dans « '+dashText+' », quel signe indique le changement de personnage ?';
+    i<16?'Dans ce dialogue : '+dashText+' Combien de tirets annoncent des répliques ?':
+    'Dans ce dialogue : '+dashText+' Quel signe indique le changement de personnage ?';
   add(1,dashQ,i<8?['—',':','«','?']:i<16?['Deux','Un','Trois','Aucun']:['Le tiret de dialogue','La virgule','Le point','Les deux-points'],
     i<8?'—':i<16?'Deux':'Le tiret de dialogue','Le tiret de dialogue se place devant une réplique et aide à repérer chaque prise de parole.',diff,'tirets');
   // Deux-points.
   const colonQ=i<8?'Complète : '+n+' '+v+'__ « '+u+' » Quel signe annonce les paroles ?':
-    i<16?'Dans la phrase « '+contextual+' », à quoi servent les deux-points ?':
+    i<16?'Dans la phrase suivante, '+contextual+' À quoi servent les deux-points ?':
     'Quelle phrase utilise les deux-points pour annoncer correctement les paroles de '+n+' ?';
   const colonCorrect=n+' '+v+' : « '+u+' »';
   add(1,colonQ,i<8?[':',',',';','.']:i<16?['À annoncer les paroles','À terminer une question','À séparer des syllabes','À remplacer les guillemets']:
    [colonCorrect,n+' : '+v+' « '+u+' »',n+' '+v+' « : '+u+' »',n+' '+v+' « '+u+' : »'],
    i<8?':':i<16?'À annoncer les paroles':colonCorrect,'Les deux-points se placent après le verbe de parole pour annoncer les paroles citées.',diff,'deux-points');
   // Guillemets.
-  const quoteQ=i<8?'Dans « '+contextual+' », quel guillemet ouvre les paroles ?':
+  const quoteQ=i<8?'Dans cette phrase, '+contextual+' Quel guillemet ouvre les paroles ?':
     i<16?'Dans la phrase '+contextual+' Quel signe marque la fin des paroles de '+n+' ?':
     'Quelle proposition entoure correctement les paroles prononcées par '+n+' ?';
   const proper=n+' '+v+' : « '+u+' »';
@@ -128,7 +128,7 @@ function buildExamBank(){
    [proper,n+' '+v+' : » '+u+' «',n+' '+v+' : « '+u+' «',n+' '+v+' : '+u+' »'],
    i<8?'«':i<16?'»':proper,'Les guillemets ouvrants « et fermants » encadrent exactement les paroles rapportées.',diff,'guillemets');
   // Lecture du dialogue : qui parle, quelle réplique, changement de locuteur.
-  const talk='— '+u+' dit '+n+'. — '+r+' répond '+o+'.';
+  const talk=n+' dit : « '+u+' » '+o+' répond : « '+r+' »';
   const diaQ=i<8?'Dans le dialogue suivant, qui parle en premier ? '+talk:
     i<16?'Dans cet échange, quelle réplique est prononcée par '+o+' ? '+talk:
     'Dans cet échange, qui répond à '+n+' ? '+talk;
