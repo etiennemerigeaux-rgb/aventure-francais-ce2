@@ -23,7 +23,7 @@ for(const world of [2,3]){
   assert(q.options[q.answer],q.id);
   assert(q.explanation&&q.explanation.length>35,q.id+' nécessite une explication pédagogique');
   assert(q.q.length>=18&&q.q.length<350,q.id+' longueur inadaptée');
-  assert(!/de les élèves\b|de des peintres\b|,\s*maya\b/i.test(q.q),q.id+' formulation maladroite');
+  assert(!/de les élèves\b|de des peintres\b/i.test(q.q)&&!/,\s*maya\b/.test(q.q),q.id+' formulation maladroite');
   if(world===2&&q.learningFamily===2){
    const sentence=q.q.match(/« ([^»]+) »/)?.[1];
    assert(sentence,'Phrase repérable '+q.id);
