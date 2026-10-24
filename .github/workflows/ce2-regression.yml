@@ -17,6 +17,7 @@ jobs:
           node --check game.js
           node --check challenge.js
           node --check data.js
+          node --check scripts/build-exam-bank.cjs
           node --check challenge-data.js
           node --check sw.js
           node --check scroll-guides.js
