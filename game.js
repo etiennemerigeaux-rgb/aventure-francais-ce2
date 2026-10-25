@@ -62,6 +62,17 @@ function orderByTopic(world,indices,previousTopic){
 function newQuestionRun(world){
  S.questionDecks=S.questionDecks||{};
  S.lastQuestionTopics=S.lastQuestionTopics||{};
+ if((world===0||world===4)&&window.CE2_PEDAGOGY){
+   // Dix compétences distinctes, dix situations différentes pour Lunettes magiques.
+   // Les 100 questions passent une fois chacune avant de commencer un nouveau cycle.
+   S.pedagogicalTurns=S.pedagogicalTurns||{};
+   const turn=Number(S.pedagogicalTurns[world])||0;
+   const selection=window.CE2_PEDAGOGY.makeRun(world,turn,S.lastQuestionTopics[world]||null);
+   S.runQuestions=selection.indices;
+   S.lastQuestionTopics[world]=selection.lastTopic;
+   S.pedagogicalTurns[world]=turn+1;
+   return;
+ }
  if(world===2||world===3){
    // Une partie = deux définitions, deux identifications, deux applications,
    // deux corrections, une comparaison et un raisonnement.
