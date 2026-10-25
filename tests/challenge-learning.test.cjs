@@ -8,6 +8,17 @@ assert.equal(C.length,30);
 assert.equal(P.generated,150);
 assert.equal(P.repairedGroups,56);
 assert.equal(P.repairedMissions,134);
+const excerpts=C.filter(s=>s.focusExcerpt);
+assert.equal(excerpts.length,20,'Il doit y avoir vingt nouveaux passages Expert/Maître');
+for(const s of C){
+ if(s.level===0)assert(!s.focusExcerpt);
+ else{
+  assert(s.focusExcerpt.length>=60,'Passage trop court '+s.id);
+  assert(s.text.endsWith(s.focusExcerpt),'Le passage doit exister mot à mot dans l’histoire');
+ }
+ const choices=s.missions.filter(m=>m.mode==='choice');
+ assert.equal(new Set(choices.map(x=>x.taskType)).size,5,'Cinq démarches distinctes requises '+s.id);
+}
 const K=['ponctuation','dialogue','temps','verbe','negation'];
 let checked=0;
 for(const story of C){
@@ -64,4 +75,4 @@ assert(sw.includes('"./challenge-pedagogy.js"'));
 assert(js.includes('state.score+=graded.points'));
 assert(js.includes('state.reviewing=true'));
 assert(js.includes('saved.version===1&&saved.score%2!==0'));
-console.log('OK — '+simulated+' parties Challenge simulées, '+checked+' missions validées, 134 anciennes réponses équivalentes acceptées ; barème 2/1/0.');
+console.log('OK — '+simulated+' parties Challenge simulées, '+checked+' missions validées, 134 anciennes réponses équivalentes acceptées, 20 nouveaux passages analysés ; barème 2/1/0.');
