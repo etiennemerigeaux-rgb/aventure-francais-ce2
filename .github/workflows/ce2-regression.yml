@@ -48,4 +48,5 @@ jobs:
           python3 -m http.server 4173 >/tmp/ce2-server.log 2>&1 &
           node tests/browser-smoke.cjs
           node tests/browser-arrows.cjs
+          node tests/browser-tutorial.cjs
           node tests/browser-learning-variety.cjs
