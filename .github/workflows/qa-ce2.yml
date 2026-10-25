@@ -29,3 +29,4 @@ jobs:
           node tests/challenge-learning.test.cjs
           node tests/pilot-pirates.test.cjs
           node tests/challenge-story-coherence.test.cjs
+          node tests/master-learning.test.cjs

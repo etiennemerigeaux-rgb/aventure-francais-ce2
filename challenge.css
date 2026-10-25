@@ -28,3 +28,21 @@
 .ch-pilot-proof-word{display:inline;border-radius:3px;padding:2px 1px;color:#17223c}
 .ch-pilot-proof-word.ch-marked{background:var(--marker);box-decoration-break:clone;-webkit-box-decoration-break:clone}
 @media(max-width:420px){.ch-pilot-excerpt,.ch-pilot-proof{font-size:1rem;line-height:2.2}}
+
+/* V82.5.72 — Maître : manipulations accessibles au toucher */
+.ch-master-rows{display:grid;gap:13px;margin:15px 0}
+.ch-master-row,.ch-master-fill{background:#fff;color:#162541;border:1px solid #d6e3f2;border-radius:14px;padding:12px;line-height:1.45}
+.ch-master-row{display:flex;align-items:center;gap:10px}
+.ch-master-index{background:#edf1ff;border-radius:10px;min-width:30px;text-align:center;padding:8px}
+.ch-master-content{flex:1;min-width:0;font-size:clamp(.92rem,3.8vw,1.04rem)}
+.ch-master-moves{display:flex;flex-direction:column;gap:4px}
+.ch-master-arrow{border:2px solid #334776;background:#edf2ff;color:#172347;font:inherit;font-weight:900;border-radius:9px;min-width:43px;min-height:43px;touch-action:manipulation}
+.ch-master-arrow:disabled{opacity:.24;cursor:default}
+.ch-master-fill p{line-height:1.55;margin:0 0 8px}
+.ch-master-options{display:flex;flex-wrap:wrap;gap:8px}
+.ch-master-choice{border:2px solid #536a90;border-radius:10px;background:#edf2ff;color:#1a2846;font:inherit;font-size:clamp(.84rem,3.5vw,1rem);font-weight:650;padding:9px 12px;min-height:44px;touch-action:manipulation}
+.ch-master-choice.active{background:#b9ef9d;border-color:#227851;color:#17381d;box-shadow:inset 0 0 0 1px #227851}
+.ch-master-blank{display:inline-block;min-width:60px;background:#fff0b8;border-bottom:3px solid #b58b1a;border-radius:5px;padding:3px 7px;font-weight:750}
+.ch-master-source{border:1px solid #fff9;background:#ffffff12;border-radius:12px;padding:10px 12px;margin:12px 0}
+.ch-master-source summary{cursor:pointer;font-weight:700;color:#ffe9a8}
+.ch-master-source .ch-text{margin:12px 0 0}

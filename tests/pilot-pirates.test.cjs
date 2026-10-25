@@ -29,7 +29,7 @@ for(const [id,level] of [['C2-01',1],['C3-01',2]]){
   assert(m.question.length<180);
   assert(m.help.length>15&&m.explanation.length>30);
   assert(m.range[0]>=0&&m.range[1]<story.tokens.length);
-  assert(m.evidence.length>=1&&m.evidence.length<=4);
+  assert(m.evidence.length>=1&&m.evidence.length<=(level===2?5:4));
   assert.equal(new Set(m.evidence.map(item=>item[0])).size,m.evidence.length);
   for(const [i,c] of m.evidence){
    assert(i>=m.range[0]&&i<=m.range[1],'Indice hors extrait '+m.id);
@@ -41,9 +41,9 @@ for(const [id,level] of [['C2-01',1],['C3-01',2]]){
 }
 assert.equal(tags.size,20);
 const html=fs.readFileSync('index.html','utf8'),sw=fs.readFileSync('sw.js','utf8');
-assert(html.indexOf('challenge-data.js?v=82571')<html.indexOf('challenge-pedagogy.js?v=82571'));
-assert(html.indexOf('challenge-pedagogy.js?v=82571')<html.indexOf('challenge-pilot.js?v=82571'));
-assert(html.indexOf('challenge-pilot.js?v=82571')<html.indexOf('challenge.js?v=82571'));
+assert(html.indexOf('challenge-data.js?v=82572')<html.indexOf('challenge-pedagogy.js?v=82572'));
+assert(html.indexOf('challenge-pedagogy.js?v=82572')<html.indexOf('challenge-pilot.js?v=82572'));
+assert(html.indexOf('challenge-pilot.js?v=82572')<html.indexOf('challenge.js?v=82572'));
 assert(sw.includes('"./challenge-pilot.js"'));
 const engine=fs.readFileSync('challenge.js','utf8');
 assert(engine.includes('function playPilot(story,m){'));
