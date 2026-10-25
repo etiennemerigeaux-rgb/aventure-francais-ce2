@@ -29,9 +29,9 @@ for(let i=1;i<=10;i++){
 }
 const pirates=[1,2].map(l=>stories.find(s=>s.id==='C'+(l+1)+'-01'));
 for(const s of pirates){
- assert(s.text.includes('Tom ouvre un livre : il contient des cartes marines.'),'La preuve des livres est absente');
+ assert(s.text.includes('Tom ouvre un livre rempli de cartes marines.'),'La preuve des livres est absente');
  assert(s.text.includes('Lina répond : « Ils voulaient retrouver leur chemin ! »'));
- assert.equal(s.tokens.slice(84,95).join(' '),'Tom ouvre un livre : il contient des cartes marines .');
+ assert.equal(s.tokens.slice(84,93).join(' '),'Tom ouvre un livre rempli de cartes marines .');
 }
 for(const lvl of [2,3]){
  const s=stories.find(z=>z.id==='C'+lvl+'-05');
