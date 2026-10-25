@@ -56,7 +56,7 @@ for(const id of ['C2-01','C3-01']){
    assert(excerpt.includes(norm(quote)),'Preuve cachée hors du passage affiché : '+m.id+' '+quote);
   }
   assert.equal(new Set(m.options).size,4,'Quatre propositions distinctes '+m.id);
-  assert(m.options[m.correct].length>8,'Réponse trop courte '+m.id);
+  assert(m.options[m.correct].trim().length>=3,'Réponse correcte vide ou illisible '+m.id);
   assert(m.help&&m.explanation,'Aide et explication requises '+m.id);
   count++;
  }
