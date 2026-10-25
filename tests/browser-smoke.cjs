@@ -14,7 +14,7 @@ const {chromium}=require('playwright');
   // La version doit rester visible malgré les changements automatiques de titre.
   const checkVersion=async()=>{
     const version=page.locator('header .app-version');
-    assert.equal(await version.innerText(),'Version V82.5.67');
+    assert.equal(await version.innerText(),'Version V82.5.68');
     assert(await version.isVisible(),'Numéro de version masqué');
     const rect=await version.boundingBox();
     assert(rect&&rect.x>=0&&rect.x+rect.width<=390,'Version coupée sur téléphone');
