@@ -177,7 +177,8 @@ function play(){
  const story=D.find(t=>t.id===state.id);
  if(!story){state.screen='levels';render();return;}
  const m=state.questions[state.step],hard=story.level===2,mc=m.mode==='choice';
- const cards=mc?`<div class="ch-text ch-story"><p>${esc(story.text)}</p></div><div class="ch-options" role="group" aria-label="Choisis la bonne réponse">${m.options.map((option,i)=>`<button type="button" class="ch-option ${state.choice===i?'active':''}" data-choice="${i}" aria-pressed="${state.choice===i}">${esc(option)}</button>`).join('')}</div>`:
+ const focus=story.focusExcerpt?`<details class="ch-focus"><summary>📖 Lire le passage ajouté à ce niveau</summary><p>${esc(story.focusExcerpt)}</p></details>`:"";
+ const cards=mc?`${focus}<div class="ch-text ch-story"><p>${esc(story.text)}</p></div><div class="ch-options" role="group" aria-label="Choisis la bonne réponse">${m.options.map((option,i)=>`<button type="button" class="ch-option ${state.choice===i?'active':''}" data-choice="${i}" aria-pressed="${state.choice===i}">${esc(option)}</button>`).join('')}</div>`:
  `${colorsUI()}<div class="ch-text">${chips(story.tokens,state.selected)}</div>`;
  wrap(`<div class="ch-over">${levels[story.level]}${hard?'':' · Mission '+(state.step+1)+' sur 10'}</div><h1>${esc(story.title)}</h1><div class="ch-card"><p class="ch-task">🎯 ${esc(m.prompt)}</p>${cards}<button id="ch-check" class="ch-main">Vérifier ✓</button><div id="ch-feedback" role="status"></div></div><button id="ch-quit" class="ch-minor">← Choisir une autre histoire</button>`);
  $('#ch-quit').onclick=()=>{rememberChallenge();state.screen='select';root.scrollTop=0;render()};
