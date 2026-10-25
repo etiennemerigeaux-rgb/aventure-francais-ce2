@@ -3,11 +3,15 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 function load(path,globalName){const context={window:{}};vm.runInNewContext(fs.readFileSync(path,'utf8'),context);return context.window[globalName]}
-const D=load('data.js','CE2_DATA'),W=D.worlds,game=fs.readFileSync('game.js','utf8');
+const environment={window:{}};
+for(const file of ['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js']){
+ vm.runInNewContext(fs.readFileSync(file,'utf8'),environment);
+}
+const D=environment.window.CE2_DATA,W=D.worlds,game=fs.readFileSync('game.js','utf8');
 function excerpt(start,end){const i=game.indexOf(start),j=game.indexOf(end,i+start.length);assert(i>=0&&j>i,'Fonctions du moteur retrouvées');return game.slice(i,j)}
 const select=excerpt('function questionTopic(', 'function ensureState(');
-const S={questionDecks:{},lastQuestionTopics:{},runQuestions:null};
-const ctx={W,S,RUN_SIZE:10};
+const S={questionDecks:{},lastQuestionTopics:{},pedagogicalTurns:{},runQuestions:null};
+const ctx={W,S,RUN_SIZE:10,window:environment.window};
 vm.createContext(ctx);vm.runInContext(select,ctx);
 for(let world=0;world<5;world++){
  const seen=new Set();
