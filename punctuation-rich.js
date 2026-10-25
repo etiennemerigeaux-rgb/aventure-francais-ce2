@@ -13,11 +13,11 @@ for(const [first,rows] of Object.entries(blocks)){
     const idx=base+offsets[j],before=bank[idx];
     if(!before||!before.id)throw Error('Question originale absente : '+idx);
     const [q,options,answer,explanation]=row;
-    const desired=(idx*7+3)%4,shift=(desired-answer+4)%4;
+    const desired=(Math.floor(idx/10)*3+j)%4,shift=(desired-answer+4)%4;
     const permuted=options.map((_,k)=>options[(k-shift+4)%4]);
     bank[idx]={...before,q,options:permuted,answer:desired,explanation,
       learningType:['comprehension','identification','correction','application','raisonnement'][j],
-      editorialVersion:'v82.5.60'};
+      editorialVersion:'v82.5.61'};
     updated++;
   });
 }
