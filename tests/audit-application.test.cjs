@@ -151,12 +151,12 @@ const htmlPage=get('index.html'),sw=get('sw.js'),manifest=JSON.parse(get('manife
 const scripts=['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js','recovery.js','game.js','challenge-data.js','challenge-pedagogy.js','challenge.js','scroll-guides.js'];
 let last=-1;
 for(const file of scripts){
- const at=htmlPage.indexOf('src="'+file+'?v=82566"');
+ const at=htmlPage.indexOf('src="'+file+'?v=82567"');
  assert(at>last,'Script manquant ou ordre incorrect : '+file);last=at;
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
-assert(sw.includes('v82566-cognitive-challenge'));
-assert(htmlPage.includes('data-app-version="V82.5.66"'));
+assert(sw.includes('v82567-challenge-level-objectives'));
+assert(htmlPage.includes('data-app-version="V82.5.67"'));
 assert(htmlPage.includes('window.CE2_APP_VERSION=document.documentElement.dataset.appVersion'));
 assert(code.includes('window.CE2_APP_VERSION'));
 const challengeLabel=get('challenge.js');
