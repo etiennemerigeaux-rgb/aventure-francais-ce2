@@ -1,4 +1,4 @@
-(()=>{'use strict';const RAW=window.CE2_CHALLENGES,ALLOWED=['ponctuation','dialogue','temps','verbe','negation'],D=Array.isArray(RAW)?RAW.filter(t=>Array.isArray(t.missions)&&t.missions.length>=10&&t.missions.every(m=>ALLOWED.includes(m.kind))):[],root=document.getElementById('challenge-root');if(!root)return;const levels=['🥉 Explorateur','🥈 Expert','🥇 Maître des mots'],colors=['#ffe27a','#ffc184','#a4d9ff','#d6b2ff','#b9ef9d'];let state={screen:'landing',level:0,id:null,step:0,selected:[],color:0,practice:false,guideStep:0,guideColor:0,guideMarks:[],guideChecked:false,guideVisited:[0],guideError:'',pilotPhase:0,pilotMarks:{},pilotColor:-1,pilotHint:0,pilotError:'',pilotIntroStep:0,pilotPending:null},db={};const $=s=>root.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));function profile(){
+(()=>{'use strict';const RAW=window.CE2_CHALLENGES,ALLOWED=['ponctuation','dialogue','temps','verbe','negation'],D=Array.isArray(RAW)?RAW.filter(t=>Array.isArray(t.missions)&&t.missions.length>=10&&t.missions.every(m=>ALLOWED.includes(m.kind))):[],root=document.getElementById('challenge-root');if(!root)return;const levels=['🥉 Explorateur','🥈 Expert','🥇 Maître des mots'],colors=['#ffe27a','#ffc184','#a4d9ff','#d6b2ff','#b9ef9d'];let state={screen:'landing',level:0,id:null,step:0,selected:[],color:0,practice:false,guideStep:0,guideColor:0,guideMarks:[],guideChecked:false,guideVisited:[0],guideError:'',pilotPhase:0,pilotMarks:{},pilotColor:-1,pilotHint:0,pilotError:'',pilotIntroStep:0,pilotPending:null,masterPart:0,masterAnswers:{}},db={};const $=s=>root.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));function profile(){
   // Utiliser les profils actifs de la version courante, et non l'ancienne clé V71.
   // Ne pas réattribuer automatiquement les anciens résultats « guest » à un enfant.
   try{
@@ -19,7 +19,7 @@ function rememberChallenge(){
   if(order.some(i=>i<0))return;
   db.inProgress={version:2,id:story.id,level:story.level,step:state.step,
     score:state.score,order,selected:[...(state.selected||[])],color:state.color,choice:state.choice??-1,reviewing:!!state.reviewing,
-    errors:(state.errors||[]).slice(0,10),feedback:state.feedback||null,pilotPhase:state.pilotPhase||0,pilotMarks:state.pilotMarks||{},pilotColor:state.pilotColor??-1,pilotHint:state.pilotHint||0,pilotContentVersion:2};
+    errors:(state.errors||[]).slice(0,10),feedback:state.feedback||null,pilotPhase:state.pilotPhase||0,pilotMarks:state.pilotMarks||{},pilotColor:state.pilotColor??-1,pilotHint:state.pilotHint||0,pilotContentVersion:2,masterPart:state.masterPart||0,masterAnswers:state.masterAnswers||{},masterSchema:1};
   save();
 }
 function resumeChallenge(){
@@ -43,6 +43,11 @@ function resumeChallenge(){
   state.pilotPhase=saved.pilotPhase===1?1:0;
   state.pilotMarks={};if(saved.pilotMarks&&typeof saved.pilotMarks==='object'){for(const [k,v] of Object.entries(saved.pilotMarks)){const n=migrateIndex(Number(k));if(Number.isInteger(n)&&n>=0&&n<story.tokens.length&&Number.isInteger(v)&&v>=0&&v<=4)state.pilotMarks[n]=v;}}
   state.pilotColor=Number.isInteger(saved.pilotColor)&&saved.pilotColor>=-1&&saved.pilotColor<=4?saved.pilotColor:-1;state.pilotHint=Number.isInteger(saved.pilotHint)?Math.min(2,Math.max(0,saved.pilotHint)):0;state.pilotError='';
+  state.masterPart=Number.isInteger(saved.masterPart)?Math.max(0,Math.min(2,saved.masterPart)):0;
+  state.masterAnswers=saved.masterAnswers&&typeof saved.masterAnswers==='object'&&!Array.isArray(saved.masterAnswers)?saved.masterAnswers:{};
+  // Les questions Maître précédentes étaient des QCM. Une réponse partielle de l'ancienne version
+  // reprend sur la nouvelle mécanique, mais les scores déjà gagnés sont conservés.
+  if(story.id==='C3-01'&&!saved.masterSchema){state.masterPart=0;state.masterAnswers={};}
   state.screen='play';root.scrollTop=0;render();return true;
 }
 function showResumeButton(anchorSelector){
@@ -136,7 +141,7 @@ function start(id){
  const pilot=story.missions.filter(m=>m.mode==='pilot');
  if(pilot.length&&!db.pilotIntroSeen?.[story.level]){state.pilotPending=id;state.pilotIntroStep=0;state.pilotDemoColor=-1;state.pilotDemoMarks={};state.screen='pilotIntro';root.scrollTop=0;render();return;}
  state.step=0;state.selected=[];state.choice=-1;state.color=-1;state.score=0;state.errors=[];state.feedback=null;state.reviewing=false;
- state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';
+ state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';state.masterPart=0;state.masterAnswers={};
  if(pilot.length){state.questions=pilot;state.screen='play';rememberChallenge();root.scrollTop=0;render();return;}
  const kinds=['ponctuation','dialogue','temps','verbe','negation'];
  const choose=(list)=>list[Math.floor(Math.random()*list.length)];
@@ -206,8 +211,77 @@ function mountPilotIntroDemo(){
  });
  return done;
 }
+
+function masterSections(activity){return activity.kind==='final'?activity.sections:[activity]}
+function masterInitial(section){
+ if(section.kind==='order')return section.items.map((_,i)=>i);
+ return section.kind==='fill'?section.slots.map(()=>-1):section.left.map(()=>-1);
+}
+function masterValid(section,answer){
+ if(!Array.isArray(answer))return false;
+ const count=section.kind==='order'?section.items.length:section.kind==='fill'?section.slots.length:section.left.length;
+ return answer.length===count&&answer.every(i=>Number.isInteger(i)&&i>=0);
+}
+function masterCorrect(section,answer){
+ if(!masterValid(section,answer))return false;
+ const correct=section.kind==='order'?section.solution:section.kind==='fill'?section.slots.map(s=>s.correct):section.solution;
+ return answer.every((i,n)=>i===correct[n]);
+}
+function playMaster(story,m){
+ const activity=m.activity,sections=masterSections(activity),part=Math.max(0,Math.min(sections.length-1,state.masterPart||0)),section=sections[part];
+ state.masterPart=part;
+ state.masterAnswers=state.masterAnswers||{};
+ const current=state.masterAnswers[part],count=section.kind==='order'?section.items.length:section.kind==='fill'?section.slots.length:section.left.length;
+ const answer=Array.isArray(current)&&current.length===count?current:masterInitial(section);
+ state.masterAnswers[part]=answer;
+ const proof=story.tokens.slice(m.range[0],m.range[1]+1).map((word,i)=>{
+  const color=(state.pilotMarks||{})[i+m.range[0]];
+  return '<span class="ch-pilot-proof-word'+(color!==undefined?' ch-marked':'')+'"'+(color!==undefined?' style="--marker:'+MARKERS[color].hex+'"':'')+'>'+esc(word)+'</span>';
+ }).join(' ');
+ let activityHtml='';
+ if(section.kind==='order'){
+  activityHtml='<div class="ch-master-rows" aria-label="Remets les éléments dans l’ordre">'+answer.map((index,pos)=>
+   '<div class="ch-master-row"><strong class="ch-master-index">'+(pos+1)+'</strong><span class="ch-master-content">'+esc(section.items[index])+'</span><span class="ch-master-moves"><button type="button" class="ch-master-arrow" data-master-up="'+pos+'"'+(pos===0?' disabled':'')+' aria-label="Monter cette phrase">↑</button><button type="button" class="ch-master-arrow" data-master-down="'+pos+'"'+(pos===answer.length-1?' disabled':'')+' aria-label="Descendre cette phrase">↓</button></span></div>').join('')+'</div><p class="ch-hint">Avec les flèches ↑ et ↓, change l’ordre des phrases.</p>';
+ }else if(section.kind==='fill'){
+  activityHtml='<div class="ch-master-rows">'+section.slots.map((slot,n)=>'<div class="ch-master-fill"><p><strong>'+(n+1)+'.</strong> '+esc(slot.before)+' <span class="ch-master-blank">'+(answer[n]<0?'…':esc(slot.options[answer[n]]))+'</span> '+esc(slot.after)+'</p><div class="ch-master-options" role="group" aria-label="Choisis les mots pour la phrase '+(n+1)+'">'+slot.options.map((option,i)=>'<button type="button" class="ch-master-choice'+(answer[n]===i?' active':'')+'" data-master-fill="'+n+':'+i+'" aria-pressed="'+(answer[n]===i)+'">'+esc(option)+'</button>').join('')+'</div></div>').join('')+'</div><p class="ch-hint">Pour chaque phrase, touche les mots qui conviennent.</p>';
+ }else if(section.kind==='match'){
+  activityHtml='<div class="ch-master-rows">'+section.left.map((left,n)=>'<div class="ch-master-fill"><p><strong>'+(n+1)+'. '+esc(left)+'</strong></p><div class="ch-master-options" role="group" aria-label="Rôle du signe '+(n+1)+'">'+section.right.map((option,i)=>'<button type="button" class="ch-master-choice'+(answer[n]===i?' active':'')+'" data-master-match="'+n+':'+i+'" aria-pressed="'+(answer[n]===i)+'">'+esc(option)+'</button>').join('')+'</div></div>').join('')+'</div><p class="ch-hint">Associe chaque signe à son rôle. Chaque réponse sert une seule fois.</p>';
+ }
+ const heading=sections.length>1?'Petite étape '+(part+1)+' sur '+sections.length+' · '+esc(section.intro):esc(activity.intro);
+ const complete=masterValid(section,answer);
+ const caption=state.pilotHint?'💡 '+esc(state.pilotHint===1?section.help||activity.help:activity.help):'';
+ wrap('<div class="ch-over">'+esc(levels[story.level])+' · Mission de reconstruction</div><h1>'+esc(story.title)+'</h1><div class="ch-card"><p class="ch-hint">🏴‍☠️ Mission '+(state.step+1)+' / 10 · '+esc(activity.title)+'</p><p class="ch-task">🧩 '+heading+'</p><details class="ch-master-source"><summary>📖 Revoir les preuves colorées</summary><div class="ch-text ch-pilot-proof">'+proof+'</div></details>'+activityHtml+
+ (caption?'<p class="ch-hint" role="status">'+caption+'</p>':'')+
+ '<button id="ch-master-help" class="ch-minor">💡 Aide-moi</button><button id="ch-check" class="ch-main"'+(!complete?' disabled':'')+'>'+(part===sections.length-1?'✓ Vérifier ma mission':'Continuer →')+'</button><div id="ch-feedback" role="status"></div></div><button id="ch-quit" class="ch-minor">← Choisir une autre histoire</button>');
+ $('#ch-quit').onclick=()=>{rememberChallenge();state.screen='select';render()};
+ if(state.feedback){showChallengeFeedback(story);return;}
+ $('#ch-master-help').onclick=()=>{state.pilotHint=Math.min(2,(state.pilotHint||0)+1);rememberChallenge();render()};
+ const change=()=>{state.pilotHint=0;rememberChallenge();render()};
+ root.querySelectorAll('[data-master-up],[data-master-down]').forEach(b=>b.onclick=()=>{
+  const i=+(b.dataset.masterUp??b.dataset.masterDown),d=b.hasAttribute('data-master-up')?-1:1;
+  if(i+d<0||i+d>=answer.length)return;
+  [answer[i],answer[i+d]]=[answer[i+d],answer[i]];change();
+ });
+ root.querySelectorAll('[data-master-fill],[data-master-match]').forEach(b=>b.onclick=()=>{
+  const pair=(b.dataset.masterFill||b.dataset.masterMatch).split(':').map(Number);
+  if(section.kind==='match')for(let k=0;k<answer.length;k++)if(k!==pair[0]&&answer[k]===pair[1])answer[k]=-1;
+  answer[pair[0]]=pair[1];change();
+ });
+ $('#ch-check').onclick=()=>{
+  if(!masterValid(section,answer))return;
+  if(part<sections.length-1){state.masterPart=part+1;state.pilotHint=0;rememberChallenge();render();return;}
+  const good=sections.every((s,i)=>masterCorrect(s,state.masterAnswers[i])),firstAttempt=!state.reviewing;
+  if(firstAttempt){if(good)state.score+=2;else state.errors.push({prompt:activity.title,expected:activity.explanation,explanation:activity.explanation});}
+  const message=good?(state.reviewing?'Bravo, tu as compris ! Cet essai ne change pas ta note.':'Bravo ! Tu as réparé l’histoire. 2 points !'):'Ce n’est pas encore tout à fait juste. '+activity.explanation;
+  state.feedback={ok:good,points:good&&firstAttempt?2:0,msg:message,reviewed:state.reviewing};
+  rememberChallenge();if(!good)speech(activity.explanation);else if(!state.reviewing&&state.step%4===0)speech('Bravo !');
+  showChallengeFeedback(story);
+ };
+}
+
 function playPilot(story,m){
  const phase=state.pilotPhase||0,marks=state.pilotMarks||{},first=m.range[0],last=m.range[1],hint=state.pilotHint||0;
+ if(phase===1&&m.activity){playMaster(story,m);return;}
  const excerpt=story.tokens.slice(first,last+1).map((word,i)=>{
   const idx=i+first,chosen=marks[idx],picked=chosen!==undefined;
   const bg=picked?' style="--marker:'+MARKERS[chosen].hex+'"':'';
@@ -259,7 +333,7 @@ function playPilot(story,m){
 
 function showChallengeFeedback(story){
  const feedback=state.feedback;
- root.querySelectorAll('[data-token],[data-color],[data-choice],[data-pilot-word],[data-pilot-color],[data-pilot-choice]').forEach(b=>b.disabled=true);
+ root.querySelectorAll('[data-token],[data-color],[data-choice],[data-pilot-word],[data-pilot-color],[data-pilot-choice],[data-master-up],[data-master-down],[data-master-fill],[data-master-match]').forEach(b=>b.disabled=true);
  const check=$('#ch-check');if(check)check.disabled=true;
  const points=feedback.points||0;
  const text=feedback.ok?'ch-success':points===1?'ch-notice':'ch-error';
@@ -267,10 +341,11 @@ function showChallengeFeedback(story){
  $('#ch-feedback').innerHTML=`<div class="${text}">${esc(feedback.msg)}</div>${retry||''}<button class="ch-main" id="ch-next">${state.step===9?'Voir mon résultat':'Question suivante →'}</button>`;
  if($('#ch-retry'))$('#ch-retry').onclick=()=>{
   state.reviewing=true;state.feedback=null;state.selected=[];state.choice=-1;state.color=-1;
+  if(state.questions?.[state.step]?.activity){state.masterPart=0;state.masterAnswers={};}
   rememberChallenge();render();
  };
  $('#ch-next').onclick=()=>{
-  state.step++;state.selected=[];state.choice=-1;state.color=-1;state.feedback=null;state.reviewing=false;state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';
+  state.step++;state.selected=[];state.choice=-1;state.color=-1;state.feedback=null;state.reviewing=false;state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';state.masterPart=0;state.masterAnswers={};
   if(state.step===10){
    const previous=db.history[story.id]||{best:0,attempts:0};
    db.history[story.id]={best:Math.max(previous.best,state.score),last:state.score,attempts:previous.attempts+1,date:new Date().toISOString()};
