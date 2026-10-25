@@ -64,8 +64,8 @@ function replace(world,index,row,learningType,topic,difficulty){
 }
 foretCorrections.forEach((row,i)=>replace(0,60+i,row,'correction','correction','medium'));
 foretRaisonnement.forEach((row,i)=>replace(0,90+i,row,'raisonnement','reconstruction','hard'));
-lunettesCorrections.forEach((row,i)=>replace(4,8+i*10,row,'correction','correction','hard'));
-lunettesRaisonnement.forEach((row,i)=>replace(4,9+i*10,row,'raisonnement','sens','hard'));
+lunettesCorrections.forEach((row,i)=>replace(4,80+i,row,'correction','correction','hard'));
+lunettesRaisonnement.forEach((row,i)=>replace(4,90+i,row,'raisonnement','sens','hard'));
 
 const categories={
  0:['question','exclamation','information','énumération','liste','suspension','correction','phrases','comparaison','reconstruction'],
@@ -78,7 +78,7 @@ function makeRun(world,turn,lastTopic){
  const round=((Math.trunc(Number(turn)||0)%10)+10)%10;
  const selected=[];
  for(let f=0;f<10;f++){
-  const idx=world===0?f*10+(f+round)%10:((f+round)%10)*10+f;
+  const idx=f*10+(f+round)%10;
   selected.push({idx,category:categories[world][f],difficulty:questions[idx].difficulty});
  }
  const ranks={easy:0,medium:1,hard:2};
@@ -99,5 +99,5 @@ function makeRun(world,turn,lastTopic){
  if(ordered.length!==10||new Set(ordered.map(x=>x.idx)).size!==10)throw Error('Sélection pédagogique invalide');
  return {indices:ordered.map(x=>x.idx),lastTopic:ordered[9].category,categories:ordered.map(x=>x.category)};
 }
-window.CE2_PEDAGOGY={version:'v82.5.57',makeRun,categories};
+window.CE2_PEDAGOGY={version:'v82.5.60',makeRun,categories};
 })();
