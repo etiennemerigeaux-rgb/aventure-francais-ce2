@@ -11,12 +11,23 @@ const {chromium}=require('playwright');
  page.on('dialog',dialog=>dialog.accept());
  try{
   await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'domcontentloaded'});
+  // La version doit rester visible malgré les changements automatiques de titre.
+  const checkVersion=async()=>{
+    const version=page.locator('header .app-version');
+    assert.equal(await version.innerText(),'Version V82.5.64');
+    assert(await version.isVisible(),'Numéro de version masqué');
+    const rect=await version.boundingBox();
+    assert(rect&&rect.x>=0&&rect.x+rect.width<=390,'Version coupée sur téléphone');
+  };
+  await checkVersion();
   await page.locator('#new-first').fill('Enfant Test');
   await page.locator('#make-profile').click();
   await page.locator('#guide-skip').click();
   await page.locator('#hero-ok').click();
+  await checkVersion();
   await page.locator('[data-world="1"]').click();
   await page.locator('[data-answer]').first().waitFor();
+  await checkVersion();
   for(let n=0;n<10;n++){
    const answer=await page.evaluate(()=>{
     const q=document.querySelector('.quest-panel .question')?.textContent;
@@ -28,6 +39,7 @@ const {chromium}=require('playwright');
    await page.locator('#next').click();
   }
   await page.locator('#see-rewards').waitFor();
+  await checkVersion();
   assert.match(await page.locator('#scene').innerText(),/10\/10 sans aide · 30 pièces gagnées/);
   await page.locator('[data-go="parent"]').click();
   const downloadPromise=page.waitForEvent('download');
@@ -43,6 +55,7 @@ const {chromium}=require('playwright');
   await context.setOffline(true);
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('#resume-adventure').waitFor({timeout:12000});
+  await checkVersion();
   assert.equal(errors.length,0,'Erreur(s) JS en navigateur : '+errors.join('; '));
   console.log('Chromium mobile : 10/10, profils export/import et rechargement hors ligne réussis.');
  }finally{

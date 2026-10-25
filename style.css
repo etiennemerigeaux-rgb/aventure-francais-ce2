@@ -414,3 +414,6 @@ header:not(body.is-welcome header) .coins{
 /* Les flèches restent identiques et s'effacent toujours après 4,5 s.
    Le Challenge ayant son propre premier plan, le guidage doit rester au-dessus. */
 body:has(#challenge-root:not([hidden])) #scroll-guides{z-index:10000}
+
+/* V82.5.64 — numéro de version visible sur chaque écran, même après un changement de titre. */
+header .brand .brand-label .app-version{display:block;margin-top:4px;color:#ffdf9a;font-size:clamp(11px,2.65vw,13px);font-weight:700;letter-spacing:.2px;line-height:1.25;opacity:.95;text-wrap:nowrap}
