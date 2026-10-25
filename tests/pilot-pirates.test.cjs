@@ -41,9 +41,9 @@ for(const [id,level] of [['C2-01',1],['C3-01',2]]){
 }
 assert.equal(tags.size,20);
 const html=fs.readFileSync('index.html','utf8'),sw=fs.readFileSync('sw.js','utf8');
-assert(html.indexOf('challenge-data.js?v=82571')<html.indexOf('challenge-pedagogy.js?v=82571'));
-assert(html.indexOf('challenge-pedagogy.js?v=82571')<html.indexOf('challenge-pilot.js?v=82571'));
-assert(html.indexOf('challenge-pilot.js?v=82571')<html.indexOf('challenge.js?v=82571'));
+assert(html.indexOf('challenge-data.js?v=82572')<html.indexOf('challenge-pedagogy.js?v=82572'));
+assert(html.indexOf('challenge-pedagogy.js?v=82572')<html.indexOf('challenge-pilot.js?v=82572'));
+assert(html.indexOf('challenge-pilot.js?v=82572')<html.indexOf('challenge.js?v=82572'));
 assert(sw.includes('"./challenge-pilot.js"'));
 const engine=fs.readFileSync('challenge.js','utf8');
 assert(engine.includes('function playPilot(story,m){'));
