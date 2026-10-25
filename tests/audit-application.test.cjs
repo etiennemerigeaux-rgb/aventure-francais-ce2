@@ -156,7 +156,7 @@ for(const file of scripts){
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
 assert(sw.includes('v82566-cognitive-challenge'));
-assert(htmlPage.includes('data-app-version="V82.5.65"'));
+assert(htmlPage.includes('data-app-version="V82.5.66"'));
 assert(htmlPage.includes('window.CE2_APP_VERSION=document.documentElement.dataset.appVersion'));
 assert(code.includes('window.CE2_APP_VERSION'));
 const challengeLabel=get('challenge.js');
