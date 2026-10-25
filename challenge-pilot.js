@@ -596,7 +596,7 @@ const PILOT={
           ]
         ],
         "task": "Colorie « répond » et les guillemets en orange, puis « ! » en jaune.",
-        "question": "Quelle copie conserve la bonne ponctuation des paroles de Lina ?",
+        "question": "Quelle phrase présente correctement la réponse de Lina à Tom ?",
         "options": [
           "Lina répond ? « Ils voulaient retrouver leur chemin ! »",
           "Lina répond : Ils voulaient retrouver leur chemin ! »",
@@ -635,7 +635,7 @@ const PILOT={
           ]
         ],
         "task": "Colorie « dit » en orange, puis « : » et « ! » en jaune.",
-        "question": "Quelle copie conserve la bonne ponctuation des paroles de Lina ?",
+        "question": "Quels signes faut-il garder quand Lina montre la croix rouge ?",
         "options": [
           "Lina dit ? « Regarde cette croix rouge ! »",
           "Lina dit : « Regarde cette croix rouge ! »",
