@@ -702,7 +702,7 @@ const PILOT={
         "correct": 1,
         "explanation": "Lina ne trouve pas la clé. Plus tard, Tom soulève une pierre et la découvre.",
         "help": "Compare la phrase sur Lina avec celle sur Tom.",
-        "title": "Mission 9 · Temps"
+        "title": "Mission 9 · Verbes"
       },
       {
         "id": "P3-01-10",
