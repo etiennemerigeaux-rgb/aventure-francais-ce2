@@ -8,6 +8,7 @@ const game=fs.readFileSync('game.js','utf8');
 const challengeJs=fs.readFileSync('challenge.js','utf8');
 const ctx={window:{}};
 vm.runInNewContext(fs.readFileSync('challenge-data.js','utf8'),ctx);
+vm.runInNewContext(fs.readFileSync('recovery.js','utf8'),ctx);
 const challenges=ctx.window.CE2_CHALLENGES;
 const source=(s,start,end)=>{const i=s.indexOf(start),j=s.indexOf(end,i+start.length);assert(i>=0&&j>i,'Section introuvable : '+start);return s.slice(i,j)};
 const state=()=>({world:0,hero:0,step:10,correct:10,runId:'new-run',history:[],completed:{},awarded:{},rewardStats:null,coins:0,attempts:{},worldRuns:{},examHistory:[],screen:'finish',runQuestions:[0,1,2,3,4,5,6,7,8,9]});
@@ -16,8 +17,8 @@ function harness(S){
  const $=id=>(buttons[id]??={onclick:null});
  let saves=0;
  const ensure=new Function('S',source(game,'function ensureState(){','function storeProfiles(){')+'return ensureState()').bind(null,S);
- const finish=new Function('S','root','$','sessionLength','ensureState','save','burst','pic','go',source(game,'function finish(){','function restoreAnswer(){')+'return finish()')
-  .bind(null,S,root,$,()=>10,ensure,()=>{saves++},()=>{},()=>'',()=>{});
+ const finish=new Function('S','root','$','sessionLength','ensureState','save','burst','pic','go','window',source(game,'function finish(){','function restoreAnswer(){')+'return finish()')
+  .bind(null,S,root,$,()=>10,ensure,()=>{saves++},()=>{},()=>'',()=>{},ctx.window);
  return {root,ensure,finish,buttons,get saves(){return saves}};
 }
 // Une récompense ne doit jamais être réattribuée en relisant le bilan.
@@ -68,9 +69,9 @@ function harness(S){
  S.screen='map';
  let freshRuns=0;
  const root={querySelectorAll:()=>[]};
- const portal=new Function('S','activeId','document','$','root','stopSpeech','saveWorldRun','save','W','RUN_SIZE','reduced','newQuestionRun','update','pic','escape','names','setTimeout',
+ const portal=new Function('S','activeId','document','$','root','stopSpeech','saveWorldRun','save','W','RUN_SIZE','reduced','newQuestionRun','update','pic','escape','names','setTimeout','window',
  'let travelBusy=false;'+source(game,'function portal(i){','function quiz(){')+'return portal');
- const go=portal(S,'alice',{querySelector:()=>null},()=>null,root,()=>{},()=>{},()=>{},[{name:'Forêt',questions:Array.from({length:100},()=>({}))}],10,true,()=>{freshRuns++;S.runQuestions=[0,1,2,3,4,5,6,7,8,9]},()=>{},()=>'',x=>x,[],()=>{});
+ const go=portal(S,'alice',{querySelector:()=>null},()=>null,root,()=>{},()=>{},()=>{},[{name:'Forêt',questions:Array.from({length:100},()=>({}))}],10,true,()=>{freshRuns++;S.runQuestions=[0,1,2,3,4,5,6,7,8,9]},()=>{},()=>'',x=>x,[],()=>{},ctx.window);
  go(0);assert.equal(freshRuns,1);assert.equal(S.step,0);assert.notEqual(S.runId,'old');
 }
 // Le coffre possède trente règles indépendantes avec deux états : juste avant et au seuil.
