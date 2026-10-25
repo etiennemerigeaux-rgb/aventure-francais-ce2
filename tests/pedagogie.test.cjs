@@ -63,8 +63,8 @@ for(let world=0;world<worlds.length;world++){
   if(world===0||world===4){
    const families=indices.map(i=>Math.floor(i/10));
    if(world===0||world===4){
-    const improved=chosen.filter(q=>q.editorialVersion==='v82.5.61'||q.learningType==='correction'||q.learningType==='raisonnement').length;
-    assert.equal(improved,6,'Chaque partie doit proposer exactement 6 questions enrichies.');
+    const improved=chosen.filter(q=>q.editorialVersion==='v82.5.62'||q.learningType==='correction'||q.learningType==='raisonnement').length;
+    assert.equal(improved,10,'Chaque partie doit proposer 10 questions enrichies.');
    }
    assert.equal(new Set(families).size,10,'Il faut dix familles distinctes.');
   }
@@ -74,19 +74,19 @@ for(let world=0;world<worlds.length;world++){
  console.log('OK : '+worlds[world].name+' — 200 parties.');
 }
 // Au-delà du hasard, chaque questionnaire doit couvrir dix familles pédagogiques.
-assert.equal(ctx.window.CE2_PEDAGOGY.version,'v82.5.61');
-assert.equal(ctx.window.CE2_EDITORIAL.punctuation,40);
-assert.equal(ctx.window.CE2_EDITORIAL.lunettes,40);
+assert.equal(ctx.window.CE2_PEDAGOGY.version,'v82.5.62');
+assert.equal(ctx.window.CE2_EDITORIAL.punctuation,80);
+assert.equal(ctx.window.CE2_EDITORIAL.lunettes,80);
 for(const [world,label] of [[0,'ponctuation'],[4,'négation']]){
- const curated=worlds[world].questions.filter(q=>q.editorialVersion==='v82.5.61');
- assert.equal(curated.length,40,'Nombre de questions enrichies incorrect : '+label);
+ const curated=worlds[world].questions.filter(q=>q.editorialVersion==='v82.5.62');
+ assert.equal(curated.length,80,'Nombre de questions enrichies incorrect : '+label);
  const correctDistribution=[0,0,0,0];
  for(const q of curated)correctDistribution[q.answer]++;
  assert(Math.max(...correctDistribution)-Math.min(...correctDistribution)<=2,'Trop de bonnes réponses à la même position.');
   const counts={};
  for(const q of curated){const family=Math.floor(worlds[world].questions.indexOf(q)/10);counts[family]=(counts[family]||0)+1;}
  assert.equal(Object.keys(counts).length,8,'Huit familles enrichies attendues : '+label);
- assert(Object.values(counts).every(n=>n===5),'Répartition des questions enrichies incorrecte : '+label);
+ assert(Object.values(counts).every(n=>n===10),'Répartition des questions enrichies incorrecte : '+label);
 }
 assert(load('game.js').includes('run?.bankVersion===window.CE2_PEDAGOGY?.version'),
  'La reprise de session ne vérifie pas la version de la banque.');
