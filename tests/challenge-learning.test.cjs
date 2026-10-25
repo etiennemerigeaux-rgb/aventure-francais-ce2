@@ -1,4 +1,4 @@
-/* Audit Mode Challenge V82.5.68 : exécuter node tests/challenge-learning.test.cjs */
+/* Audit Mode Challenge V82.5.69 : exécuter node tests/challenge-learning.test.cjs */
 'use strict';
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const ctx={window:{}};
@@ -71,12 +71,15 @@ for(const story of C){
 const cards=js.match(/objectif=\['Reconnaître','Appliquer et comprendre','Raisonner et transformer'\]/);
 assert(cards,'Les trois objectifs doivent figurer dans les encadrés des niveaux.');
 const index=fs.readFileSync('index.html','utf8'),sw=fs.readFileSync('sw.js','utf8');
-assert(index.indexOf('challenge-data.js?v=82568')<index.indexOf('challenge-pedagogy.js?v=82568'));
-assert(index.indexOf('challenge-pedagogy.js?v=82568')<index.indexOf('challenge.js?v=82568'));
+assert(index.indexOf('challenge-data.js?v=82569')<index.indexOf('challenge-pedagogy.js?v=82569'));
+assert(index.indexOf('challenge-pedagogy.js?v=82569')<index.indexOf('challenge.js?v=82569'));
 assert(sw.includes('"./challenge-pedagogy.js"'));
 assert(js.includes('state.score+=graded.points'));
 assert(js.includes('state.reviewing=true'));
 assert(js.includes('📖 Revoir le tutoriel'));
+assert(js.includes('guideVisited:[0]'));
+assert(js.includes('ch-discovery-progress'));
+assert(js.includes('Mission finale du tutoriel'));
 assert(!js.includes('ch-practice4'));
 assert(js.includes('function practice(){'),'L’exercice du tutoriel ne doit pas être supprimé.');
 assert(js.includes('saved.version===1&&saved.score%2!==0'));
