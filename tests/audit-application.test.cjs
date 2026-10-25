@@ -148,14 +148,14 @@ for(const story of challenges){
  for(const kind of knownKinds)assert(counts[kind]>=2,'Impossible de garantir 2 défis par compétence');
 }checks++;
 const htmlPage=get('index.html'),sw=get('sw.js'),manifest=JSON.parse(get('manifest.webmanifest'));
-const scripts=['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js','recovery.js','game.js','challenge-data.js','challenge.js','scroll-guides.js'];
+const scripts=['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js','recovery.js','game.js','challenge-data.js','challenge-pedagogy.js','challenge.js','scroll-guides.js'];
 let last=-1;
 for(const file of scripts){
- const at=htmlPage.indexOf('src="'+file+'?v=82565"');
+ const at=htmlPage.indexOf('src="'+file+'?v=82566"');
  assert(at>last,'Script manquant ou ordre incorrect : '+file);last=at;
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
-assert(sw.includes('v82565-challenge-version-unified'));
+assert(sw.includes('v82566-cognitive-challenge'));
 assert(htmlPage.includes('data-app-version="V82.5.65"'));
 assert(htmlPage.includes('window.CE2_APP_VERSION=document.documentElement.dataset.appVersion'));
 assert(code.includes('window.CE2_APP_VERSION'));
