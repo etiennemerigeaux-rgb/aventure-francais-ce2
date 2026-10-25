@@ -1,4 +1,4 @@
-/* Audit Mode Challenge V82.5.66 : exécuter node tests/challenge-learning.test.cjs */
+/* Audit Mode Challenge V82.5.67 : exécuter node tests/challenge-learning.test.cjs */
 'use strict';
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const ctx={window:{}};
@@ -68,9 +68,11 @@ for(const story of C){
    for(const kind of K)assert.equal(state.questions.filter(m=>m.kind===kind).length,2);
  }
 }
+const cards=js.match(/objectif=\['Reconnaître','Appliquer et comprendre','Raisonner et transformer'\]/);
+assert(cards,'Les trois objectifs doivent figurer dans les encadrés des niveaux.');
 const index=fs.readFileSync('index.html','utf8'),sw=fs.readFileSync('sw.js','utf8');
-assert(index.indexOf('challenge-data.js?v=82566')<index.indexOf('challenge-pedagogy.js?v=82566'));
-assert(index.indexOf('challenge-pedagogy.js?v=82566')<index.indexOf('challenge.js?v=82566'));
+assert(index.indexOf('challenge-data.js?v=82567')<index.indexOf('challenge-pedagogy.js?v=82567'));
+assert(index.indexOf('challenge-pedagogy.js?v=82567')<index.indexOf('challenge.js?v=82567'));
 assert(sw.includes('"./challenge-pedagogy.js"'));
 assert(js.includes('state.score+=graded.points'));
 assert(js.includes('state.reviewing=true'));
