@@ -19,7 +19,7 @@ function rememberChallenge(){
   if(order.some(i=>i<0))return;
   db.inProgress={version:2,id:story.id,level:story.level,step:state.step,
     score:state.score,order,selected:[...(state.selected||[])],color:state.color,choice:state.choice??-1,reviewing:!!state.reviewing,
-    errors:(state.errors||[]).slice(0,10),feedback:state.feedback||null,pilotPhase:state.pilotPhase||0,pilotMarks:state.pilotMarks||{},pilotColor:state.pilotColor??-1,pilotHint:state.pilotHint||0};
+    errors:(state.errors||[]).slice(0,10),feedback:state.feedback||null,pilotPhase:state.pilotPhase||0,pilotMarks:state.pilotMarks||{},pilotColor:state.pilotColor??-1,pilotHint:state.pilotHint||0,pilotContentVersion:2};
   save();
 }
 function resumeChallenge(){
@@ -32,13 +32,16 @@ function resumeChallenge(){
     saved.score>(saved.step+(saved.feedback?1:0))*2)return false;
   state.id=story.id;state.level=story.level;state.step=saved.step;
   state.score=saved.score;state.questions=saved.order.map(i=>story.missions[i]);
-  state.selected=Array.isArray(saved.selected)?saved.selected.filter(i=>Number.isInteger(i)&&i>=0&&i<story.tokens.length):[];
+  // Les cartes marines ajoutées au récit déplacent 9 mots à partir de l'ancienne position 84.
+  // Traduire les anciennes sélections locales une seule fois, sans toucher aux scores.
+  const migrateIndex=i=>saved.pilotContentVersion!==2&&(story.id==='C2-01'||story.id==='C3-01')&&i>=84?i+9:i;
+  state.selected=Array.isArray(saved.selected)?saved.selected.map(migrateIndex).filter(i=>Number.isInteger(i)&&i>=0&&i<story.tokens.length):[];
   state.color=Number.isInteger(saved.color)&&saved.color>=-1&&saved.color<5?saved.color:-1;state.choice=Number.isInteger(saved.choice)&&saved.choice>=-1&&saved.choice<4?saved.choice:-1;state.reviewing=!!saved.reviewing;
   state.errors=Array.isArray(saved.errors)?saved.errors.slice(0,10):[];
   state.feedback=saved.feedback&&typeof saved.feedback.msg==='string'&&
     typeof saved.feedback.ok==='boolean'?saved.feedback:null;
   state.pilotPhase=saved.pilotPhase===1?1:0;
-  state.pilotMarks={};if(saved.pilotMarks&&typeof saved.pilotMarks==='object'){for(const [k,v] of Object.entries(saved.pilotMarks)){const n=Number(k);if(Number.isInteger(n)&&n>=0&&n<story.tokens.length&&Number.isInteger(v)&&v>=0&&v<=4)state.pilotMarks[k]=v;}}
+  state.pilotMarks={};if(saved.pilotMarks&&typeof saved.pilotMarks==='object'){for(const [k,v] of Object.entries(saved.pilotMarks)){const n=migrateIndex(Number(k));if(Number.isInteger(n)&&n>=0&&n<story.tokens.length&&Number.isInteger(v)&&v>=0&&v<=4)state.pilotMarks[n]=v;}}
   state.pilotColor=Number.isInteger(saved.pilotColor)&&saved.pilotColor>=-1&&saved.pilotColor<=4?saved.pilotColor:-1;state.pilotHint=Number.isInteger(saved.pilotHint)?Math.min(2,Math.max(0,saved.pilotHint)):0;state.pilotError='';
   state.screen='play';root.scrollTop=0;render();return true;
 }

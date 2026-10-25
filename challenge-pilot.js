@@ -2,8 +2,8 @@
 (function(){
 'use strict';
 const PILOT={
-  "version": 1,
-  "tag": "pilote-pirates-2026",
+  "version": 2,
+  "tag": "pilote-pirates-coherence-2026",
   "level1": {
     "intro": [
       {
@@ -68,7 +68,10 @@ const PILOT={
         "correct": 1,
         "explanation": "Le verbe « dit » annonce ses paroles. Le point d’exclamation montre son enthousiasme.",
         "help": "Regarde le signe à la fin des paroles de Lina.",
-        "title": "Mission 1 · Ponctuation"
+        "title": "Mission 1 · Ponctuation",
+        "proofQuotes": [
+          "Lina dit : « Regarde cette croix rouge ! »"
+        ]
       },
       {
         "id": "P2-01-02",
@@ -96,15 +99,18 @@ const PILOT={
         "task": "Colorie « Hier » en bleu, puis « a caché » en violet.",
         "question": "Quand le pirate a-t-il caché le coffre ?",
         "options": [
-          "Avant le moment où l’histoire est racontée.",
-          "Demain.",
-          "Pendant que Lina est à l’école.",
-          "On ne peut pas le savoir."
+          "La veille, avant que Lina ne trouve la carte.",
+          "Demain, après la visite du musée.",
+          "Au moment où Lina montre la carte à Tom.",
+          "Le jour où Lina raconte l’histoire à sa classe."
         ],
         "correct": 0,
-        "explanation": "« Hier » indique que le pirate a caché le coffre dans le passé.",
-        "help": "Le mot « Hier » te donne la réponse.",
-        "title": "Mission 2 · Temps"
+        "explanation": "« Hier » signifie que le pirate a caché le coffre la veille. C’est une action passée.",
+        "help": "Cherche le mot qui indique un jour avant aujourd’hui.",
+        "title": "Mission 2 · Temps",
+        "proofQuotes": [
+          "Hier, un pirate a caché un coffre sous le sable."
+        ]
       },
       {
         "id": "P2-01-03",
@@ -140,7 +146,10 @@ const PILOT={
         "correct": 1,
         "explanation": "« Ne… pas » change le sens du verbe : Lina ne trouve pas la clé.",
         "help": "Observe les deux mots verts autour du verbe.",
-        "title": "Mission 3 · Négation"
+        "title": "Mission 3 · Négation",
+        "proofQuotes": [
+          "Lina ne trouve pas la clé."
+        ]
       },
       {
         "id": "P2-01-04",
@@ -148,20 +157,20 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          84,
-          106
+          93,
+          115
         ],
         "evidence": [
           [
-            85,
-            1
-          ],
-          [
-            97,
-            1
-          ],
-          [
             94,
+            1
+          ],
+          [
+            106,
+            1
+          ],
+          [
+            103,
             0
           ]
         ],
@@ -176,7 +185,11 @@ const PILOT={
         "correct": 2,
         "explanation": "Tom demande pourquoi les pirates gardaient des livres. Lina lui répond.",
         "help": "Le verbe « répond » se trouve juste après la question de Tom.",
-        "title": "Mission 4 · Dialogue"
+        "title": "Mission 4 · Dialogue",
+        "proofQuotes": [
+          "Tom demande : « Pourquoi les pirates gardaient-ils des livres ? »",
+          "Lina répond : « Ils voulaient retrouver leur chemin ! »"
+        ]
       },
       {
         "id": "P2-01-05",
@@ -204,7 +217,10 @@ const PILOT={
         "correct": 2,
         "explanation": "Quand le sujet devient « Lina », le verbe au présent devient « ouvre ».",
         "help": "Il n’y a plus qu’une personne : Lina.",
-        "title": "Mission 5 · Verbes"
+        "title": "Mission 5 · Verbes",
+        "proofQuotes": [
+          "Les deux amis ouvrent le coffre."
+        ]
       },
       {
         "id": "P2-01-06",
@@ -212,20 +228,20 @@ const PILOT={
         "mode": "pilot",
         "kind": "ponctuation",
         "range": [
-          84,
-          95
+          93,
+          104
         ],
         "evidence": [
           [
-            85,
+            94,
             1
           ],
           [
-            86,
+            95,
             0
           ],
           [
-            94,
+            103,
             0
           ]
         ],
@@ -240,7 +256,10 @@ const PILOT={
         "correct": 1,
         "explanation": "Les deux-points annoncent les paroles de Tom. Le point d’interrogation termine sa question.",
         "help": "Le premier signe annonce les paroles. Le second termine une question.",
-        "title": "Mission 6 · Ponctuation"
+        "title": "Mission 6 · Ponctuation",
+        "proofQuotes": [
+          "Tom demande : « Pourquoi les pirates gardaient-ils des livres ? »"
+        ]
       },
       {
         "id": "P2-01-07",
@@ -272,7 +291,10 @@ const PILOT={
         "correct": 1,
         "explanation": "« Soudain » annonce un nouvel événement : Tom soulève une pierre et découvre la clé.",
         "help": "Relis la phrase qui commence par « Soudain ».",
-        "title": "Mission 7 · Temps"
+        "title": "Mission 7 · Temps",
+        "proofQuotes": [
+          "Soudain, Tom soulève une pierre et découvre la clé !"
+        ]
       },
       {
         "id": "P2-01-08",
@@ -281,7 +303,7 @@ const PILOT={
         "kind": "negation",
         "range": [
           46,
-          63
+          70
         ],
         "evidence": [
           [
@@ -295,9 +317,13 @@ const PILOT={
           [
             56,
             3
+          ],
+          [
+            67,
+            3
           ]
         ],
-        "task": "Colorie « ne » et « pas » en vert, puis « soulève » en violet.",
+        "task": "Colorie « ne » et « pas » en vert, puis « soulève » et « ouvrent » en violet.",
         "question": "Pourquoi les deux amis peuvent-ils ensuite ouvrir le coffre ?",
         "options": [
           "Lina a perdu la carte.",
@@ -306,9 +332,13 @@ const PILOT={
           "Le coffre était déjà ouvert."
         ],
         "correct": 1,
-        "explanation": "Lina ne trouve pas la clé. Ensuite, Tom la découvre sous une pierre.",
+        "explanation": "Lina ne trouve pas la clé. Tom soulève une pierre et trouve la clé. Grâce à cette clé, ils peuvent ouvrir le coffre.",
         "help": "Cherche ce que Tom trouve après avoir soulevé la pierre.",
-        "title": "Mission 8 · Négation"
+        "title": "Mission 8 · Négation",
+        "proofQuotes": [
+          "Soudain, Tom soulève une pierre et découvre la clé !",
+          "Les deux amis ouvrent le coffre."
+        ]
       },
       {
         "id": "P2-01-09",
@@ -316,39 +346,35 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          96,
-          106
+          84,
+          115
         ],
         "evidence": [
           [
-            97,
-            1
-          ],
-          [
-            99,
-            1
+            85,
+            3
           ],
           [
             106,
             1
-          ],
-          [
-            105,
-            0
           ]
         ],
-        "task": "Colorie « répond » et les deux guillemets en orange, puis « ! » en jaune.",
-        "question": "Que veut expliquer Lina ?",
+        "task": "Colorie « ouvre » en violet, puis « répond » en orange.",
+        "question": "Pourquoi les pirates gardaient-ils des livres ?",
         "options": [
-          "Pourquoi les pirates gardaient des livres.",
-          "Pourquoi la plage est vide.",
-          "Pourquoi Tom est triste.",
-          "Pourquoi le coffre est fermé."
+          "Pour retrouver leur chemin grâce aux cartes marines.",
+          "Pour réparer leurs bateaux.",
+          "Pour apprendre à construire un coffre.",
+          "Pour offrir leurs livres à Lina."
         ],
         "correct": 0,
-        "explanation": "Lina répond à la question de Tom : les pirates voulaient retrouver leur chemin.",
-        "help": "Relis la question posée juste avant la réponse de Lina.",
-        "title": "Mission 9 · Dialogue"
+        "explanation": "Tom ouvre un livre rempli de cartes marines. Lina explique que les pirates voulaient retrouver leur chemin.",
+        "help": "Regarde ce qu’il y a dans le livre. À quoi servent les cartes marines ?",
+        "title": "Mission 9 · Dialogue",
+        "proofQuotes": [
+          "Tom ouvre un livre rempli de cartes marines.",
+          "Lina répond : « Ils voulaient retrouver leur chemin ! »"
+        ]
       },
       {
         "id": "P2-01-10",
@@ -372,15 +398,19 @@ const PILOT={
         "task": "Colorie « ouvrent » et « contient » en violet.",
         "question": "Qui fait quoi dans ce passage ?",
         "options": [
-          "Les amis ouvrent le coffre ; le coffre contient des objets.",
-          "Le coffre ouvre les amis.",
-          "Les livres ouvrent une porte.",
-          "La boussole contient les amis."
+          "Les amis ouvrent le coffre ; il contient des livres et une boussole.",
+          "Tom ouvre seul le coffre et Lina emporte la boussole.",
+          "Lina cache les livres pendant que Tom part.",
+          "Les pirates ouvrent le coffre devant les deux amis."
         ],
         "correct": 0,
-        "explanation": "« Ouvrent » concerne les deux amis. « Contient » indique ce qu’il y a dans le coffre.",
-        "help": "Regarde qui ouvre le coffre et ce qui se trouve dedans.",
-        "title": "Mission 10 · Verbes"
+        "explanation": "Les deux amis ouvrent le coffre, puis ils découvrent des livres et une boussole à l’intérieur.",
+        "help": "Trouve le sujet de « ouvrent », puis celui de « contient ».",
+        "title": "Mission 10 · Verbes",
+        "proofQuotes": [
+          "Les deux amis ouvrent le coffre.",
+          "À leur grande surprise, il contient des livres et une boussole."
+        ]
       }
     ],
     "C3-01": [
@@ -390,20 +420,20 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          84,
-          106
+          93,
+          115
         ],
         "evidence": [
           [
-            85,
-            1
-          ],
-          [
-            97,
-            1
-          ],
-          [
             94,
+            1
+          ],
+          [
+            106,
+            1
+          ],
+          [
+            103,
             0
           ]
         ],
@@ -418,7 +448,11 @@ const PILOT={
         "correct": 1,
         "explanation": "Le texte indique « Tom demande », puis « Lina répond ». Le message inverse leurs rôles.",
         "help": "Regarde le nom placé avant « demande » et « répond ».",
-        "title": "Mission 1 · Dialogue"
+        "title": "Mission 1 · Dialogue",
+        "proofQuotes": [
+          "Tom demande : « Pourquoi les pirates gardaient-ils des livres ? »",
+          "Lina répond : « Ils voulaient retrouver leur chemin ! »"
+        ]
       },
       {
         "id": "P3-01-02",
@@ -426,24 +460,24 @@ const PILOT={
         "mode": "pilot",
         "kind": "temps",
         "range": [
-          107,
-          139
+          116,
+          148
         ],
         "evidence": [
           [
-            107,
+            116,
             2
           ],
           [
-            130,
+            139,
             2
           ],
           [
-            111,
+            120,
             3
           ],
           [
-            133,
+            142,
             3
           ]
         ],
@@ -458,7 +492,11 @@ const PILOT={
         "correct": 1,
         "explanation": "Aujourd’hui, les amis rapportent le trésor au musée. Demain, Lina racontera leur aventure.",
         "help": "Observe quel événement se passe aujourd’hui et lequel arrive demain.",
-        "title": "Mission 2 · Temps"
+        "title": "Mission 2 · Temps",
+        "proofQuotes": [
+          "Aujourd’hui, les enfants rapportent le trésor au musée du port.",
+          "Demain, Lina racontera cette aventure à sa classe."
+        ]
       },
       {
         "id": "P3-01-03",
@@ -466,16 +504,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "negation",
         "range": [
-          140,
-          151
+          149,
+          160
         ],
         "evidence": [
           [
-            141,
+            150,
             4
           ],
           [
-            142,
+            151,
             4
           ]
         ],
@@ -490,7 +528,10 @@ const PILOT={
         "correct": 2,
         "explanation": "« N’oubliera jamais » signifie qu’elle gardera toujours ce souvenir.",
         "help": "Si on n’oublie jamais quelque chose, on s’en souvient toujours.",
-        "title": "Mission 3 · Négation"
+        "title": "Mission 3 · Négation",
+        "proofQuotes": [
+          "Elle n’oubliera jamais le bruit des vagues autour du vieux coffre."
+        ]
       },
       {
         "id": "P3-01-04",
@@ -498,16 +539,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "temps",
         "range": [
-          130,
-          139
+          139,
+          148
         ],
         "evidence": [
           [
-            130,
+            139,
             2
           ],
           [
-            133,
+            142,
             3
           ]
         ],
@@ -522,7 +563,10 @@ const PILOT={
         "correct": 0,
         "explanation": "Avec « aujourd’hui », on peut employer le présent « raconte » pour une action qui se déroule maintenant.",
         "help": "On remplace « Demain » par « Aujourd’hui ». Cherche aussi la forme du verbe.",
-        "title": "Mission 4 · Temps"
+        "title": "Mission 4 · Temps",
+        "proofQuotes": [
+          "Demain, Lina racontera cette aventure à sa classe."
+        ]
       },
       {
         "id": "P3-01-05",
@@ -530,29 +574,29 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          96,
-          106
+          105,
+          115
         ],
         "evidence": [
-          [
-            97,
-            1
-          ],
-          [
-            99,
-            1
-          ],
           [
             106,
             1
           ],
           [
-            105,
+            108,
+            1
+          ],
+          [
+            115,
+            1
+          ],
+          [
+            114,
             0
           ]
         ],
         "task": "Colorie « répond » et les guillemets en orange, puis « ! » en jaune.",
-        "question": "Un copiste a oublié la ponctuation. Quelle version répare les paroles de Lina ?",
+        "question": "Quelle phrase présente correctement la réponse de Lina à Tom ?",
         "options": [
           "Lina répond ? « Ils voulaient retrouver leur chemin ! »",
           "Lina répond : Ils voulaient retrouver leur chemin ! »",
@@ -561,8 +605,11 @@ const PILOT={
         ],
         "correct": 2,
         "explanation": "Les deux-points annoncent la réponse, les guillemets l’encadrent et le point d’exclamation marque le ton.",
-        "help": "Vérifie les deux-points, les deux guillemets et le signe final.",
-        "title": "Mission 5 · Dialogue"
+        "help": "Vérifie les deux-points, les deux guillemets et le point d’exclamation.",
+        "title": "Mission 5 · Dialogue",
+        "proofQuotes": [
+          "Lina répond : « Ils voulaient retrouver leur chemin ! »"
+        ]
       },
       {
         "id": "P3-01-06",
@@ -588,7 +635,7 @@ const PILOT={
           ]
         ],
         "task": "Colorie « dit » en orange, puis « : » et « ! » en jaune.",
-        "question": "La phrase a perdu ses signes. Quelle version la répare correctement ?",
+        "question": "Quelle phrase garde les bons signes quand Lina montre la croix rouge ?",
         "options": [
           "Lina dit ? « Regarde cette croix rouge ! »",
           "Lina dit : « Regarde cette croix rouge ! »",
@@ -597,8 +644,11 @@ const PILOT={
         ],
         "correct": 1,
         "explanation": "« : » annonce ce que dit Lina. « ! » montre son enthousiasme. Les guillemets encadrent ses paroles.",
-        "help": "Lina ne pose pas de question : elle montre quelque chose avec enthousiasme.",
-        "title": "Mission 6 · Ponctuation"
+        "help": "Regarde les deux-points après « dit », puis le point d’exclamation.",
+        "title": "Mission 6 · Ponctuation",
+        "proofQuotes": [
+          "Lina dit : « Regarde cette croix rouge ! »"
+        ]
       },
       {
         "id": "P3-01-07",
@@ -606,20 +656,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "verbe",
         "range": [
-          107,
-          129
+          116,
+          138
         ],
         "evidence": [
           [
-            111,
-            3
-          ],
-          [
-            124,
+            133,
             3
           ]
         ],
-        "task": "Colorie « rapportent » et « promet » en violet.",
+        "task": "Colorie « promet » en violet.",
         "question": "Si plusieurs gardiens protègent la carte, quelle phrase est correcte ?",
         "options": [
           "Les gardiens promet de protéger la carte.",
@@ -629,8 +675,11 @@ const PILOT={
         ],
         "correct": 1,
         "explanation": "Avec « Les gardiens », le verbe se met au pluriel : « promettent ».",
-        "help": "Le sujet « Les gardiens » désigne plusieurs personnes.",
-        "title": "Mission 7 · Verbes"
+        "help": "Le sujet « Les gardiens » désigne plusieurs personnes. Le verbe doit aussi changer.",
+        "title": "Mission 7 · Verbes",
+        "proofQuotes": [
+          "Le gardien les remercie et promet de protéger la carte."
+        ]
       },
       {
         "id": "P3-01-08",
@@ -638,16 +687,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "negation",
         "range": [
-          140,
-          151
+          149,
+          160
         ],
         "evidence": [
           [
-            141,
+            150,
             4
           ],
           [
-            142,
+            151,
             4
           ]
         ],
@@ -662,7 +711,10 @@ const PILOT={
         "correct": 0,
         "explanation": "Le récit dit qu’elle n’oubliera jamais. Elle gardera donc ce souvenir.",
         "help": "Il faut garder l’idée d’un souvenir qui ne disparaît pas.",
-        "title": "Mission 8 · Négation"
+        "title": "Mission 8 · Négation",
+        "proofQuotes": [
+          "Elle n’oubliera jamais le bruit des vagues autour du vieux coffre."
+        ]
       },
       {
         "id": "P3-01-09",
@@ -670,14 +722,10 @@ const PILOT={
         "mode": "pilot",
         "kind": "verbe",
         "range": [
-          34,
+          46,
           63
         ],
         "evidence": [
-          [
-            34,
-            2
-          ],
           [
             47,
             4
@@ -687,22 +735,30 @@ const PILOT={
             4
           ],
           [
-            56,
+            48,
+            3
+          ],
+          [
+            60,
             3
           ]
         ],
-        "task": "Colorie « Hier » en bleu, « ne » et « pas » en vert, puis « soulève » en violet.",
-        "question": "Un pirate affirme : « Lina a trouvé la clé avant Tom. » Que réponds-tu ?",
+        "task": "Colorie « ne » et « pas » en vert, puis « trouve » et « découvre » en violet.",
+        "question": "Un pirate affirme : « Lina a trouvé la clé avant Tom. » Est-ce vrai ?",
         "options": [
-          "Oui, Lina a trouvé la clé dans le sable.",
-          "Non. Lina ne trouve pas la clé ; Tom la découvre ensuite.",
-          "Non. Aucun personnage ne cherche la clé.",
-          "Oui, Tom ne touche jamais de pierre."
+          "Oui, car Lina trouve la clé sous une pierre.",
+          "Non, car Lina ne trouve pas la clé et Tom la découvre après.",
+          "Non, car Tom trouve une deuxième carte à la place.",
+          "Oui, car Lina donne la clé au pirate."
         ],
         "correct": 1,
-        "explanation": "Lina ne trouve pas la clé. Plus tard, Tom soulève une pierre et la découvre.",
-        "help": "Compare la phrase sur Lina avec celle sur Tom.",
-        "title": "Mission 9 · Verbes"
+        "explanation": "Le texte dit que Lina ne trouve pas la clé. Tom la découvre plus tard sous une pierre.",
+        "help": "Compare les verbes « trouve » et « découvre », et regarde la négation.",
+        "title": "Mission 9 · Verbes",
+        "proofQuotes": [
+          "Lina ne trouve pas la clé.",
+          "Soudain, Tom soulève une pierre et découvre la clé !"
+        ]
       },
       {
         "id": "P3-01-10",
@@ -710,24 +766,24 @@ const PILOT={
         "mode": "pilot",
         "kind": "ponctuation",
         "range": [
-          84,
-          106
+          93,
+          115
         ],
         "evidence": [
           [
-            86,
+            95,
             0
           ],
           [
-            94,
+            103,
             0
           ],
           [
-            98,
+            107,
             0
           ],
           [
-            105,
+            114,
             0
           ]
         ],
@@ -742,7 +798,11 @@ const PILOT={
         "correct": 1,
         "explanation": "La question de Tom se termine par « ? ». La réponse de Lina se termine par « ! ».",
         "help": "Regarde le signe final dans chaque réplique.",
-        "title": "Mission 10 · Ponctuation"
+        "title": "Mission 10 · Ponctuation",
+        "proofQuotes": [
+          "Tom demande : « Pourquoi les pirates gardaient-ils des livres ? »",
+          "Lina répond : « Ils voulaient retrouver leur chemin ! »"
+        ]
       }
     ]
   }

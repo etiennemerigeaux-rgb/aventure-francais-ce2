@@ -7,7 +7,7 @@ vm.runInNewContext(fs.readFileSync('challenge-pedagogy.js','utf8'),ctx,{filename
 const original=Object.fromEntries(['C2-01','C3-01'].map(id=>[id,ctx.window.CE2_CHALLENGES.find(s=>s.id===id).missions.map(m=>m.prompt)]));
 vm.runInNewContext(fs.readFileSync('challenge-pilot.js','utf8'),ctx,{filename:'challenge-pilot.js'});
 const P=ctx.window.CE2_CHALLENGE_PILOT;
-assert.equal(P.version,1);
+assert.equal(P.version,2);
 assert.equal(P.level1.intro.length,3);assert.equal(P.level2.intro.length,3);
 const ALL=['ponctuation','dialogue','temps','verbe','negation'];
 const tags=new Set();
@@ -41,9 +41,9 @@ for(const [id,level] of [['C2-01',1],['C3-01',2]]){
 }
 assert.equal(tags.size,20);
 const html=fs.readFileSync('index.html','utf8'),sw=fs.readFileSync('sw.js','utf8');
-assert(html.indexOf('challenge-data.js?v=82570')<html.indexOf('challenge-pedagogy.js?v=82570'));
-assert(html.indexOf('challenge-pedagogy.js?v=82570')<html.indexOf('challenge-pilot.js?v=82570'));
-assert(html.indexOf('challenge-pilot.js?v=82570')<html.indexOf('challenge.js?v=82570'));
+assert(html.indexOf('challenge-data.js?v=82571')<html.indexOf('challenge-pedagogy.js?v=82571'));
+assert(html.indexOf('challenge-pedagogy.js?v=82571')<html.indexOf('challenge-pilot.js?v=82571'));
+assert(html.indexOf('challenge-pilot.js?v=82571')<html.indexOf('challenge.js?v=82571'));
 assert(sw.includes('"./challenge-pilot.js"'));
 const engine=fs.readFileSync('challenge.js','utf8');
 assert(engine.includes('function playPilot(story,m){'));

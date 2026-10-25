@@ -28,3 +28,4 @@ jobs:
         run: |
           node tests/challenge-learning.test.cjs
           node tests/pilot-pirates.test.cjs
+          node tests/challenge-story-coherence.test.cjs

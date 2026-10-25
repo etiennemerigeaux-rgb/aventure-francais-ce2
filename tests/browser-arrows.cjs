@@ -25,8 +25,8 @@ const {chromium}=require('playwright');
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('#resume-adventure').click();
   await page.evaluate(()=>window.ce2OpenChallengeWithGate());
-  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.70/);
-  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.70'}).innerText(),/Version V82\.5\.70/);
+  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.71/);
+  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.71'}).innerText(),/Version V82\.5\.71/);
   for(const [level,goal] of [[0,'Reconnaître'],[1,'Appliquer et comprendre'],[2,'Raisonner et transformer']]){
     const card=page.locator('[data-level="'+level+'"]');
     assert.equal(await card.locator('.ch-goal').innerText(),'🎯 Objectif : '+goal);
@@ -45,7 +45,7 @@ const {chromium}=require('playwright');
   await page.locator('[data-level="0"]').click();
   await page.locator('#ch-surprise').click();
   await page.locator('#ch-check').waitFor();
-  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.70/);
+  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.71/);
   assert.equal(await page.locator('#challenge-root').isHidden(),false);
   const before=await page.evaluate(()=>({challenge:document.querySelector('#challenge-root').scrollTop,page:document.scrollingElement.scrollTop}));
   await page.waitForFunction(()=>{
