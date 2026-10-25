@@ -11,3 +11,5 @@
 .ch-story p{margin:0;white-space:normal;line-height:1.7}
 .ch-notice{background:#6c471b;color:#fff;padding:14px;border-radius:12px;margin-top:12px}
 @media(min-width:720px){.ch-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.ch-focus{background:#ffffff18;border:1px solid #ffffff65;border-radius:12px;padding:10px 12px;margin:12px 0}.ch-focus summary{cursor:pointer;color:#ffdf8b;font-weight:800}.ch-focus p{font-size:1rem;line-height:1.6;margin-bottom:2px}
