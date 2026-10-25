@@ -635,7 +635,7 @@ const PILOT={
           ]
         ],
         "task": "Colorie « dit » en orange, puis « : » et « ! » en jaune.",
-        "question": "Quels signes faut-il garder quand Lina montre la croix rouge ?",
+        "question": "Quelle phrase garde les bons signes quand Lina montre la croix rouge ?",
         "options": [
           "Lina dit ? « Regarde cette croix rouge ! »",
           "Lina dit : « Regarde cette croix rouge ! »",
