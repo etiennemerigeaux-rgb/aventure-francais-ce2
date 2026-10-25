@@ -24,6 +24,11 @@ function make(story,profile,k){
  const [n,other,verb,inf,pl,obj,neg,pos,outcome,cue]=profile;
  const quote=story.text.match(/«\s*([^»]+?)\s*»/)?.[1]||"Bonjour !";
  const unusedInf=[...new Set(meta.map(p=>p[3]))].filter(x=>x!==inf).slice(0,3);
+ const dialoguePurposes=["Pour comprendre pourquoi les pirates conservaient des livres.","Pour savoir si le geai va guérir.","Pour comprendre pourquoi le robot s’arrête.","Pour savoir ce que Hugo voit à droite.","Pour demander si le journal peut être lu.","Pour encourager Adam pendant la course.","Pour savoir si la grand-mère jouait avec ses amis.","Pour demander ce dont la plante a besoin.","Pour savoir si les voitures existaient autrefois.","Pour demander qui voudrait adopter un animal."];
+ const endings=[["Lina","racontera son aventure à sa classe","Pour partager sa découverte avec les autres élèves."],["Milo","reviendra avec sa sœur","Pour suivre les nouvelles du geai."],["Nora","présentera son robot à l’école","Pour faire découvrir son invention."],["Hugo","dessinera une fusée","Pour garder un souvenir de sa visite."],["Emma","reviendra au château avec sa classe","Pour partager la découverte avec ses camarades."],["Adam","s’entraînera encore","Pour progresser dans la course de relais."],["Zoé","écrira les souvenirs de famille","Pour conserver les histoires de sa grand-mère."],["Noé","mesurera la plante de nouveau","Pour observer sa croissance."],["Jade","racontera sa visite à son grand-père","Pour partager ce qu’elle a appris au musée."],["Louis","aidera encore au refuge","Pour continuer à prendre soin des animaux."]];
+ const quotes=[...story.text.matchAll(/«\s*([^»]+?)\s*»/g)].map(m=>m[1]);
+ const secondQuote=quotes[1]||quote;
+
  if(unusedInf.length!==3)throw Error("Pas assez d'infinitifs");
  if(story.level===0)return [
   task("ponctuation",`Pourquoi écrit-on deux-points après « ${n} dit » dans une phrase ?`,"Pour introduire les paroles du personnage",["Pour supprimer les guillemets","Pour indiquer une fin de chapitre","Pour signaler une question au narrateur"],"Les deux-points introduisent les paroles rapportées après le verbe de parole.","fonction",k),
@@ -34,7 +39,7 @@ function make(story,profile,k){
  ];
  if(story.level===1)return [
   task("ponctuation",`Quelle phrase présente correctement les paroles de ${n} ?`,`${n} dit : « ${quote} »`,[`${n} dit ? « ${quote} »`,`${n} dit ! « ${quote} »`,`${n} dit : « ${quote}`],"Après le verbe de parole, les deux-points annoncent les paroles et les guillemets les encadrent.","correction",k),
-  task("dialogue",`Si ${n} « murmure » au lieu de « dire », qu’apprend-on ?`,"Le personnage parle très doucement.",["Le personnage pose forcément une question.","Le personnage écrit une liste.","Le personnage change de prénom."],"Le verbe « murmurer » précise la manière de parler : à voix basse.","comparaison",k+1),
+  task("dialogue",`Dans la suite de l’histoire, pourquoi le personnage dit-il « ${secondQuote} » ?`,dialoguePurposes[k],dialoguePurposes.filter((_,i)=>i!==k).slice(0,3),`Cette réplique sert à : ${dialoguePurposes[k].toLocaleLowerCase("fr")}`,"compréhension",k+1),
   task("temps",`Quel rapport au temps exprime « ${cue} » ?`,`${cue} → passé`,[`${cue} → futur`,`${cue} → négation`,`${cue} → nom d'un personnage`],`« ${cue} » permet de repérer une action qui s’est déjà produite.`,"application",k+2),
   task("verbe",`Quel est le sujet du verbe « ${verb} » dans « ${n} ${verb} ${obj} » ?`,n,[obj,other,"le narrateur"],`« ${n} » est le sujet : il réalise l’action indiquée par le verbe.`,"sujet",k+3),
   task("negation",`Quelle phrase transforme « ${neg} » à la forme affirmative ?`,pos,[neg,"Cette phrase n'a pas de verbe.","Il faut garder « ne… pas »."],"On retire « ne… pas » et on conserve la phrase correctement construite.","transformation",k+4)
@@ -42,7 +47,7 @@ function make(story,profile,k){
  const incorrectActions=meta.filter((_,i)=>i!==k).slice(0,3).map(m=>m[8]);
  return [
   task("ponctuation","Quel signe termine une question que pose un personnage dans un dialogue ?","Le point d’interrogation ?",["La virgule ,","Les deux-points :","Le point final ."],"Le point d’interrogation clôt la question ; les deux-points introduisent les paroles.","fonction",k),
-  task("dialogue",`Dans « ${story.title} », que permet de comprendre la réponse d’un personnage ?`,outcome,incorrectActions,`La réponse fait comprendre que ${outcome.toLocaleLowerCase('fr')}`,"compréhension",k+1),
+  task("dialogue",`Dans le dernier passage de « ${story.title} », pourquoi ${endings[k][0]} ${endings[k][1]} ?`,endings[k][2],endings.filter((_,i)=>i!==k).slice(0,3).map(x=>x[2]),`La fin de l’histoire montre que ${endings[k][0]} poursuit une intention précise : ${endings[k][2].toLocaleLowerCase("fr")}`,"inférence",k+1),
   task("temps",`Pourquoi le récit contient-il « ${cue} » puis « Demain » ?`,"Pour situer des événements à différents moments.",["Pour indiquer que toutes les actions se déroulent ensemble.","Pour remplacer tous les verbes.","Pour montrer uniquement qui parle."],"Ces mots aident à situer les actions dans le passé ou dans le futur.","comparaison",k+2),
   task("verbe",`Si « ${n} ${verb} ${obj} » devient « Les enfants ... », quelle phrase est correcte ?`,`Les enfants ${pl} ${obj}.`,[`${n} ${pl} ${obj}.`,`Les enfants ${verb} ${obj}.`,`Les enfants ${inf} ${obj}.`],`Avec le sujet pluriel « Les enfants », la forme du verbe est « ${pl} ».`,"accord",k+3),
   task("negation","Quelle différence existe entre « ne… pas » et « ne… jamais » ?","« Ne… jamais » signifie « à aucun moment ».",["« Ne… pas » signifie toujours « plus maintenant ».","« Ne… jamais » met le verbe au futur.","Les deux expressions sont des questions."],"« Ne… jamais » indique une absence à tout moment, contrairement à une simple négation.","raisonnement",k+4)
@@ -50,7 +55,11 @@ function make(story,profile,k){
 }
 let groups=0,ambiguous=0,added=0;
 for(const story of B){
- const idx=Number(story.id.slice(3))-1;if(idx<0||idx>=10)throw Error("Mauvais numéro de récit");
+ const idx=Number(story.id.slice(3))-1;
+ const suffix=story.id.slice(3);
+ const prev=B.find(x=>x.id==='C'+(story.level)+'-'+suffix);
+ story.focusExcerpt=story.level===0?'':prev&&story.text.startsWith(prev.text)?story.text.slice(prev.text.length).trim():'';
+ if(story.level>0&&!story.focusExcerpt)throw Error('Passage inédit introuvable : '+story.id);if(idx<0||idx>=10)throw Error("Mauvais numéro de récit");
  const byPrompt=new Map();
  for(const m of story.missions){
   m.mode="highlight";m.taskType="repérage";
