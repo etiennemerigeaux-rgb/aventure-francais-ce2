@@ -9,6 +9,7 @@ const game=fs.readFileSync('game.js','utf8');
 const src=(code,a,b)=>{const i=code.indexOf(a),j=code.indexOf(b,i+a.length);assert(i>=0&&j>i,'Section manquante: '+a);return code.slice(i,j)};
 const sandbox={window:{}};
 vm.runInNewContext(fs.readFileSync('challenge-data.js','utf8'),sandbox);
+vm.runInNewContext(fs.readFileSync('challenge-pedagogy.js','utf8'),sandbox);
 const stories=sandbox.window.CE2_CHALLENGES;
 const colors={ponctuation:0,dialogue:1,temps:2,verbe:3,negation:4};
 const MARKERS=Object.keys(colors).map(x=>({name:x,task:x}));
@@ -26,7 +27,7 @@ function runSession(){
  const $=id=>(buttons[id]??={onclick:null,disabled:false,textContent:'',innerHTML:''});
  const root={hidden:true,scrollTop:0,querySelectorAll:()=>[],querySelector:()=>null};
  const main={hidden:true};
- const window={ce2GoToWorldMap:()=>mapCalls++};
+ const window={ce2GoToWorldMap:()=>mapCalls++,CE2_CHALLENGE_PEDAGOGY:sandbox.window.CE2_CHALLENGE_PEDAGOGY};
  const render=()=>{if(state.screen==='play')funcs.play()};
  const code=[
   src(challenge,'function profile(){','function speech('),
@@ -46,8 +47,7 @@ function answerOne(session,correct=true,advance=true){
  const {state,buttons}=session;
  const m=state.questions[state.step];
  assert(m,'Mission absente');
- state.selected=[...m.answer];
- state.color=correct?colors[m.kind]:(colors[m.kind]+2)%5;
+ if(m.mode==='choice'){state.choice=correct?m.correct:(m.correct+1)%4;}else{state.selected=correct?[...m.answer]:[];state.color=colors[m.kind];}
  buttons['#ch-check'].onclick();
  assert.equal(typeof buttons['#ch-next'].onclick,'function','Bouton suivant absent');
  if(advance)buttons['#ch-next'].onclick();
