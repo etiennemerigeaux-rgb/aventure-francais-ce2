@@ -60,8 +60,8 @@ const MARKERS=[{name:'Jaune',hex:'#ffe27a',world:'🌳 Forêt de la ponctuation'
 const guideSteps=[
 ['🎨','Découvre les cinq surligneurs','Chaque couleur a une mission. Le JAUNE est déjà sélectionné : découvre les quatre autres surligneurs.'],
 ['🌳','Jaune : la ponctuation','Les signes comme le point, la virgule ou le point d’interrogation. Consigne : touche le point final avec le JAUNE.'],
-['🦁','Orange : les guillemets','Les guillemets ouvrants « et fermants » encadrent les paroles prononcées. Consigne : touche les deux signes de guillemets avec l’ORANGE, sans colorier les mots.'],
-['🦁','Orange : les deux-points','Les deux-points : peuvent annoncer les paroles d’un personnage. Consigne : touche UNIQUEMENT les deux-points avec l’ORANGE.'],
+['🦁','Orange : les guillemets','Un guillemet ouvrant («) et un guillemet fermant (») encadrent les paroles prononcées. Consigne : touche seulement ces deux signes avec l’ORANGE.'],
+['🦁','Orange : les deux-points','Les deux-points (:) peuvent annoncer les paroles d’un personnage. Consigne : touche UNIQUEMENT le signe deux-points avec l’ORANGE.'],
 ['🦁','Orange : le tiret de dialogue','Le tiret — annonce une réplique : un personnage prend la parole. Consigne : touche le tiret avec l’ORANGE.'],
 ['🦁','Orange : une réplique','Une réplique est la phrase prononcée par un personnage. Consigne : touche les mots « Bonjour » et « ! », sans le tiret ni le verbe « dit ».'],
 ['🦁','Orange : le verbe de dialogue','Les verbes « dit », « demande », « répond » indiquent qu’un personnage parle. Consigne : touche « dit » avec l’ORANGE.'],
@@ -108,7 +108,7 @@ wrap(`<div class="ch-card"><div class="ch-over">🧪 Mission finale du tutoriel<
 wireChips();$('#ch-check').onclick=()=>{
 const correct=state.color===4&&state.selected.length===2&&state.selected.includes(2)&&state.selected.includes(4);
 if(correct){db.tutorialDone=true;db.practice4Done=true;save();state.screen='practiceSuccess';render();return}
-let msg=state.color!==4?'Choisis le surligneur VERT : il sert ici à repérer la négation.':state.selected.length===0?'Tu n’as encore surligné aucun mot. Cherche les deux petits mots qui entourent « dort ».':state.selected.some(i=>i!==2&&i!==4)?'Regarde les mots qui entourent « dort ». « ne » est placé avant le verbe et « jamais » après. Retouche les autres mots pour les effacer.':'Tu as trouvé une partie de la réponse ! La négation contient deux mots : « ne » ET « jamais ». Trouve celui qui manque.';
+let msg=state.color!==4?'Choisis le surligneur VERT : il sert ici à repérer la négation.':state.selected.length===0?'Tu n’as encore surligné aucun mot. Cherche les deux petits mots qui entourent « joue ».':state.selected.some(i=>i!==2&&i!==4)?'Regarde les mots qui entourent « dort ». « ne » est placé avant le verbe et « jamais » après. Retouche les autres mots pour les effacer.':'Tu as trouvé une partie de la réponse ! La négation contient deux mots : « ne » ET « jamais ». Trouve celui qui manque.';
 $('#ch-feedback').innerHTML='<p class="ch-error">'+esc(msg)+'</p>';speech(msg);
 };}
 function practiceSuccess(){wrap(`<div class="ch-card ch-center"><div class="ch-emoji">🌟</div><div class="ch-over">Mission finale réussie</div><h1>Bravo, mission accomplie !</h1><p>Tu as trouvé <strong>« ne » ET « jamais »</strong> avec le surligneur vert.</p><p>Dans « Le chien <strong>ne</strong> joue <strong>jamais</strong>. », ces deux mots entourent le verbe <strong>« joue »</strong> et rendent la phrase négative.</p><button id="ch-levels-go" class="ch-main">🗺️ Découvrir les trois niveaux →</button><button id="ch-replay" class="ch-minor">↻ Refaire la mission</button><button id="ch-end" class="ch-minor">← Retour aux mondes</button></div>`);$('#ch-levels-go').onclick=()=>{load();state.screen='levels';render()};$('#ch-replay').onclick=()=>{state.selected=[];state.color=4;state.screen='practice';render()};$('#ch-end').onclick=close;}
