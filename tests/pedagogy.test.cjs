@@ -72,9 +72,14 @@ for(const story of C){
 }
 // Test des dix aventures successives, sans doublon, avec difficulté croissante.
 const select=game.slice(game.indexOf('function questionTopic('),game.indexOf('function ensureState('));
+const runtime={window:{}};
+for(const file of ['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js']){
+ vm.runInNewContext(fs.readFileSync(file,'utf8'),runtime);
+}
+const activeWorlds=runtime.window.CE2_DATA.worlds;
 for(let world=0;world<5;world++){
- const S={questionDecks:{},lastQuestionTopics:{}};
- const context={S,W:D.worlds,RUN_SIZE:10};
+ const S={questionDecks:{},lastQuestionTopics:{},pedagogicalTurns:{}};
+ const context={S,W:activeWorlds,RUN_SIZE:10,window:runtime.window};
  vm.createContext(context);vm.runInContext(select,context);
  let seen=new Set(),averages=[];
  for(let run=0;run<10;run++){
@@ -83,9 +88,9 @@ for(let world=0;world<5;world++){
   assert.equal(drawn.length,10); assert.equal(new Set(drawn).size,10);
   drawn.forEach(i=>{assert(!seen.has(i));seen.add(i)});
   const ranks={easy:0,medium:1,hard:2};
-  averages.push(drawn.reduce((a,i)=>a+ranks[D.worlds[world].questions[i].difficulty],0)/10);
+  averages.push(drawn.reduce((a,i)=>a+ranks[activeWorlds[world].questions[i].difficulty],0)/10);
   if(world===1){
-   const tags=drawn.map(i=>D.worlds[1].questions[i].topic);
+   const tags=drawn.map(i=>activeWorlds[1].questions[i].topic);
    topics.forEach(t=>assert.equal(tags.filter(x=>x===t).length,2));
    for(let i=1;i<tags.length;i++)assert.notEqual(tags[i],tags[i-1]);
   }
