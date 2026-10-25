@@ -116,9 +116,18 @@ for(const file of scripts){
  assert(at>last,'Script manquant ou ordre incorrect : '+file);last=at;
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
-assert(sw.includes('v82563-recovery-audit'));
+assert(sw.includes('v82563-resilient-offline'));
 assert.equal(manifest.display,'standalone');
 for(const asset of ['icon-192.png','icon-512.png','style.css','challenge.css'])
  assert(fs.existsSync(path.join(root,asset)),'Ressource locale manquante : '+asset);
+checks++;
+assert(sw.includes('await cache.addAll(CORE)')&&sw.includes('Promise.allSettled(optional.map('),
+ 'Le préchargement doit distinguer le noyau et les images facultatives.');
+for(const bank of [W[0],W[4]]){
+ const tagged=bank.questions.filter(q=>q.editorialVersion);
+ assert.equal(tagged.length,80);
+ assert(tagged.every(q=>q.pedagogicalCompetence),'Compétence pédagogique absente');
+ assert(tagged.every(q=>['identification','application','correction','comparaison','compréhension'].includes(q.learningType)), 'Métadonnée de démarche invalide');
+}
 checks++;
 console.log('OK — '+checks+' assertions/groupes : reprise, erreurs, coffre, 200 évaluations, 30 défis / '+missionCount+' missions, PWA.');
