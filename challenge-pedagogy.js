@@ -70,5 +70,17 @@ for(const story of B){
  if(fresh.length!==5)throw Error("Questionnaire incomplet "+story.id);
  story.missions.push(...fresh);added+=5;
 }
-window.CE2_CHALLENGE_PEDAGOGY={version:2,repairedGroups:groups,repairedMissions:ambiguous,generated:added};
+function grade(m,selected,color,chosen,colors){
+ if(m.mode==='choice'){
+  const correct=Number.isInteger(chosen)&&chosen===m.correct;
+  return {ok:correct,points:correct?2:0,wordOk:correct,colorOk:true};
+ }
+ const selections=Array.isArray(selected)?selected:[];
+ const valid=m.alternatives?.length?m.alternatives:[m.answer];
+ const value=[...selections].sort((a,b)=>a-b).join(',');
+ const wordOk=valid.some(a=>[...a].sort((a,b)=>a-b).join(',')===value);
+ const colorOk=Array.isArray(colors)&&colors.includes(color);
+ return {ok:wordOk&&colorOk,points:wordOk?(colorOk?2:1):0,wordOk,colorOk};
+}
+window.CE2_CHALLENGE_PEDAGOGY={version:2,repairedGroups:groups,repairedMissions:ambiguous,generated:added,grade};
 })();
