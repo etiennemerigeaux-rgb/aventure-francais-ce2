@@ -25,8 +25,8 @@ const {chromium}=require('playwright');
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('#resume-adventure').click();
   await page.evaluate(()=>window.ce2OpenChallengeWithGate());
-  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.67/);
-  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.67'}).innerText(),/Version V82\.5\.67/);
+  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.68/);
+  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.68'}).innerText(),/Version V82\.5\.68/);
   for(const [level,goal] of [[0,'Reconnaître'],[1,'Appliquer et comprendre'],[2,'Raisonner et transformer']]){
     const card=page.locator('[data-level="'+level+'"]');
     assert.equal(await card.locator('.ch-goal').innerText(),'🎯 Objectif : '+goal);
@@ -34,10 +34,18 @@ const {chromium}=require('playwright');
     assert(box && box.width>0 && box.height>0,'Objectif invisible pour le niveau '+level);
     assert(box.x>=0 && box.x+box.width<=390,'Objectif coupé sur smartphone pour '+level);
   }
+  // Écran simplifié : un seul accès au tutoriel, aucun bouton de développement.
+  assert.equal(await page.locator('#ch-practice4').count(),0);
+  assert.equal(await page.locator('#ch-help').innerText(),'📖 Revoir le tutoriel');
+  await page.locator('#ch-help').click();
+  assert.match(await page.locator('#challenge-root').innerText(),/Tutoriel interactif 1 \/ 13/);
+  await page.locator('#ch-exit').click();
+  await page.evaluate(()=>window.ce2OpenChallengeWithGate());
+  assert.equal(await page.locator('#ch-help').innerText(),'📖 Revoir le tutoriel');
   await page.locator('[data-level="0"]').click();
   await page.locator('#ch-surprise').click();
   await page.locator('#ch-check').waitFor();
-  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.67/);
+  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.68/);
   assert.equal(await page.locator('#challenge-root').isHidden(),false);
   const before=await page.evaluate(()=>({challenge:document.querySelector('#challenge-root').scrollTop,page:document.scrollingElement.scrollTop}));
   await page.waitForFunction(()=>{
