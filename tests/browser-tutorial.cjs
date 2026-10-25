@@ -70,6 +70,22 @@ const {chromium}=require('playwright');
   await page.locator('#ch-help').click();
   await stage(0);
   assert.equal(await page.locator('.ch-discovery-progress').innerText(),'🎨 Surligneurs découverts : 1 / 5');
+  // Refaire le tutoriel complet doit aussi permettre de refaire la mission finale.
+  for(let color=1;color<=4;color++)await page.locator('[data-guide-color="'+color+'"]').click();
+  await page.locator('#ch-next').click();
+  for(let n=1;n<=11;n++){
+   await stage(n);
+   const ex=exercises[n];
+   await page.locator('[data-guide-color="'+ex.color+'"]').click();
+   for(const i of ex.words)await page.locator('[data-guide-word="'+i+'"]').click();
+   await page.locator('#ch-guide-check').click();
+   assert(await page.locator('#ch-next').isEnabled(),'Reprise du tutoriel bloquée à '+(n+1));
+   await page.locator('#ch-next').click();
+  }
+  await stage(12);
+  assert.match(await page.locator('#ch-next').innerText(),/Passer à la mission finale/);
+  await page.locator('#ch-next').click();
+  assert.match(await page.locator('.ch-over').first().innerText(),/Mission finale du tutoriel/);
   assert.equal(errors.length,0,'Erreurs JavaScript : '+errors.join('; '));
   console.log('Tutoriel CE2 Chromium mobile : 13 étapes, 1/5→5/5, effacement, correction et mission finale réussis.');
  }finally{await browser.close()}
