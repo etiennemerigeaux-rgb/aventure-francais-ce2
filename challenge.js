@@ -32,9 +32,9 @@ function resumeChallenge(){
     saved.score>(saved.step+(saved.feedback?1:0))*2)return false;
   state.id=story.id;state.level=story.level;state.step=saved.step;
   state.score=saved.score;state.questions=saved.order.map(i=>story.missions[i]);
-  // Les cartes marines ajoutées au récit déplacent 11 mots à partir de l'ancienne position 84.
+  // Les cartes marines ajoutées au récit déplacent 9 mots à partir de l'ancienne position 84.
   // Traduire les anciennes sélections locales une seule fois, sans toucher aux scores.
-  const migrateIndex=i=>saved.pilotContentVersion!==2&&(story.id==='C2-01'||story.id==='C3-01')&&i>=84?i+11:i;
+  const migrateIndex=i=>saved.pilotContentVersion!==2&&(story.id==='C2-01'||story.id==='C3-01')&&i>=84?i+9:i;
   state.selected=Array.isArray(saved.selected)?saved.selected.map(migrateIndex).filter(i=>Number.isInteger(i)&&i>=0&&i<story.tokens.length):[];
   state.color=Number.isInteger(saved.color)&&saved.color>=-1&&saved.color<5?saved.color:-1;state.choice=Number.isInteger(saved.choice)&&saved.choice>=-1&&saved.choice<4?saved.choice:-1;state.reviewing=!!saved.reviewing;
   state.errors=Array.isArray(saved.errors)?saved.errors.slice(0,10):[];
