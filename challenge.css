@@ -16,3 +16,8 @@
 
 /* V82.5.67 — intention pédagogique visible dans chacune des cartes de niveau. */
 .ch-level .ch-goal{display:block;margin:3px 0 1px;font-size:clamp(.88rem,3.8vw,1.02rem);line-height:1.35;font-weight:750;color:#ffe6a7;overflow-wrap:anywhere}
+
+/* V82.5.69 : retour visuel pédagogique dès le premier exercice du tutoriel. */
+.ch-color.ch-discovered{outline:3px solid #fff;outline-offset:2px;font-weight:900;box-shadow:0 0 0 2px #26334b88;}
+.ch-discovery-progress{padding:10px 12px;margin:11px 0 7px;background:#233a57;border:1px solid #a7d5e2;border-radius:12px;color:#fff;font-weight:650;font-size:clamp(.88rem,3.5vw,1.05rem);}
+.ch-discovery-progress strong{font-weight:900;color:#ffecaf;}
