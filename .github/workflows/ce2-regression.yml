@@ -30,6 +30,7 @@ jobs:
           node tests/rewards.test.cjs
           node tests/navigation-arrows.test.cjs
           node tests/pilot-pirates.test.cjs
+          node tests/challenge-story-coherence.test.cjs
           node tests/pedagogy.test.cjs
           node tests/question-variety.test.cjs
           node tests/question-diversity.test.cjs
