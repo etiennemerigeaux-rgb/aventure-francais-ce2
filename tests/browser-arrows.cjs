@@ -26,7 +26,7 @@ const {chromium}=require('playwright');
   await page.locator('#resume-adventure').click();
   await page.evaluate(()=>window.ce2OpenChallengeWithGate());
   assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.65/);
-  assert.match(await page.locator('.ch-hint').innerText(),/Version V82\.5\.65/);
+  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.65'}).innerText(),/Version V82\.5\.65/);
   await page.locator('[data-level="0"]').click();
   await page.locator('#ch-surprise').click();
   await page.locator('#ch-check').waitFor();
