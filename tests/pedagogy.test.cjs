@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const D=(()=>{const window={};vm.runInNewContext(fs.readFileSync('data.js','utf8'),{window});return JSON.parse(JSON.stringify(window.CE2_DATA))})();
-const C=(()=>{const window={};vm.runInNewContext(fs.readFileSync('challenge-data.js','utf8'),{window});return JSON.parse(JSON.stringify(window.CE2_CHALLENGES))})();
+const C=(()=>{const window={};vm.runInNewContext(fs.readFileSync('challenge-data.js','utf8'),{window});vm.runInNewContext(fs.readFileSync('challenge-pedagogy.js','utf8'),{window});return JSON.parse(JSON.stringify(window.CE2_CHALLENGES))})();
 const {buildExamBank}=require('../scripts/build-exam-bank.cjs');
 const game=fs.readFileSync('game.js','utf8'),ch=fs.readFileSync('challenge.js','utf8');
 const bank=buildExamBank();
@@ -52,13 +52,19 @@ for(const story of C){
  for(const t of ['ponctuation','dialogue','temps','verbe','negation'])assert(story.missions.filter(m=>m.kind===t).length>=2,story.id+' manque des missions '+t);
  for(const m of story.missions){
   allMissions++;
-  assert(m.answer.length>0);
-  assert(m.answer.every(i=>Number.isInteger(i)&&i>=0&&i<story.tokens.length));
-  assert.deepEqual(m.words,m.answer.map(i=>story.tokens[i]));
+  if(m.mode==='choice'){
+   assert.equal(m.options.length,4);
+   assert.equal(new Set(m.options).size,4);
+   assert(Number.isInteger(m.correct)&&m.correct>=0&&m.correct<4);
+  }else{
+   assert(m.answer.length>0);
+   assert(m.answer.every(i=>Number.isInteger(i)&&i>=0&&i<story.tokens.length));
+   assert.deepEqual(m.words,m.answer.map(i=>story.tokens[i]));
+  }
   if(m.kind==='ponctuation')assert(!/^Le signe /.test(m.explanation),'Explication trop pauvre : '+story.id);
  }
 }
-assert.equal(allMissions,1151);
+assert.equal(allMissions,1301);
 // Contrôle de la composition des dix questions sur les 30 histoires.
 const startSource=ch.slice(ch.indexOf('function start(id){'),ch.indexOf('// Les signes',ch.indexOf('function start(id){')));
 assert(startSource.startsWith('function start(id){'));
@@ -98,4 +104,4 @@ for(let world=0;world<5;world++){
  assert.equal(seen.size,100,'Questions non couvertes dans '+world);
  for(let i=1;i<averages.length;i++)assert(averages[i]+.001>=averages[i-1], 'Difficulté non progressive : '+world+' '+averages.join(','));
 }
-console.log('Pédagogie CE2 : 500 questions inédites, 500 entraînements, 1 151 missions, 30 histoires et difficulté graduée vérifiées.');
+console.log('Pédagogie CE2 : 500 questions inédites, 500 entraînements, 1 301 missions, 30 histoires et difficulté graduée vérifiées.');
