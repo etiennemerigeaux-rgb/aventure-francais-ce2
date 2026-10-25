@@ -13,3 +13,6 @@
 @media(min-width:720px){.ch-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .ch-focus{background:#ffffff18;border:1px solid #ffffff65;border-radius:12px;padding:10px 12px;margin:12px 0}.ch-focus summary{cursor:pointer;color:#ffdf8b;font-weight:800}.ch-focus p{font-size:1rem;line-height:1.6;margin-bottom:2px}
+
+/* V82.5.67 — intention pédagogique visible dans chacune des cartes de niveau. */
+.ch-level .ch-goal{display:block;margin:3px 0 1px;font-size:clamp(.88rem,3.8vw,1.02rem);line-height:1.35;font-weight:750;color:#ffe6a7;overflow-wrap:anywhere}
