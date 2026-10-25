@@ -9,7 +9,7 @@ async function importProfiles(file){
   alert('Ce fichier ne correspond pas à une sauvegarde compatible du Royaume des Mots.');return;
  }
  const entries=Object.entries(payload.profiles);
- try{const guest=typeof payload.legacyGuest==='string'?JSON.parse(payload.legacyGuest):payload.legacyGuest;if(window.CE2_RECOVERY.hasLegacyProgress(guest))entries.push(['__legacyGuest',guest]);}catch{}
+ try{const guest=typeof payload.legacyGuest==='string'?JSON.parse(payload.legacyGuest):payload.legacyGuest;if(window.CE2_RECOVERY.hasLegacyProgress(guest)&&!entries.some(([,value])=>value&&value.legacyGuestMigrated===true))entries.push(['__legacyGuest',guest]);}catch{}
  if(!entries.length||entries.length>30){alert('Sauvegarde vide ou nombre de profils excessif.');return}
  const restored={};const idMap={};const importedChallenge={};
  for(const [oldId,value] of entries){
@@ -20,7 +20,7 @@ async function importProfiles(file){
   do{newId='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,9)}while(profiles[newId]||restored[newId]);
   idMap[oldId]=newId;
   restored[newId]={...fresh(),...value,name,firstName:name,screen:'home'};
-  const stored=payload.challenges&&payload.challenges[oldId];
+  const stored=oldId==='__legacyGuest'?payload.legacyChallengeGuest:(payload.challenges&&payload.challenges[oldId]);
   if(typeof stored==='string'){
    try{const obj=JSON.parse(stored);if(obj&&typeof obj==='object'&&!Array.isArray(obj))importedChallenge[newId]=stored}catch{}
   }
@@ -445,7 +445,7 @@ function parent(){root.innerHTML=`<div class="panel"><div class="eyebrow">ESPACE
  else if(/Android/i.test(navigator.userAgent))explain('Sur Android : dans Chrome, ouvre le menu ⋮ et choisis « Installer l’application » ou « Ajouter à l’écran d’accueil ». Tu peux aussi jouer sans installation.');
  else explain('Sur ordinateur : dans Chrome ou Edge, cherche l’icône d’installation dans la barre d’adresse ou l’option « Installer » du menu. Si elle n’apparaît pas, joue directement dans le navigateur.');
 }
-function go(v){if(v!=='map')travelBusy=false;if(v!=='exam-result')clearExamCelebration();if(v==='onboarding'){guideStep=0;}stopSpeech();if(S.screen==='quiz'&&v!=='quiz')saveWorldRun();if(v==='exam-result'&&S.screen==='parent')S.resultOrigin='parent';if(v==='parent')S.resultOrigin='parent';S.screen=v;save();update()}document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(!activeId){go('onboarding');return}if(b.dataset.go==='home'){go('onboarding')}else if(b.dataset.go==='exam'){if(S.exam)go('exam');else startExam()}else go(b.dataset.go)});const soundToggle=document.getElementById('sound-toggle');if(soundToggle)soundToggle.onclick=()=>{soundOn=!soundOn;soundToggle.textContent=soundOn?'🔊':'🔇';soundToggle.setAttribute('aria-label',soundOn?'Désactiver le son':'Activer le son')};if(!Object.keys(profiles).length){try{const legacy=JSON.parse(localStorage.getItem(KEY)||'null');if(window.CE2_RECOVERY.hasLegacyProgress(legacy)){const id='p'+Date.now().toString(36)+'legacy';const firstName=String(legacy.firstName||legacy.name||'Ancien aventurier').trim().slice(0,28);profiles[id]={...fresh(),...legacy,name:firstName,firstName,screen:'home'};activeId=id;storeProfiles();}}catch{}}
+function go(v){if(v!=='map')travelBusy=false;if(v!=='exam-result')clearExamCelebration();if(v==='onboarding'){guideStep=0;}stopSpeech();if(S.screen==='quiz'&&v!=='quiz')saveWorldRun();if(v==='exam-result'&&S.screen==='parent')S.resultOrigin='parent';if(v==='parent')S.resultOrigin='parent';S.screen=v;save();update()}document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(!activeId){go('onboarding');return}if(b.dataset.go==='home'){go('onboarding')}else if(b.dataset.go==='exam'){if(S.exam)go('exam');else startExam()}else go(b.dataset.go)});const soundToggle=document.getElementById('sound-toggle');if(soundToggle)soundToggle.onclick=()=>{soundOn=!soundOn;soundToggle.textContent=soundOn?'🔊':'🔇';soundToggle.setAttribute('aria-label',soundOn?'Désactiver le son':'Activer le son')};if(!Object.keys(profiles).length){try{const legacy=JSON.parse(localStorage.getItem(KEY)||'null');if(window.CE2_RECOVERY.hasLegacyProgress(legacy)){const id='p'+Date.now().toString(36)+'legacy';const firstName=String(legacy.firstName||legacy.name||'Ancien aventurier').trim().slice(0,28);profiles[id]={...fresh(),...legacy,name:firstName,firstName,screen:'home',legacyGuestMigrated:true};activeId=id;storeProfiles();try{const savedChallenge=localStorage.getItem('ce2_challenge_v8254_guest');if(savedChallenge){const checked=JSON.parse(savedChallenge);if(checked&&typeof checked==='object'&&!Array.isArray(checked))localStorage.setItem('ce2_challenge_v8254_'+id,savedChallenge);}}catch{}}}catch{}}
 if(!activeId){S={...fresh(),screen:'onboarding'}}else{S={...fresh(),...profiles[activeId]};ensureState();S.screen='onboarding';guideStep=0}try{update()}catch(e){console.error('Erreur accueil',e);root.innerHTML='<div class="castle-menu"><h1>Bienvenue dans le royaume des mots</h1><p>Le jeu n’a pas pu démarrer. Recharge la page pour réessayer.</p><button onclick="location.reload()">Réessayer</button></div>'}if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});})();
 
 
