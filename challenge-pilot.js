@@ -668,7 +668,7 @@ const PILOT={
         "id": "P3-01-09",
         "level": 2,
         "mode": "pilot",
-        "kind": "temps",
+        "kind": "verbe",
         "range": [
           34,
           63
