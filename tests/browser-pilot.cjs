@@ -27,6 +27,15 @@ const {chromium}=require('playwright');
    for(let i=0;i<3;i++){
     assert.match(await page.locator('.ch-over').first().innerText(),new RegExp('Initiation.+ '+(i+1)+' / 3'));
     assert.match(await page.locator('#challenge-root').innerText(),/Cette initiation n’est pas notée/);
+    if(i===1){
+     assert(await page.locator('#ch-pilot-next').isDisabled(),'La démonstration est obligatoire avant de commencer');
+     const demo=level===1?[[1,1],[8,0]]:[[1,4],[3,4],[2,3]];
+     for(const [word,color] of demo){
+      await page.locator('[data-pilot-demo-color="'+color+'"]').click();
+      await page.locator('[data-pilot-demo-word="'+word+'"]').click();
+     }
+     assert(await page.locator('#ch-pilot-next').isEnabled(),'Les bonnes couleurs doivent valider la démonstration');
+    }
     await page.locator('#ch-pilot-next').click();
    }
   }
