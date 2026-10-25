@@ -157,20 +157,20 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          95,
-          117
+          93,
+          115
         ],
         "evidence": [
           [
-            96,
+            94,
             1
           ],
           [
-            108,
+            106,
             1
           ],
           [
-            105,
+            103,
             0
           ]
         ],
@@ -228,20 +228,20 @@ const PILOT={
         "mode": "pilot",
         "kind": "ponctuation",
         "range": [
-          95,
-          106
+          93,
+          104
         ],
         "evidence": [
           [
-            96,
+            94,
             1
           ],
           [
-            97,
+            95,
             0
           ],
           [
-            105,
+            103,
             0
           ]
         ],
@@ -347,19 +347,19 @@ const PILOT={
         "kind": "dialogue",
         "range": [
           84,
-          117
+          115
         ],
         "evidence": [
           [
-            90,
+            85,
             3
           ],
           [
-            108,
+            106,
             1
           ]
         ],
-        "task": "Colorie « contient » en violet, puis « répond » en orange.",
+        "task": "Colorie « ouvre » en violet, puis « répond » en orange.",
         "question": "Pourquoi les pirates gardaient-ils des livres ?",
         "options": [
           "Pour retrouver leur chemin grâce aux cartes marines.",
@@ -368,11 +368,11 @@ const PILOT={
           "Pour offrir leurs livres à Lina."
         ],
         "correct": 0,
-        "explanation": "Tom ouvre un livre et découvre des cartes marines. Lina explique que les pirates voulaient retrouver leur chemin.",
-        "help": "Regarde ce que Tom découvre dans le livre. À quoi servent ces cartes ?",
+        "explanation": "Tom ouvre un livre rempli de cartes marines. Lina explique que les pirates voulaient retrouver leur chemin.",
+        "help": "Regarde ce qu’il y a dans le livre. À quoi servent les cartes marines ?",
         "title": "Mission 9 · Dialogue",
         "proofQuotes": [
-          "Tom ouvre un livre : il contient des cartes marines.",
+          "Tom ouvre un livre rempli de cartes marines.",
           "Lina répond : « Ils voulaient retrouver leur chemin ! »"
         ]
       },
@@ -420,20 +420,20 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          95,
-          117
+          93,
+          115
         ],
         "evidence": [
           [
-            96,
+            94,
             1
           ],
           [
-            108,
+            106,
             1
           ],
           [
-            105,
+            103,
             0
           ]
         ],
@@ -460,24 +460,24 @@ const PILOT={
         "mode": "pilot",
         "kind": "temps",
         "range": [
-          118,
-          150
+          116,
+          148
         ],
         "evidence": [
           [
-            118,
+            116,
             2
           ],
           [
-            141,
+            139,
             2
           ],
           [
-            122,
+            120,
             3
           ],
           [
-            144,
+            142,
             3
           ]
         ],
@@ -504,16 +504,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "negation",
         "range": [
-          151,
-          162
+          149,
+          160
         ],
         "evidence": [
           [
-            152,
+            150,
             4
           ],
           [
-            153,
+            151,
             4
           ]
         ],
@@ -539,16 +539,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "temps",
         "range": [
-          141,
-          150
+          139,
+          148
         ],
         "evidence": [
           [
-            141,
+            139,
             2
           ],
           [
-            144,
+            142,
             3
           ]
         ],
@@ -574,24 +574,24 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          107,
-          117
+          105,
+          115
         ],
         "evidence": [
+          [
+            106,
+            1
+          ],
           [
             108,
             1
           ],
           [
-            110,
+            115,
             1
           ],
           [
-            117,
-            1
-          ],
-          [
-            116,
+            114,
             0
           ]
         ],
@@ -656,12 +656,12 @@ const PILOT={
         "mode": "pilot",
         "kind": "verbe",
         "range": [
-          118,
-          140
+          116,
+          138
         ],
         "evidence": [
           [
-            135,
+            133,
             3
           ]
         ],
@@ -687,16 +687,16 @@ const PILOT={
         "mode": "pilot",
         "kind": "negation",
         "range": [
-          151,
-          162
+          149,
+          160
         ],
         "evidence": [
           [
-            152,
+            150,
             4
           ],
           [
-            153,
+            151,
             4
           ]
         ],
@@ -766,24 +766,24 @@ const PILOT={
         "mode": "pilot",
         "kind": "ponctuation",
         "range": [
-          95,
-          117
+          93,
+          115
         ],
         "evidence": [
           [
-            97,
+            95,
             0
           ],
           [
-            105,
+            103,
             0
           ],
           [
-            109,
+            107,
             0
           ],
           [
-            116,
+            114,
             0
           ]
         ],
