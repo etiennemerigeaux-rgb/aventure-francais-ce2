@@ -123,7 +123,7 @@ const pilotInfo=hasPilot?'<p class="ch-hint">🏴‍☠️ Histoire pilote : dix
 wrap(`<button class="ch-minor" id="ch-back">← Les niveaux</button><div class="ch-card ch-center"><div class="ch-emoji">${['🧭','🔎','👑'][l]}</div><h1>${levels[l]}</h1><p>Objectif : <strong>15/20 sur un texte</strong>. Sur les histoires classiques, la bonne couleur compte. Sur l’histoire pilote, trouve les preuves puis réponds à la question. Après une erreur, tu peux réessayer sans points supplémentaires.</p><p class="ch-hint">Les textes sont tirés au hasard, sans répétition jusqu'à ce que les 10 soient proposés.</p><p class="ch-hint">Textes de ${['55 à 65','90 à 105','120 à 145'][l]} mots · 10 défis : 5 surlignages et 5 exercices de réflexion pour les histoires classiques.</p>${pilotInfo}<button id="ch-surprise" class="ch-main">🎲 Lancer un texte au hasard (essai)</button></div>`);showResumeButton('#ch-surprise');
 if(hasPilot){
  $('#ch-pilot-story').onclick=()=>{if(db.inProgress&&!confirm('Une histoire est en cours. En commencer une nouvelle remplacera sa sauvegarde. Continuer ?'))return;start(l===1?'C2-01':'C3-01')};
- $('#ch-pilot-intro').onclick=()=>{state.pilotPending=null;state.pilotIntroStep=0;state.screen='pilotIntro';render()};
+ $('#ch-pilot-intro').onclick=()=>{state.pilotPending=null;state.pilotIntroStep=0;state.pilotDemoColor=-1;state.pilotDemoMarks={};state.screen='pilotIntro';render()};
 }
 $('#ch-back').onclick=()=>{state.screen='levels';render()};$('#ch-surprise').onclick=()=>{if(db.inProgress&&!confirm('Une histoire est en cours. En commencer une nouvelle remplacera sa sauvegarde. Continuer ?'))return;const id=randomText(l);if(id)start(id)}}
 function start(id){
@@ -131,7 +131,7 @@ function start(id){
  if(!story){alert('Le texte n’est pas disponible. Recharge la page.');return;}
  state.id=id;state.level=story.level;
  const pilot=story.missions.filter(m=>m.mode==='pilot');
- if(pilot.length&&!db.pilotIntroSeen?.[story.level]){state.pilotPending=id;state.pilotIntroStep=0;state.screen='pilotIntro';root.scrollTop=0;render();return;}
+ if(pilot.length&&!db.pilotIntroSeen?.[story.level]){state.pilotPending=id;state.pilotIntroStep=0;state.pilotDemoColor=-1;state.pilotDemoMarks={};state.screen='pilotIntro';root.scrollTop=0;render();return;}
  state.step=0;state.selected=[];state.choice=-1;state.color=-1;state.score=0;state.errors=[];state.feedback=null;state.reviewing=false;
  state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';
  if(pilot.length){state.questions=pilot;state.screen='play';rememberChallenge();root.scrollTop=0;render();return;}
@@ -172,13 +172,36 @@ function pilotIntroPage(){
  const lesson=(state.level===1?config.level1:config.level2).intro;
  const i=Math.min(state.pilotIntroStep||0,lesson.length-1),part=lesson[i];
  wrap('<div class="ch-card ch-center"><div class="ch-emoji">📖</div><div class="ch-over">Initiation '+(state.level===1?'Expert':'Maître des mots')+' · '+(i+1)+' / '+lesson.length+'</div><h1>'+esc(part.title)+'</h1><p>'+esc(part.body)+'</p><p class="ch-hint">Cette initiation n’est pas notée.</p><button id="ch-pilot-next" class="ch-main">'+(i===lesson.length-1?'J’ai compris, commencer les missions →':'Je continue →')+'</button><button id="ch-pilot-back" class="ch-minor">← Retour aux histoires</button></div>');
+ const demoReady=i===1?mountPilotIntroDemo():true;
  $('#ch-pilot-back').onclick=()=>{state.pilotPending=null;state.screen='select';render()};
  $('#ch-pilot-next').onclick=()=>{
+  if(!demoReady)return;
   if(i+1<lesson.length){state.pilotIntroStep++;render();return;}
   db.pilotIntroSeen=db.pilotIntroSeen||{};db.pilotIntroSeen[state.level]=true;save();
   const pending=state.pilotPending;state.pilotPending=null;
   if(pending)start(pending);else{state.screen='select';render();}
  };
+}
+
+function mountPilotIntroDemo(){
+ const isExpert=state.level===1;
+ const words=isExpert?['Tom','demande',':','«','Où','est','la','clé','?','»']:['Lina','ne','trouve','pas','la','clé','.'];
+ const needed=isExpert?[[1,1],[8,0]]:[[1,4],[3,4],[2,3]];
+ const marks=state.pilotDemoMarks||{};
+ const done=Object.keys(marks).length===needed.length&&needed.every(([word,color])=>marks[word]===color);
+ const prompt=isExpert?'Essaie : colorie « demande » en orange, puis « ? » en jaune.':'Essaie : colorie « ne » et « pas » en vert, puis « trouve » en violet.';
+ const colors=MARKERS.map((c,i)=>'<button class="ch-color'+(state.pilotDemoColor===i?' active':'')+'" data-pilot-demo-color="'+i+'" style="background:'+c.hex+'" aria-label="Surligneur '+c.name+'">✎</button>').join('');
+ const tokens=words.map((word,i)=>'<button class="ch-token'+(marks[i]!==undefined?' ch-marked':'')+'" data-pilot-demo-word="'+i+'"'+(marks[i]!==undefined?' style="--marker:'+MARKERS[marks[i]].hex+'"':'')+'>'+esc(word)+'</button>').join(' ');
+ $('#ch-pilot-next').insertAdjacentHTML('beforebegin','<div class="ch-card"><p class="ch-task">'+esc(prompt)+'</p><div class="ch-colors">'+colors+'</div><p class="ch-hint">Couleur choisie : '+(state.pilotDemoColor<0?'Aucune':MARKERS[state.pilotDemoColor].name)+'</p><div class="ch-text ch-pilot-excerpt">'+tokens+'</div><p class="ch-hint" role="status">'+(done?'✨ Bravo ! Tu sais utiliser plusieurs couleurs.':'Touche une couleur, puis un mot. Retouche un mot pour l’effacer.')+'</p></div>');
+ $('#ch-pilot-next').disabled=!done;
+ root.querySelectorAll('[data-pilot-demo-color]').forEach(b=>b.onclick=()=>{state.pilotDemoColor=+b.dataset.pilotDemoColor;render()});
+ root.querySelectorAll('[data-pilot-demo-word]').forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.pilotDemoWord;
+  if(Object.prototype.hasOwnProperty.call(state.pilotDemoMarks,i))delete state.pilotDemoMarks[i];
+  else if(state.pilotDemoColor>=0)state.pilotDemoMarks[i]=state.pilotDemoColor;
+  render();
+ });
+ return done;
 }
 function playPilot(story,m){
  const phase=state.pilotPhase||0,marks=state.pilotMarks||{},first=m.range[0],last=m.range[1],hint=state.pilotHint||0;
