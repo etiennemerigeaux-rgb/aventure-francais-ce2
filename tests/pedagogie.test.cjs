@@ -10,6 +10,8 @@ const load=(name)=>fs.readFileSync(path.join(root,name),'utf8');
 const ctx={window:{}};
 vm.runInNewContext(load('data.js'),ctx,{filename:'data.js'});
 vm.runInNewContext(load('pedagogy.js'),ctx,{filename:'pedagogy.js'});
+vm.runInNewContext(load('punctuation-rich.js'),ctx,{filename:'punctuation-rich.js'});
+vm.runInNewContext(load('lunettes-rich.js'),ctx,{filename:'lunettes-rich.js'});
 vm.runInNewContext(load('dialogue-pedagogy.js'),ctx,{filename:'dialogue-pedagogy.js'});
 const worlds=ctx.window.CE2_DATA.worlds;
 assert.equal(worlds.length,5,'Il doit rester cinq mondes.');
@@ -59,7 +61,7 @@ for(let world=0;world<worlds.length;world++){
    for(const [type,n] of Object.entries(quotas))assert.equal(byType[type],n,'Quota incorrect : '+type);
   }
   if(world===0||world===4){
-   const families=indices.map(i=>world===0?Math.floor(i/10):i%10);
+   const families=indices.map(i=>Math.floor(i/10));
    assert.equal(new Set(families).size,10,'Il faut dix familles distinctes.');
   }
   sessions++;
@@ -67,6 +69,22 @@ for(let world=0;world<worlds.length;world++){
  assert.equal(visited.size,100,'Les 100 questions doivent être parcourues sur dix parties.');
  console.log('OK : '+worlds[world].name+' — 200 parties.');
 }
+// Au-delà du hasard, chaque questionnaire doit couvrir dix familles pédagogiques.
+assert.equal(ctx.window.CE2_PEDAGOGY.version,'v82.5.60');
+assert.equal(ctx.window.CE2_EDITORIAL.punctuation,40);
+assert.equal(ctx.window.CE2_EDITORIAL.lunettes,40);
+for(const [world,label] of [[0,'ponctuation'],[4,'négation']]){
+ const curated=worlds[world].questions.filter(q=>q.editorialVersion==='v82.5.60');
+ assert.equal(curated.length,40,'Nombre de questions enrichies incorrect : '+label);
+ const counts={};
+ for(const q of curated){const family=Math.floor(worlds[world].questions.indexOf(q)/10);counts[family]=(counts[family]||0)+1;}
+ assert.equal(Object.keys(counts).length,8,'Huit familles enrichies attendues : '+label);
+ assert(Object.values(counts).every(n=>n===5),'Répartition des questions enrichies incorrecte : '+label);
+}
+assert(load('game.js').includes('run?.bankVersion===window.CE2_PEDAGOGY?.version'),
+ 'La reprise de session ne vérifie pas la version de la banque.');
+assert(load('sw.js').includes('"./lunettes-rich.js"')&&load('sw.js').includes('"./punctuation-rich.js"'),
+ 'Le cache hors connexion oublie une banque.');
 const enriched=worlds[1].questions.filter(q=>q.learningPhase==='réinvestissement');
 assert.equal(enriched.length,50);
 const histogram=[0,0,0,0];
