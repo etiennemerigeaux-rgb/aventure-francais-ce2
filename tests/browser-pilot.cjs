@@ -83,7 +83,7 @@ const {chromium}=require('playwright');
     }
     assert.equal(await page.locator('.ch-pilot-excerpt .ch-marked').count(),m.evidence.length,'Les couleurs doivent rester toutes visibles');
     await page.locator('#ch-pilot-check').click();
-    assert.match(await page.locator('.ch-task').first().innerText(),/Étape 2 sur 2/);
+    assert.match(await page.locator('.ch-task').first().innerText(),level===1?/Étape 2 sur 2/:/🧩/);
     assert.equal(await page.locator('.ch-pilot-proof .ch-marked').count(),m.evidence.length,'Preuves disparues de la question');
     if(level===1){
      const answer=i===1?(m.correct+1)%4:m.correct;
