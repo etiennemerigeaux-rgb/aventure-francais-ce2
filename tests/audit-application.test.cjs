@@ -106,7 +106,7 @@ assert.equal(belowThreshold.examHistory[0].score,14.4);
 assert(!belowThreshold.challengeUnlocked);
 const aboveThreshold=completedWith(19);
 assert.equal(aboveThreshold.examHistory[0].score,15.2);
-assert.equal(aboveThreshold.challengeUnlocked);
+assert(aboveThreshold.challengeUnlocked);
 checks+=2;
 assert.equal(D.examBank.length,500);checks++;
 for(const item of D.examBank){
