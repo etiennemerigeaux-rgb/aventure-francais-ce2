@@ -151,18 +151,21 @@ const htmlPage=get('index.html'),sw=get('sw.js'),manifest=JSON.parse(get('manife
 const scripts=['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js','recovery.js','game.js','challenge-data.js','challenge-pedagogy.js','challenge.js','scroll-guides.js'];
 let last=-1;
 for(const file of scripts){
- const at=htmlPage.indexOf('src="'+file+'?v=82568"');
+ const at=htmlPage.indexOf('src="'+file+'?v=82569"');
  assert(at>last,'Script manquant ou ordre incorrect : '+file);last=at;
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
-assert(sw.includes('v82568-simplified-challenge-tutorial'));
-assert(htmlPage.includes('data-app-version="V82.5.68"'));
+assert(sw.includes('v82569-tutorial-13-steps'));
+assert(htmlPage.includes('data-app-version="V82.5.69"'));
 assert(htmlPage.includes('window.CE2_APP_VERSION=document.documentElement.dataset.appVersion'));
 assert(code.includes('window.CE2_APP_VERSION'));
 const challengeLabel=get('challenge.js');
 assert(challengeLabel.includes('window.CE2_APP_VERSION'));
 assert(!challengeLabel.includes('V82.5.54'),'Ancien numéro de version du Challenge.');
 assert(challengeLabel.includes('📖 Revoir le tutoriel'),'L’accès au tutoriel doit être clairement nommé.');
+assert(challengeLabel.includes("guideVisited:[0]"),'Le surligneur jaune doit être comptabilisé dès le départ.');
+assert(challengeLabel.includes('ch-discovery-progress'),'La progression 1/5 doit être affichée.');
+assert(challengeLabel.includes('ex.answer.length===0||state.guideColor===ex.color'),'L’effacement ne doit pas dépendre de la couleur sélectionnée.');
 assert(!challengeLabel.includes('ch-practice4'),'L’ancien bouton Tester l’étape 4 doit disparaître.');
 assert(challengeLabel.includes("state.guideStep=0;"),'Le tutoriel doit reprendre à sa première étape.');
 assert.equal(manifest.display,'standalone');
