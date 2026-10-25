@@ -24,15 +24,15 @@ const PILOT={
     "intro": [
       {
         "title": "Bienvenue dans Maître des mots !",
-        "body": "Ici, tu vérifies des informations et tu répares des phrases grâce aux preuves trouvées dans l’histoire."
+        "body": "Tu vas réparer une histoire : remettre des événements dans l’ordre, corriger des phrases et reconstruire des dialogues."
       },
       {
-        "title": "Retrouve les preuves",
-        "body": "Lis la première consigne. Colorie les mots ou les signes demandés avec les bons surligneurs."
+        "title": "Les surligneurs sont tes outils",
+        "body": "D’abord, retrouve les preuves dans le texte. Tu peux garder plusieurs couleurs. Puis suis la petite consigne de la mission."
       },
       {
-        "title": "Réfléchis avant de répondre",
-        "body": "Compare les preuves avec la question. Choisis la phrase qui respecte l’histoire. Une aide est disponible si tu en as besoin."
+        "title": "Prends ton temps !",
+        "body": "Utilise les flèches pour déplacer les phrases ou touche les mots pour corriger. Tu peux demander de l’aide. Les missions deviennent plus difficiles."
       }
     ]
   },
@@ -420,10 +420,14 @@ const PILOT={
         "mode": "pilot",
         "kind": "dialogue",
         "range": [
-          93,
+          84,
           115
         ],
         "evidence": [
+          [
+            85,
+            3
+          ],
           [
             94,
             1
@@ -431,13 +435,9 @@ const PILOT={
           [
             106,
             1
-          ],
-          [
-            103,
-            0
           ]
         ],
-        "task": "Colorie « demande » et « répond » en orange, puis « ? » en jaune.",
+        "task": "Colorie « ouvre » en violet, puis « demande » et « répond » en orange.",
         "question": "Un message dit : « Lina pose la question et Tom répond. » Est-il exact ?",
         "options": [
           "Oui, Lina pose la question.",
@@ -450,6 +450,7 @@ const PILOT={
         "help": "Regarde le nom placé avant « demande » et « répond ».",
         "title": "Mission 1 · Dialogue",
         "proofQuotes": [
+          "Tom ouvre un livre rempli de cartes marines.",
           "Tom demande : « Pourquoi les pirates gardaient-ils des livres ? »",
           "Lina répond : « Ils voulaient retrouver leur chemin ! »"
         ]
@@ -661,11 +662,15 @@ const PILOT={
         ],
         "evidence": [
           [
+            120,
+            3
+          ],
+          [
             133,
             3
           ]
         ],
-        "task": "Colorie « promet » en violet.",
+        "task": "Colorie « rapportent » et « promet » en violet.",
         "question": "Si plusieurs gardiens protègent la carte, quelle phrase est correcte ?",
         "options": [
           "Les gardiens promet de protéger la carte.",
@@ -678,6 +683,7 @@ const PILOT={
         "help": "Le sujet « Les gardiens » désigne plusieurs personnes. Le verbe doit aussi changer.",
         "title": "Mission 7 · Verbes",
         "proofQuotes": [
+          "Aujourd’hui, les enfants rapportent le trésor au musée du port.",
           "Le gardien les remercie et promet de protéger la carte."
         ]
       },
@@ -766,28 +772,32 @@ const PILOT={
         "mode": "pilot",
         "kind": "ponctuation",
         "range": [
-          93,
+          46,
           115
         ],
         "evidence": [
           [
-            95,
-            0
+            47,
+            4
           ],
           [
-            103,
-            0
+            49,
+            4
           ],
           [
-            107,
-            0
+            60,
+            3
           ],
           [
-            114,
-            0
+            94,
+            1
+          ],
+          [
+            106,
+            1
           ]
         ],
-        "task": "Colorie les deux « : », le « ? » et le « ! » en jaune.",
+        "task": "Colorie « ne » et « pas » en vert, « découvre » en violet, puis « demande » et « répond » en orange.",
         "question": "Quelle phrase explique correctement les signes utilisés ?",
         "options": [
           "Les deux « : » terminent les questions.",
@@ -800,6 +810,8 @@ const PILOT={
         "help": "Regarde le signe final dans chaque réplique.",
         "title": "Mission 10 · Ponctuation",
         "proofQuotes": [
+          "Lina ne trouve pas la clé.",
+          "Soudain, Tom soulève une pierre et découvre la clé !",
           "Tom demande : « Pourquoi les pirates gardaient-ils des livres ? »",
           "Lina répond : « Ils voulaient retrouver leur chemin ! »"
         ]
