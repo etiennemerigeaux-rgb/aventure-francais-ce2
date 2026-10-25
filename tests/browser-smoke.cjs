@@ -28,7 +28,7 @@ const {chromium}=require('playwright');
    await page.locator('#next').click();
   }
   await page.locator('#see-rewards').waitFor();
-  assert.match(await page.locator('#scene').innerText(),/10 bonnes réponses sur 10/);
+  assert.match(await page.locator('#scene').innerText(),/10\/10 sans aide · 30 pièces gagnées/);
   await page.locator('[data-go="parent"]').click();
   const downloadPromise=page.waitForEvent('download');
   await page.locator('#export-profiles').click();

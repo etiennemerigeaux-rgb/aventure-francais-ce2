@@ -88,8 +88,8 @@ for(const [world,label] of [[0,'ponctuation'],[4,'négation']]){
  assert.equal(Object.keys(counts).length,8,'Huit familles enrichies attendues : '+label);
  assert(Object.values(counts).every(n=>n===10),'Répartition des questions enrichies incorrecte : '+label);
 }
-assert(load('game.js').includes('run?.bankVersion===window.CE2_PEDAGOGY?.version'),
- 'La reprise de session ne vérifie pas la version de la banque.');
+assert(load('game.js').includes('window.CE2_RECOVERY.validRun(run,i,W[i].questions.length)'),
+ 'La reprise doit valider les indices et la version de la banque.');
 assert(load('sw.js').includes('"./lunettes-rich.js"')&&load('sw.js').includes('"./punctuation-rich.js"'),
  'Le cache hors connexion oublie une banque.');
 const enriched=worlds[1].questions.filter(q=>q.learningPhase==='réinvestissement');

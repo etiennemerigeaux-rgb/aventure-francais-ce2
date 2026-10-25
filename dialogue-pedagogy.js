@@ -23,6 +23,20 @@ for(let topic=0;topic<5;topic++){
   W[1].questions[idx]={...orig,q,options:shuffled,answer:wanted,explanation,learningType,learningPhase:'réinvestissement'};
  });
 }
+
+// Les anciennes questions restent intactes, mais disposent d'une démarche décrite.
+function classifyBaseDialogue(question){
+ const t=String(question).toLocaleLowerCase('fr');
+ if(/qui prononce|qui propose|qui parle|quel personnage|locuteur/.test(t))return 'locuteur';
+ if(/quel signe doit|complète|quel signe place/.test(t))return 'application';
+ if(/quelle phrase|quelle écriture|quel début|quel passage/.test(t))return 'reconstruction';
+ if(/à quoi sert|que signifie|pourquoi|combien de|dans la phrase suivante/.test(t))return 'compréhension';
+ return 'identification';
+}
+for(const q of W[1].questions){
+ if(!q.learningType)q.learningType=classifyBaseDialogue(q.q);
+ q.pedagogicalCompetence=q.topic;
+}
 function shuffle(array){
  for(let j=array.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[array[j],array[k]]=[array[k],array[j]]}
  return array;

@@ -1,0 +1,26 @@
+name: QA français CE2
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, audit-correctifs-v82-5-63]
+
+permissions:
+  contents: read
+
+jobs:
+  pedagogie-et-parcours:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tester les cinq mondes
+        run: node tests/pedagogie.test.cjs
+      - name: Tester les sauvegardes, évaluations et challenges
+        run: node tests/audit-application.test.cjs

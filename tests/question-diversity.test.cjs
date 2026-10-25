@@ -4,6 +4,9 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const ctx={window:{}};
 vm.runInNewContext(fs.readFileSync('data.js','utf8'),ctx);
+for(const file of ['pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js']){
+ vm.runInNewContext(fs.readFileSync(file,'utf8'),ctx);
+}
 const W=JSON.parse(JSON.stringify(ctx.window.CE2_DATA.worlds));
 const game=fs.readFileSync('game.js','utf8');
 const select=game.slice(game.indexOf('function questionTopic('),game.indexOf('function ensureState('));
@@ -64,12 +67,12 @@ for(const world of [2,3]){
  // sans sacrifier ses deux questions par compétence.
 {
  const S={questionDecks:{},lastQuestionTopics:{},runQuestions:[]};
- const ctx={S,W,RUN_SIZE:10};vm.createContext(ctx);vm.runInContext(select,ctx);
+ const dialogueContext={S,W,RUN_SIZE:10,window:ctx.window};vm.createContext(dialogueContext);vm.runInContext(select,dialogueContext);
  const seen=new Set();
  for(let run=0;run<10;run++){
-  vm.runInContext('newQuestionRun(1)',ctx);
+  vm.runInContext('newQuestionRun(1)',dialogueContext);
   const qs=Array.from(S.runQuestions).map(i=>W[1].questions[i]);
-  assert.equal(qs.filter(q=>q.learningType==='definition').length,2,'Le dialogue doit proposer 2 définitions par partie');
+  assert.equal(qs.slice(5).filter(q=>q.learningPhase==='réinvestissement').length,5,'Chaque partie doit contenir 5 exercices de réinvestissement');
   for(const topic of ['verbes','tirets','deux-points','guillemets','dialogue'])assert.equal(qs.filter(q=>q.topic===topic).length,2);
   for(const q of qs){assert(!seen.has(q.id));seen.add(q.id)}
  }
