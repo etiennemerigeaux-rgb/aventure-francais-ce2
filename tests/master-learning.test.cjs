@@ -16,7 +16,7 @@ const a=core.indexOf('function masterSections(activity){'),b=core.indexOf('funct
 assert(a>=0&&b>a,'Moteur Maître absent');
 const {masterSections,masterInitial,masterValid,masterCorrect}=new Function(core.slice(a,b)+';return {masterSections,masterInitial,masterValid,masterCorrect}')();
 const expectedKinds=['order','order','fill','fill','order','order','fill','fill','fill','final'];
-assert.deepEqual(master.map(m=>m.activity.kind),expectedKinds);
+assert.deepEqual(Array.from(master,m=>m.activity.kind),expectedKinds);
 let sectionsTotal=0;
 for(let index=0;index<master.length;index++){
  const m=master[index],act=m.activity,sections=masterSections(act);
@@ -37,7 +37,7 @@ for(let index=0;index<master.length;index++){
     assert.equal(new Set(part.solution).size,part.items.length);
     assert(part.items.length>=3);
     correct=part.solution;
-    assert.notDeepEqual(initial,correct,'La réponse ne doit pas être donnée au départ.');
+    assert.notEqual(JSON.stringify(initial),JSON.stringify(correct),'La réponse ne doit pas être donnée au départ.');
   }else if(part.kind==='fill'){
     assert(part.slots.length>=2,'Une correction doit comporter au moins deux choix');
     for(const slot of part.slots){
@@ -69,4 +69,4 @@ assert(sw.includes('"./challenge-master.js"'));
 assert(core.includes('masterSchema:1'));
 assert(core.includes("state.masterAnswers={}"));
 assert(core.includes("if(phase===1&&m.activity){playMaster(story,m);return;}"));
-console.log('OK — 10 missions Maître, 12 manipulations, 4 familles de mécaniques, aides CE2, correction 2/20, Expert préservé.');
+console.log('OK — 10 missions Maître, 12 manipulations, 4 familles de mécaniques, aides CE2, notation 2 points par mission, Expert préservé.');
