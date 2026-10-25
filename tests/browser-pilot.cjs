@@ -39,6 +39,35 @@ const {chromium}=require('playwright');
     await page.locator('#ch-pilot-next').click();
    }
   }
+
+  async function solveMasterPart(section){
+   if(section.kind==='order'){
+    const order=section.items.map((_,i)=>i);
+    for(let goal=0;goal<section.solution.length;goal++){
+     let at=order.indexOf(section.solution[goal]);
+     while(at>goal){
+      await page.locator('[data-master-up="'+at+'"]').click();
+      [order[at-1],order[at]]=[order[at],order[at-1]];
+      at--;
+     }
+    }
+   }else if(section.kind==='fill'){
+    for(let k=0;k<section.slots.length;k++)await page.locator('[data-master-fill="'+k+':'+section.slots[k].correct+'"]').click();
+   }else if(section.kind==='match'){
+    for(let k=0;k<section.left.length;k++)await page.locator('[data-master-match="'+k+':'+section.solution[k]+'"]').click();
+   }else throw Error('Type Maître inattendu '+section.kind);
+   assert(await page.locator('#ch-check').isEnabled(),'Une activité Maître complète doit pouvoir être vérifiée');
+  }
+  async function completeMaster(m){
+   assert(m.activity,'Mission Maître sans activité : '+m.id);
+   const sections=m.activity.kind==='final'?m.activity.sections:[m.activity];
+   for(const [index,section] of sections.entries()){
+    await solveMasterPart(section);
+    await page.locator('#ch-check').click();
+    if(index<sections.length-1)assert.match(await page.locator('.ch-task').first().innerText(),new RegExp((index+2)+' sur '+sections.length));
+   }
+  }
+
   async function run(level){
    const missions=data[level===1?'C2-01':'C3-01'];
    for(let i=0;i<10;i++){
@@ -56,14 +85,18 @@ const {chromium}=require('playwright');
     await page.locator('#ch-pilot-check').click();
     assert.match(await page.locator('.ch-task').first().innerText(),/Étape 2 sur 2/);
     assert.equal(await page.locator('.ch-pilot-proof .ch-marked').count(),m.evidence.length,'Preuves disparues de la question');
-    const answer=(i===1&&level===1)?(m.correct+1)%4:m.correct;
-    await page.locator('[data-pilot-choice="'+answer+'"]').click();
-    await page.locator('#ch-check').click();
-    if(i===1&&level===1){
-     assert(await page.locator('#ch-retry').isVisible(),'L’erreur doit permettre un nouvel essai sans points');
-     await page.locator('#ch-retry').click();
-     await page.locator('[data-pilot-choice="'+m.correct+'"]').click();
+    if(level===1){
+     const answer=i===1?(m.correct+1)%4:m.correct;
+     await page.locator('[data-pilot-choice="'+answer+'"]').click();
      await page.locator('#ch-check').click();
+     if(i===1){
+      assert(await page.locator('#ch-retry').isVisible(),'L’erreur doit permettre un nouvel essai sans points');
+      await page.locator('#ch-retry').click();
+      await page.locator('[data-pilot-choice="'+m.correct+'"]').click();
+      await page.locator('#ch-check').click();
+     }
+    }else{
+     await completeMaster(m);
     }
     assert(await page.locator('#ch-next').isVisible(),'Le bouton suivant manque : '+m.id);
     await page.locator('#ch-next').click();
@@ -90,6 +123,6 @@ const {chromium}=require('playwright');
   const overflow=await page.evaluate(()=>({w:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
   assert(overflow.scroll<=overflow.w+4,'Débordement horizontal : '+JSON.stringify(overflow));
   assert.equal(errors.length,0,'Erreurs JS : '+errors.join(' ; '));
-  console.log('Chromium mobile : 20 missions pilotes, initiations, deux surligneurs, aide, correction, reprise, scores et progression validés.');
+  console.log('Chromium mobile : 10 missions Expert, 10 missions Maître manipulables, initiations, couleurs, sauvegardes et scores validés.');
  }finally{await browser.close()}
 })().catch(err=>{console.error(err);process.exitCode=1});
