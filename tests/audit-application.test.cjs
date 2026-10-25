@@ -84,6 +84,30 @@ for(let i=0;i<200;i++){
  }
  checks++;
 }
+// Évaluation complète : score sur 20 et seuil réel de déblocage du Challenge.
+const completeSrc=extract('function completeExam(){','function examResult(){');
+const items=buildExam();
+function completedWith(correctAnswers){
+ const player={exam:{items,answers:items.map((q,i)=>i<correctAnswers?q.answer:(q.answer+1)%4),started:'2026-10-25'},examHistory:[],challengeUnlocked:false};
+ let saves=0,screen='',celebrated=0;
+ const done=new Function('S','examQuestions','save','go','playExamCelebration','soundOn','requestAnimationFrame','document','window','root',
+   completeSrc+';return completeExam;')(player,e=>e.items,()=>saves++,x=>{screen=x;},()=>celebrated++,false,
+   callback=>callback(),{scrollingElement:{scrollTo(){}}},{scrollTo(){}},{scrollTop:0});
+ done();
+ assert.equal(player.examHistory.length,1);
+ assert.equal(player.exam,null);
+ assert.equal(screen,'exam-result');
+ assert.equal(saves,1);
+ assert.equal(celebrated,1);
+ return player;
+}
+const belowThreshold=completedWith(18);
+assert.equal(belowThreshold.examHistory[0].score,14.4);
+assert(!belowThreshold.challengeUnlocked);
+const aboveThreshold=completedWith(19);
+assert.equal(aboveThreshold.examHistory[0].score,15.2);
+assert.equal(aboveThreshold.challengeUnlocked);
+checks+=2;
 assert.equal(D.examBank.length,500);checks++;
 for(const item of D.examBank){
  assert(item.id&&item.q&&item.explanation,'Évaluation incomplète');
@@ -94,6 +118,21 @@ for(const item of D.examBank){
 const challenges=context.window.CE2_CHALLENGES;
 assert.equal(challenges.length,30);
 const knownKinds=['ponctuation','dialogue','temps','verbe','negation'];
+const challengeCode=get('challenge.js');
+const from=challengeCode.indexOf('function canEnter(l){');
+const to=challengeCode.indexOf('function randomText(l){',from);
+assert(from>=0&&to>from,'Contrôle de déblocage manquant.');
+const canEnterSource=challengeCode.slice(from,to)+';return canEnter;';
+const db={history:{}};
+const canEnter=new Function('D','db',canEnterSource)(challenges,db);
+assert(canEnter(0));assert(!canEnter(1));assert(!canEnter(2));
+db.history[challenges.find(x=>x.level===0).id]={best:16};
+assert(canEnter(1));assert(!canEnter(2));
+db.history[challenges.find(x=>x.level===1).id]={best:14};
+assert(!canEnter(2));
+db.history[challenges.find(x=>x.level===1).id]={best:16};
+assert(canEnter(2));checks++;
+
 for(const level of [0,1,2])assert.equal(challenges.filter(c=>c.level===level).length,10);
 let missionCount=0;
 for(const story of challenges){
