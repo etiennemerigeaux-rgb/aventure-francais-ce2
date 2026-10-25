@@ -99,5 +99,5 @@ function makeRun(world,turn,lastTopic){
  if(ordered.length!==10||new Set(ordered.map(x=>x.idx)).size!==10)throw Error('Sélection pédagogique invalide');
  return {indices:ordered.map(x=>x.idx),lastTopic:ordered[9].category,categories:ordered.map(x=>x.category)};
 }
-window.CE2_PEDAGOGY={version:'v82.5.60',makeRun,categories};
+window.CE2_PEDAGOGY={version:'v82.5.61',makeRun,categories};
 })();
