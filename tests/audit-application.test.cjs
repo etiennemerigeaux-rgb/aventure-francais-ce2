@@ -151,11 +151,17 @@ const htmlPage=get('index.html'),sw=get('sw.js'),manifest=JSON.parse(get('manife
 const scripts=['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js','recovery.js','game.js','challenge-data.js','challenge.js','scroll-guides.js'];
 let last=-1;
 for(const file of scripts){
- const at=htmlPage.indexOf('src="'+file+'?v=82564"');
+ const at=htmlPage.indexOf('src="'+file+'?v=82565"');
  assert(at>last,'Script manquant ou ordre incorrect : '+file);last=at;
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
-assert(sw.includes('v82564-visible-version'));
+assert(sw.includes('v82565-challenge-version-unified'));
+assert(htmlPage.includes('data-app-version="V82.5.65"'));
+assert(htmlPage.includes('window.CE2_APP_VERSION=document.documentElement.dataset.appVersion'));
+assert(code.includes('window.CE2_APP_VERSION'));
+const challengeLabel=get('challenge.js');
+assert(challengeLabel.includes('window.CE2_APP_VERSION'));
+assert(!challengeLabel.includes('V82.5.54'),'Ancien numéro de version du Challenge.');
 assert.equal(manifest.display,'standalone');
 for(const asset of ['icon-192.png','icon-512.png','style.css','challenge.css'])
  assert(fs.existsSync(path.join(root,asset)),'Ressource locale manquante : '+asset);
