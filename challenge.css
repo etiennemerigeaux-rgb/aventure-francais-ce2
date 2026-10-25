@@ -21,3 +21,10 @@
 .ch-color.ch-discovered{outline:3px solid #fff;outline-offset:2px;font-weight:900;box-shadow:0 0 0 2px #26334b88;}
 .ch-discovery-progress{padding:10px 12px;margin:11px 0 7px;background:#233a57;border:1px solid #a7d5e2;border-radius:12px;color:#fff;font-weight:650;font-size:clamp(.88rem,3.5vw,1.05rem);}
 .ch-discovery-progress strong{font-weight:900;color:#ffecaf;}
+
+/* V82.5.70 — missions pilote sur écran tactile */
+.ch-pilot-excerpt{line-height:2.35;white-space:normal;overflow-wrap:break-word}
+.ch-pilot-proof{line-height:2;white-space:normal;overflow-wrap:break-word;margin-bottom:16px}
+.ch-pilot-proof-word{display:inline;border-radius:3px;padding:2px 1px;color:#17223c}
+.ch-pilot-proof-word.ch-marked{background:var(--marker);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+@media(max-width:420px){.ch-pilot-excerpt,.ch-pilot-proof{font-size:1rem;line-height:2.2}}
