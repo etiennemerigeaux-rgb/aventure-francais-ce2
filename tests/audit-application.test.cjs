@@ -151,17 +151,20 @@ const htmlPage=get('index.html'),sw=get('sw.js'),manifest=JSON.parse(get('manife
 const scripts=['data.js','pedagogy.js','punctuation-rich.js','lunettes-rich.js','dialogue-pedagogy.js','recovery.js','game.js','challenge-data.js','challenge-pedagogy.js','challenge.js','scroll-guides.js'];
 let last=-1;
 for(const file of scripts){
- const at=htmlPage.indexOf('src="'+file+'?v=82567"');
+ const at=htmlPage.indexOf('src="'+file+'?v=82568"');
  assert(at>last,'Script manquant ou ordre incorrect : '+file);last=at;
  assert(sw.includes('"./'+file+'"'),'Manquant du cache PWA : '+file);
 }
-assert(sw.includes('v82567-challenge-level-objectives'));
-assert(htmlPage.includes('data-app-version="V82.5.67"'));
+assert(sw.includes('v82568-simplified-challenge-tutorial'));
+assert(htmlPage.includes('data-app-version="V82.5.68"'));
 assert(htmlPage.includes('window.CE2_APP_VERSION=document.documentElement.dataset.appVersion'));
 assert(code.includes('window.CE2_APP_VERSION'));
 const challengeLabel=get('challenge.js');
 assert(challengeLabel.includes('window.CE2_APP_VERSION'));
 assert(!challengeLabel.includes('V82.5.54'),'Ancien numéro de version du Challenge.');
+assert(challengeLabel.includes('📖 Revoir le tutoriel'),'L’accès au tutoriel doit être clairement nommé.');
+assert(!challengeLabel.includes('ch-practice4'),'L’ancien bouton Tester l’étape 4 doit disparaître.');
+assert(challengeLabel.includes("state.guideStep=0;"),'Le tutoriel doit reprendre à sa première étape.');
 assert.equal(manifest.display,'standalone');
 for(const asset of ['icon-192.png','icon-512.png','style.css','challenge.css'])
  assert(fs.existsSync(path.join(root,asset)),'Ressource locale manquante : '+asset);
