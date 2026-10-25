@@ -13,7 +13,8 @@ const storage={
 let profiles={stable:{name:'Alice',firstName:'Alice',coins:44}},activeId='stable',updates=0;
 storage.setItem(currentKey,JSON.stringify({profiles,activeId}));
 const alerts=[];
-const context={profiles,activeId,PROFILE_KEY:currentKey,localStorage:storage,alert:(message)=>alerts.push(message),confirm:()=>true,update:()=>updates++,fresh:()=>({coins:0,completed:{},history:[],examHistory:[]})};
+const recovery={window:{}};vm.runInNewContext(fs.readFileSync('recovery.js','utf8'),recovery);
+const context={window:recovery.window,profiles,activeId,PROFILE_KEY:currentKey,localStorage:storage,alert:(message)=>alerts.push(message),confirm:()=>true,update:()=>updates++,fresh:()=>({coins:0,completed:{},history:[],examHistory:[]})};
 vm.createContext(context);
 vm.runInContext(extract(game,'async function importProfiles(','function sessionLength('),context);
 const backup={format:'royaume-ce2-backup',version:1,profiles:{stable:{name:'Bob',firstName:'Bob',coins:28,completed:{0:8},examHistory:[{score:16}]}},challenges:{stable:JSON.stringify({history:{'C1-01':{best:18}}})}};
