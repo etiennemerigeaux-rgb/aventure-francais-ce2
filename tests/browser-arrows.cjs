@@ -25,12 +25,19 @@ const {chromium}=require('playwright');
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('#resume-adventure').click();
   await page.evaluate(()=>window.ce2OpenChallengeWithGate());
-  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.66/);
-  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.66'}).innerText(),/Version V82\.5\.66/);
+  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.67/);
+  assert.match(await page.locator('.ch-hint').filter({hasText:'Version V82.5.67'}).innerText(),/Version V82\.5\.67/);
+  for(const [level,goal] of [[0,'Reconnaître'],[1,'Appliquer et comprendre'],[2,'Raisonner et transformer']]){
+    const card=page.locator('[data-level="'+level+'"]');
+    assert.equal(await card.locator('.ch-goal').innerText(),'🎯 Objectif : '+goal);
+    const box=await card.locator('.ch-goal').boundingBox();
+    assert(box && box.width>0 && box.height>0,'Objectif invisible pour le niveau '+level);
+    assert(box.x>=0 && box.x+box.width<=390,'Objectif coupé sur smartphone pour '+level);
+  }
   await page.locator('[data-level="0"]').click();
   await page.locator('#ch-surprise').click();
   await page.locator('#ch-check').waitFor();
-  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.66/);
+  assert.match(await page.locator('.ch-top strong').innerText(),/Mode Challenge · V82\.5\.67/);
   assert.equal(await page.locator('#challenge-root').isHidden(),false);
   const before=await page.evaluate(()=>({challenge:document.querySelector('#challenge-root').scrollTop,page:document.scrollingElement.scrollTop}));
   await page.waitForFunction(()=>{
