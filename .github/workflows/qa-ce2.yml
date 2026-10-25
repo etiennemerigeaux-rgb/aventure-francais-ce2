@@ -25,4 +25,6 @@ jobs:
       - name: Tester les sauvegardes, évaluations et challenges
         run: node tests/audit-application.test.cjs
       - name: Tester la nouvelle pédagogie du Challenge
-        run: node tests/challenge-learning.test.cjs
+        run: |
+          node tests/challenge-learning.test.cjs
+          node tests/pilot-pirates.test.cjs

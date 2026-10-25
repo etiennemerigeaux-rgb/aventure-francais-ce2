@@ -19,6 +19,7 @@ jobs:
           node --check data.js
           node --check scripts/build-exam-bank.cjs
           node --check challenge-data.js
+          node --check challenge-pilot.js
           node --check sw.js
           node --check scroll-guides.js
       - name: Run regression tests
@@ -28,6 +29,7 @@ jobs:
           node tests/profiles.test.cjs
           node tests/rewards.test.cjs
           node tests/navigation-arrows.test.cjs
+          node tests/pilot-pirates.test.cjs
           node tests/pedagogy.test.cjs
           node tests/question-variety.test.cjs
           node tests/question-diversity.test.cjs
@@ -49,4 +51,5 @@ jobs:
           node tests/browser-smoke.cjs
           node tests/browser-arrows.cjs
           node tests/browser-tutorial.cjs
+          node tests/browser-pilot.cjs
           node tests/browser-learning-variety.cjs

@@ -1,4 +1,4 @@
-(()=>{'use strict';const RAW=window.CE2_CHALLENGES,ALLOWED=['ponctuation','dialogue','temps','verbe','negation'],D=Array.isArray(RAW)?RAW.filter(t=>Array.isArray(t.missions)&&t.missions.length>=10&&t.missions.every(m=>ALLOWED.includes(m.kind))):[],root=document.getElementById('challenge-root');if(!root)return;const levels=['🥉 Explorateur','🥈 Expert','🥇 Maître des mots'],colors=['#ffe27a','#ffc184','#a4d9ff','#d6b2ff','#b9ef9d'];let state={screen:'landing',level:0,id:null,step:0,selected:[],color:0,practice:false,guideStep:0,guideColor:0,guideMarks:[],guideChecked:false,guideVisited:[0],guideError:''},db={};const $=s=>root.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));function profile(){
+(()=>{'use strict';const RAW=window.CE2_CHALLENGES,ALLOWED=['ponctuation','dialogue','temps','verbe','negation'],D=Array.isArray(RAW)?RAW.filter(t=>Array.isArray(t.missions)&&t.missions.length>=10&&t.missions.every(m=>ALLOWED.includes(m.kind))):[],root=document.getElementById('challenge-root');if(!root)return;const levels=['🥉 Explorateur','🥈 Expert','🥇 Maître des mots'],colors=['#ffe27a','#ffc184','#a4d9ff','#d6b2ff','#b9ef9d'];let state={screen:'landing',level:0,id:null,step:0,selected:[],color:0,practice:false,guideStep:0,guideColor:0,guideMarks:[],guideChecked:false,guideVisited:[0],guideError:'',pilotPhase:0,pilotMarks:{},pilotColor:-1,pilotHint:0,pilotError:'',pilotIntroStep:0,pilotPending:null},db={};const $=s=>root.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));function profile(){
   // Utiliser les profils actifs de la version courante, et non l'ancienne clé V71.
   // Ne pas réattribuer automatiquement les anciens résultats « guest » à un enfant.
   try{
@@ -19,7 +19,7 @@ function rememberChallenge(){
   if(order.some(i=>i<0))return;
   db.inProgress={version:2,id:story.id,level:story.level,step:state.step,
     score:state.score,order,selected:[...(state.selected||[])],color:state.color,choice:state.choice??-1,reviewing:!!state.reviewing,
-    errors:(state.errors||[]).slice(0,10),feedback:state.feedback||null};
+    errors:(state.errors||[]).slice(0,10),feedback:state.feedback||null,pilotPhase:state.pilotPhase||0,pilotMarks:state.pilotMarks||{},pilotColor:state.pilotColor??-1,pilotHint:state.pilotHint||0};
   save();
 }
 function resumeChallenge(){
@@ -37,6 +37,9 @@ function resumeChallenge(){
   state.errors=Array.isArray(saved.errors)?saved.errors.slice(0,10):[];
   state.feedback=saved.feedback&&typeof saved.feedback.msg==='string'&&
     typeof saved.feedback.ok==='boolean'?saved.feedback:null;
+  state.pilotPhase=saved.pilotPhase===1?1:0;
+  state.pilotMarks={};if(saved.pilotMarks&&typeof saved.pilotMarks==='object'){for(const [k,v] of Object.entries(saved.pilotMarks)){const n=Number(k);if(Number.isInteger(n)&&n>=0&&n<story.tokens.length&&Number.isInteger(v)&&v>=0&&v<=4)state.pilotMarks[k]=v;}}
+  state.pilotColor=Number.isInteger(saved.pilotColor)&&saved.pilotColor>=-1&&saved.pilotColor<=4?saved.pilotColor:-1;state.pilotHint=Number.isInteger(saved.pilotHint)?Math.min(2,Math.max(0,saved.pilotHint)):0;state.pilotError='';
   state.screen='play';root.scrollTop=0;render();return true;
 }
 function showResumeButton(anchorSelector){
@@ -55,7 +58,7 @@ function speech(msg){try{if(localStorage.getItem('ce2_challenge_voice_off')==='1
   document.getElementById('app').hidden=false;location.hash='';
   if(typeof window.ce2RefreshRewards==='function')window.ce2RefreshRewards();
   if(typeof window.ce2GoToWorldMap==='function')window.ce2GoToWorldMap();
-}function open(){load();state.screen=db.practice4Done?'levels':(db.tutorialDone?'levels':'guide');state.guideStep=0;state.guideColor=0;state.guideMarks=[];state.guideChecked=false;state.guideVisited=[0];show()}window.openCE2Challenge=open;function wrap(body){root.innerHTML='<div class="ch-shell"><div class="ch-top"><strong>✨ Mode Challenge · '+(window.CE2_APP_VERSION||'version indisponible')+'</strong><button id="ch-exit" class="ch-mini">✕ Retour aux mondes</button></div>'+body+'</div>';$('#ch-exit').onclick=close}function render(){if(state.screen==='guide')guide();else if(state.screen==='practice')practice();else if(state.screen==='practiceSuccess')practiceSuccess();else if(state.screen==='levels')levelsPage();else if(state.screen==='select')selectPage();else if(state.screen==='play')play();else if(state.screen==='result')result()}
+}function open(){load();state.screen=db.practice4Done?'levels':(db.tutorialDone?'levels':'guide');state.guideStep=0;state.guideColor=0;state.guideMarks=[];state.guideChecked=false;state.guideVisited=[0];show()}window.openCE2Challenge=open;function wrap(body){root.innerHTML='<div class="ch-shell"><div class="ch-top"><strong>✨ Mode Challenge · '+(window.CE2_APP_VERSION||'version indisponible')+'</strong><button id="ch-exit" class="ch-mini">✕ Retour aux mondes</button></div>'+body+'</div>';$('#ch-exit').onclick=close}function render(){if(state.screen==='guide')guide();else if(state.screen==='practice')practice();else if(state.screen==='practiceSuccess')practiceSuccess();else if(state.screen==='levels')levelsPage();else if(state.screen==='pilotIntro')pilotIntroPage();else if(state.screen==='select')selectPage();else if(state.screen==='play')play();else if(state.screen==='result')result()}
 const MARKERS=[{name:'Jaune',hex:'#ffe27a',world:'🌳 Forêt de la ponctuation',task:'les signes de ponctuation',example:'Dans « Le chat dort. », touche le point.'},{name:'Orange',hex:'#ffc184',world:'💬 La Cité des dialogues',task:'les guillemets, les tirets de dialogue, les répliques et les verbes de dialogue',example:'Dans « Bonjour ! », les guillemets entourent les paroles prononcées.'},{name:'Bleu',hex:'#a4d9ff',world:'⏳ Machine du temps',task:'les indices de temps selon la consigne',example:'Dans « Hier, je jouais. », touche « Hier » si on cherche un indice de passé.'},{name:'Violet',hex:'#d6b2ff',world:'🔎 Détective des verbes',task:'les verbes',example:'Dans « Le chat dort. », touche « dort ».'},{name:'Vert',hex:'#b9ef9d',world:'🪄 Lunettes magiques',task:'les mots de négation et l’encadrement du verbe',example:'Dans « Le chat ne dort pas. », touche « ne » et « pas » pour la négation.'}];
 const guideSteps=[
 ['🎨','Découvre les cinq surligneurs','Chaque couleur a une mission. Le JAUNE est déjà sélectionné : découvre les quatre autres surligneurs.'],
@@ -115,11 +118,23 @@ function practiceSuccess(){wrap(`<div class="ch-card ch-center"><div class="ch-e
 function canEnter(l){const passed=n=>D.some(x=>x.level===n&&Number(db.history[x.id]?.best)>=15);return l===0||(l===1&&passed(0))||(l===2&&passed(0)&&passed(1))}
 function randomText(l){const items=D.filter(x=>x.level===l);if(!items.length){alert('Les textes du Challenge ne sont pas chargés. Recharge la page.');return null;}let bag=db.drawBags[l]||[];bag=bag.filter(id=>items.some(x=>x.id===id));if(!bag.length){const last=db.lastDraw?.[l];bag=items.map(x=>x.id);for(let i=bag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bag[i],bag[j]]=[bag[j],bag[i]]}if(last&&bag.length>1&&bag[0]===last)[bag[0],bag[1]]=[bag[1],bag[0]];}const id=bag.shift();db.drawBags[l]=bag;db.lastDraw=db.lastDraw||{};db.lastDraw[l]=id;save();return id}
 function levelsPage(){wrap(`<div class="ch-center"><div class="ch-emoji">🗺️</div><h1>Choisis ton niveau !</h1><p>Un niveau après l'autre : obtiens <strong>15/20 sur un seul texte</strong> pour débloquer le suivant.</p><p class="ch-hint">🎲 Un nouveau texte est choisi au hasard, sans répétition jusqu'au passage des 10 textes.</p></div><div class="ch-levels">${levels.map((l,i)=>{const ok=canEnter(i),range=['55 à 65','90 à 105','120 à 145'][i],help=['Aides détaillées','Corrections et comparaisons','Raisonnement sans compteur'][i],objectif=['Reconnaître','Appliquer et comprendre','Raisonner et transformer'][i];return `<button class="ch-card ch-level" data-level="${i}" ${ok?'':'disabled aria-disabled="true"'} style="${ok?'':'opacity:.65;cursor:not-allowed'}"><strong>${ok?'🔓':'🔒'} ${l}</strong><span>${range} mots · ${help}</span><span class="ch-goal">🎯 Objectif : ${objectif}</span><small>${ok?(i===0?'Accessible': 'Débloqué !'):(i===1?'Réussis un texte Explorateur avec 15/20':'Réussis un texte Expert avec 15/20')}</small></button>`}).join('')}</div><div class="ch-center"><button class="ch-minor" id="ch-help">📖 Revoir le tutoriel</button><p class="ch-hint">Version ${window.CE2_APP_VERSION||'indisponible'} · Cinq compétences : ponctuation, dialogue, temps, verbes et négation.</p></div>`);showResumeButton('.ch-levels');root.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{const l=+b.dataset.level;if(!canEnter(l))return;state.level=l;state.screen='select';render()});$('#ch-help').onclick=()=>{state.guideStep=0;state.guideColor=0;state.guideMarks={};state.guideChecked=false;state.guideVisited=[0];state.screen='guide';render()}}
-function selectPage(){if(!canEnter(state.level)){state.screen='levels';render();return}const l=state.level;wrap(`<button class="ch-minor" id="ch-back">← Les niveaux</button><div class="ch-card ch-center"><div class="ch-emoji">${['🧭','🔎','👑'][l]}</div><h1>${levels[l]}</h1><p>Objectif : <strong>15/20 sur un texte</strong>. Une bonne réponse avec la mauvaise couleur rapporte 1 point. Après une erreur, tu peux t'entraîner sans gagner de points supplémentaires. Tu peux recommencer autant de fois que tu veux.</p><p class="ch-hint">Les textes sont tirés au hasard, sans répétition jusqu'à ce que les 10 soient proposés.</p><p class="ch-hint">Textes de ${['55 à 65','90 à 105','120 à 145'][l]} mots · 10 défis : 5 surlignages et 5 exercices de réflexion.</p><button id="ch-surprise" class="ch-main">🎲 Lancer un texte au hasard (essai)</button></div>`);showResumeButton('#ch-surprise');$('#ch-back').onclick=()=>{state.screen='levels';render()};$('#ch-surprise').onclick=()=>{if(db.inProgress&&!confirm('Une histoire est en cours. En commencer une nouvelle remplacera sa sauvegarde. Continuer ?'))return;const id=randomText(l);if(id)start(id)}}
+function selectPage(){if(!canEnter(state.level)){state.screen='levels';render();return}const l=state.level;const hasPilot=!!(window.CE2_CHALLENGE_PILOT&&l>0);
+const pilotInfo=hasPilot?'<p class="ch-hint">🏴‍☠️ Histoire pilote : dix missions progressives avec recherche d’indices et questions. Les autres histoires restent inchangées.</p><button class="ch-main" id="ch-pilot-story">🏴‍☠️ Le trésor des pirates · Histoire pilote</button><button class="ch-minor" id="ch-pilot-intro">📖 Revoir l’initiation (sans note)</button>':'';
+wrap(`<button class="ch-minor" id="ch-back">← Les niveaux</button><div class="ch-card ch-center"><div class="ch-emoji">${['🧭','🔎','👑'][l]}</div><h1>${levels[l]}</h1><p>Objectif : <strong>15/20 sur un texte</strong>. Sur les histoires classiques, la bonne couleur compte. Sur l’histoire pilote, trouve les preuves puis réponds à la question. Après une erreur, tu peux réessayer sans points supplémentaires.</p><p class="ch-hint">Les textes sont tirés au hasard, sans répétition jusqu'à ce que les 10 soient proposés.</p><p class="ch-hint">Textes de ${['55 à 65','90 à 105','120 à 145'][l]} mots · 10 défis : 5 surlignages et 5 exercices de réflexion pour les histoires classiques.</p>${pilotInfo}<button id="ch-surprise" class="ch-main">🎲 Lancer un texte au hasard (essai)</button></div>`);showResumeButton('#ch-surprise');
+if(hasPilot){
+ $('#ch-pilot-story').onclick=()=>{if(db.inProgress&&!confirm('Une histoire est en cours. En commencer une nouvelle remplacera sa sauvegarde. Continuer ?'))return;start(l===1?'C2-01':'C3-01')};
+ $('#ch-pilot-intro').onclick=()=>{state.pilotPending=null;state.pilotIntroStep=0;state.pilotDemoColor=-1;state.pilotDemoMarks={};state.screen='pilotIntro';render()};
+}
+$('#ch-back').onclick=()=>{state.screen='levels';render()};$('#ch-surprise').onclick=()=>{if(db.inProgress&&!confirm('Une histoire est en cours. En commencer une nouvelle remplacera sa sauvegarde. Continuer ?'))return;const id=randomText(l);if(id)start(id)}}
 function start(id){
  const story=D.find(t=>t.id===id);
  if(!story){alert('Le texte n’est pas disponible. Recharge la page.');return;}
- state.id=id;state.level=story.level;state.step=0;state.selected=[];state.choice=-1;state.color=-1;state.score=0;state.errors=[];state.feedback=null;state.reviewing=false;
+ state.id=id;state.level=story.level;
+ const pilot=story.missions.filter(m=>m.mode==='pilot');
+ if(pilot.length&&!db.pilotIntroSeen?.[story.level]){state.pilotPending=id;state.pilotIntroStep=0;state.pilotDemoColor=-1;state.pilotDemoMarks={};state.screen='pilotIntro';root.scrollTop=0;render();return;}
+ state.step=0;state.selected=[];state.choice=-1;state.color=-1;state.score=0;state.errors=[];state.feedback=null;state.reviewing=false;
+ state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';
+ if(pilot.length){state.questions=pilot;state.screen='play';rememberChallenge();root.scrollTop=0;render();return;}
  const kinds=['ponctuation','dialogue','temps','verbe','negation'];
  const choose=(list)=>list[Math.floor(Math.random()*list.length)];
  const ordered=kinds.map(kind=>{
@@ -150,9 +165,98 @@ function acceptableColors(m,tokens){
  if(dialogueSign)accepted.push(base===0?1:0);
  return [...new Set(accepted)];
 }
+
+function pilotIntroPage(){
+ const config=window.CE2_CHALLENGE_PILOT;
+ if(!config){state.screen='select';render();return;}
+ const lesson=(state.level===1?config.level1:config.level2).intro;
+ const i=Math.min(state.pilotIntroStep||0,lesson.length-1),part=lesson[i];
+ wrap('<div class="ch-card ch-center"><div class="ch-emoji">📖</div><div class="ch-over">Initiation '+(state.level===1?'Expert':'Maître des mots')+' · '+(i+1)+' / '+lesson.length+'</div><h1>'+esc(part.title)+'</h1><p>'+esc(part.body)+'</p><p class="ch-hint">Cette initiation n’est pas notée.</p><button id="ch-pilot-next" class="ch-main">'+(i===lesson.length-1?'J’ai compris, commencer les missions →':'Je continue →')+'</button><button id="ch-pilot-back" class="ch-minor">← Retour aux histoires</button></div>');
+ const demoReady=i===1?mountPilotIntroDemo():true;
+ $('#ch-pilot-back').onclick=()=>{state.pilotPending=null;state.screen='select';render()};
+ $('#ch-pilot-next').onclick=()=>{
+  if(!demoReady)return;
+  if(i+1<lesson.length){state.pilotIntroStep++;render();return;}
+  db.pilotIntroSeen=db.pilotIntroSeen||{};db.pilotIntroSeen[state.level]=true;save();
+  const pending=state.pilotPending;state.pilotPending=null;
+  if(pending)start(pending);else{state.screen='select';render();}
+ };
+}
+
+function mountPilotIntroDemo(){
+ const isExpert=state.level===1;
+ const words=isExpert?['Tom','demande',':','«','Où','est','la','clé','?','»']:['Lina','ne','trouve','pas','la','clé','.'];
+ const needed=isExpert?[[1,1],[8,0]]:[[1,4],[3,4],[2,3]];
+ const marks=state.pilotDemoMarks||{};
+ const done=Object.keys(marks).length===needed.length&&needed.every(([word,color])=>marks[word]===color);
+ const prompt=isExpert?'Essaie : colorie « demande » en orange, puis « ? » en jaune.':'Essaie : colorie « ne » et « pas » en vert, puis « trouve » en violet.';
+ const colors=MARKERS.map((c,i)=>'<button class="ch-color'+(state.pilotDemoColor===i?' active':'')+'" data-pilot-demo-color="'+i+'" style="background:'+c.hex+'" aria-label="Surligneur '+c.name+'">✎</button>').join('');
+ const tokens=words.map((word,i)=>'<button class="ch-token'+(marks[i]!==undefined?' ch-marked':'')+'" data-pilot-demo-word="'+i+'"'+(marks[i]!==undefined?' style="--marker:'+MARKERS[marks[i]].hex+'"':'')+'>'+esc(word)+'</button>').join(' ');
+ $('#ch-pilot-next').insertAdjacentHTML('beforebegin','<div class="ch-card"><p class="ch-task">'+esc(prompt)+'</p><div class="ch-colors">'+colors+'</div><p class="ch-hint">Couleur choisie : '+(state.pilotDemoColor<0?'Aucune':MARKERS[state.pilotDemoColor].name)+'</p><div class="ch-text ch-pilot-excerpt">'+tokens+'</div><p class="ch-hint" role="status">'+(done?'✨ Bravo ! Tu sais utiliser plusieurs couleurs.':'Touche une couleur, puis un mot. Retouche un mot pour l’effacer.')+'</p></div>');
+ $('#ch-pilot-next').disabled=!done;
+ root.querySelectorAll('[data-pilot-demo-color]').forEach(b=>b.onclick=()=>{state.pilotDemoColor=+b.dataset.pilotDemoColor;render()});
+ root.querySelectorAll('[data-pilot-demo-word]').forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.pilotDemoWord;
+  if(Object.prototype.hasOwnProperty.call(state.pilotDemoMarks,i))delete state.pilotDemoMarks[i];
+  else if(state.pilotDemoColor>=0)state.pilotDemoMarks[i]=state.pilotDemoColor;
+  render();
+ });
+ return done;
+}
+function playPilot(story,m){
+ const phase=state.pilotPhase||0,marks=state.pilotMarks||{},first=m.range[0],last=m.range[1],hint=state.pilotHint||0;
+ const excerpt=story.tokens.slice(first,last+1).map((word,i)=>{
+  const idx=i+first,chosen=marks[idx],picked=chosen!==undefined;
+  const bg=picked?' style="--marker:'+MARKERS[chosen].hex+'"':'';
+  return '<button type="button" class="ch-token'+(picked?' ch-marked':'')+'" data-pilot-word="'+idx+'"'+bg+' aria-label="'+esc(word)+(picked?' colorié en '+MARKERS[chosen].name:'')+'">'+esc(word)+'</button>';
+ }).join(' ');
+ const colors=MARKERS.map((c,i)=>'<button type="button" data-pilot-color="'+i+'" class="ch-color'+(state.pilotColor===i?' active':'')+'" style="background:'+c.hex+'" aria-label="Surligneur '+c.name+'">✎</button>').join('');
+ const proof=story.tokens.slice(first,last+1).map((word,i)=>{const chosen=marks[i+first];return '<span class="ch-pilot-proof-word'+(chosen!==undefined?' ch-marked':'')+'"'+(chosen!==undefined?' style="--marker:'+MARKERS[chosen].hex+'"':'')+'>'+esc(word)+'</span>'}).join(' ');
+ const choices=m.options.map((option,i)=>'<button type="button" class="ch-option'+(state.choice===i?' active':'')+'" data-pilot-choice="'+i+'" aria-pressed="'+(state.choice===i)+'">'+esc(option)+'</button>').join('');
+ const taskHtml=phase===0?
+  '<p class="ch-task">🎨 Étape 1 sur 2 · Retrouve les preuves</p><p>'+esc(m.task)+'</p><p class="ch-hint">Touche un surligneur, puis les mots demandés. Tu peux changer de couleur sans perdre les autres. Retouche un mot pour l’effacer.</p><div class="ch-colors">'+colors+'</div><p class="ch-hint">Couleur choisie : '+(state.pilotColor<0?'Aucune':MARKERS[state.pilotColor].name)+'</p><div class="ch-text ch-pilot-excerpt">'+excerpt+'</div><button id="ch-pilot-check" class="ch-main">✓ Vérifier mes indices</button>':
+  '<p class="ch-task">🧩 Étape 2 sur 2 · Comprends l’histoire</p><p>Relis les indices trouvés :</p><div class="ch-text ch-pilot-proof">'+proof+'</div><p class="ch-task">'+esc(m.question)+'</p><div class="ch-options">'+choices+'</div><button id="ch-check" class="ch-main">✓ Vérifier ma réponse</button>';
+ wrap('<div class="ch-over">'+esc(levels[story.level])+' · '+(story.level===2?'Mission en cours':'Mission '+(state.step+1)+' sur 10')+'</div><h1>'+esc(story.title)+'</h1><div class="ch-card"><p class="ch-hint">🏴‍☠️ Histoire pilote · '+esc(m.title)+'</p>'+taskHtml+
+  '<button id="ch-pilot-help" class="ch-minor">💡 '+(hint===0?'Aide-moi':hint===1?'Encore un indice':'Relire mon indice')+'</button><div id="ch-feedback" role="status">'+(state.pilotError?'<div class="ch-error">'+esc(state.pilotError)+'</div>':'')+'</div></div><button id="ch-quit" class="ch-minor">← Choisir une autre histoire</button>');
+ $('#ch-quit').onclick=()=>{rememberChallenge();state.screen='select';render()};
+ $('#ch-pilot-help').onclick=()=>{state.pilotHint=Math.min(2,hint+1);state.pilotError=state.pilotHint===1?m.help:'Relis attentivement la consigne et le passage.';rememberChallenge();render()};
+ if(phase===0){
+  root.querySelectorAll('[data-pilot-color]').forEach(b=>b.onclick=()=>{state.pilotColor=+b.dataset.pilotColor;state.pilotError='';rememberChallenge();render()});
+  root.querySelectorAll('[data-pilot-word]').forEach(b=>b.onclick=()=>{
+   const k=+b.dataset.pilotWord;
+   if(Object.prototype.hasOwnProperty.call(state.pilotMarks,k))delete state.pilotMarks[k];
+   else if(state.pilotColor<0){state.pilotError='Choisis d’abord une couleur de surligneur.';}
+   else state.pilotMarks[k]=state.pilotColor;
+   rememberChallenge();render();
+  });
+  $('#ch-pilot-check').onclick=()=>{
+   const pairs=m.evidence,ok=Object.keys(state.pilotMarks).length===pairs.length&&pairs.every(([k,c])=>state.pilotMarks[k]===c);
+   if(!ok){state.pilotError='Ce n’est pas encore ça. '+m.help;speech(m.help);render();return;}
+   state.pilotError='';state.pilotPhase=1;state.choice=-1;state.pilotHint=0;rememberChallenge();render();
+  };
+ }else{
+  root.querySelectorAll('[data-pilot-choice]').forEach(b=>b.onclick=()=>{if(state.feedback)return;state.choice=+b.dataset.pilotChoice;state.pilotError='';rememberChallenge();render()});
+  if(state.feedback){showChallengeFeedback(story);return;}
+  $('#ch-check').onclick=()=>{
+   if(state.choice<0){state.pilotError='Choisis une réponse avant de vérifier.';render();return;}
+   const ok=state.choice===m.correct,firstAttempt=!state.reviewing;
+   if(firstAttempt){
+    if(ok)state.score+=2;
+    else state.errors.push({prompt:m.question,expected:m.options[m.correct],explanation:m.explanation});
+   }
+   const msg=state.reviewing?(ok?'Bravo, tu as compris ! Ce nouvel essai ne change pas ta note.':'Relis cette explication : '+m.explanation):
+    ok?'Bravo ! Tu as bien utilisé les indices. 2 points !':'Regarde ce que racontent les indices. '+m.explanation;
+   state.feedback={ok,points:ok&&firstAttempt?2:0,msg,reviewed:state.reviewing};
+   rememberChallenge();
+   if(!ok)speech(m.explanation);else if(!state.reviewing&&state.step%4===0)speech('Bravo !');
+   showChallengeFeedback(story);
+  };
+ }
+}
+
 function showChallengeFeedback(story){
  const feedback=state.feedback;
- root.querySelectorAll('[data-token],[data-color],[data-choice]').forEach(b=>b.disabled=true);
+ root.querySelectorAll('[data-token],[data-color],[data-choice],[data-pilot-word],[data-pilot-color],[data-pilot-choice]').forEach(b=>b.disabled=true);
  const check=$('#ch-check');if(check)check.disabled=true;
  const points=feedback.points||0;
  const text=feedback.ok?'ch-success':points===1?'ch-notice':'ch-error';
@@ -163,7 +267,7 @@ function showChallengeFeedback(story){
   rememberChallenge();render();
  };
  $('#ch-next').onclick=()=>{
-  state.step++;state.selected=[];state.choice=-1;state.color=-1;state.feedback=null;state.reviewing=false;
+  state.step++;state.selected=[];state.choice=-1;state.color=-1;state.feedback=null;state.reviewing=false;state.pilotPhase=0;state.pilotMarks={};state.pilotColor=-1;state.pilotHint=0;state.pilotError='';
   if(state.step===10){
    const previous=db.history[story.id]||{best:0,attempts:0};
    db.history[story.id]={best:Math.max(previous.best,state.score),last:state.score,attempts:previous.attempts+1,date:new Date().toISOString()};
@@ -176,7 +280,8 @@ function showChallengeFeedback(story){
 function play(){
  const story=D.find(t=>t.id===state.id);
  if(!story){state.screen='levels';render();return;}
- const m=state.questions[state.step],hard=story.level===2,mc=m.mode==='choice';
+ const m=state.questions[state.step];if(m.mode==='pilot'){playPilot(story,m);return;}
+ const hard=story.level===2,mc=m.mode==='choice';
  const focus=story.focusExcerpt?`<details class="ch-focus"><summary>📖 Lire le passage ajouté à ce niveau</summary><p>${esc(story.focusExcerpt)}</p></details>`:"";
  const cards=mc?`${focus}<div class="ch-text ch-story"><p>${esc(story.text)}</p></div><div class="ch-options" role="group" aria-label="Choisis la bonne réponse">${m.options.map((option,i)=>`<button type="button" class="ch-option ${state.choice===i?'active':''}" data-choice="${i}" aria-pressed="${state.choice===i}">${esc(option)}</button>`).join('')}</div>`:
  `${colorsUI()}<div class="ch-text">${chips(story.tokens,state.selected)}</div>`;
